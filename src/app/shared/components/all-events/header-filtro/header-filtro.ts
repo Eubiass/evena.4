@@ -16,17 +16,15 @@ export class HeaderFiltroComponent implements OnInit {
   constructor(private filtroService: FiltroEventosService) {}
 
   ngOnInit(): void {
-    // Subscrevemos para garantir que se o IP detectar o estado, o select atualize
     this.filtroService.filtros$.subscribe(filtros => {
       this.estadoSelecionado = filtros.estado;
     });
   }
 
   onEstadoChange(): void {
-    // Quando o usuário muda o estado, avisamos o serviço global
     this.filtroService.atualizarFiltros({ 
       estado: this.estadoSelecionado,
-      cidade: '' // Boa prática: resetar cidade ao mudar estado
+      cidade: ''
     });
   }
 }

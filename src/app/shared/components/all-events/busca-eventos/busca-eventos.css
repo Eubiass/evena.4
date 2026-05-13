@@ -81,7 +81,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 @media (max-width: 768px) {
   .busca-container {
-    flex-direction: column;
     gap: 10px;
   }
   
