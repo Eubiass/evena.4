@@ -18,6 +18,7 @@ body {
   /* Famílias de fontes */
   --fonte-principal: 'Poppins', sans-serif;
   --fonte-secundaria: 'Lato', sans-serif;
+  --fonte-terciaria: 'Inter', sans-serif;
 }
 
 /* BARRA DE ROLAGEM */

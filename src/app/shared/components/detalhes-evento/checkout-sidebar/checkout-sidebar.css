@@ -170,7 +170,7 @@
   gap: 10px;
   border: none;
   cursor: pointer;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--fonte-terciaria);
   font-weight: 800;
   transition: all 0.2s ease;
   padding: 18px;
