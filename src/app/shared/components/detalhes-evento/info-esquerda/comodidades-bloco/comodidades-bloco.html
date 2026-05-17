@@ -1,0 +1,27 @@
+<section class="info-block">
+  <div class="block-header">
+    <i class="fa-solid fa-hand-sparkles"></i>
+    <h2>Comodidades e Facilidades</h2>
+  </div>
+  <div class="facilidades-container-grid">
+    
+    <div class="facilidade-tag" [class.ativa]="evento?.acessibilidade" [class.inativa]="!evento?.acessibilidade">
+      <i class="fa-solid fa-wheelchair"></i>
+      <span class="facilidade-nome">Acessibilidade</span>
+      <span class="facilidade-status">{{ evento?.acessibilidade ? 'Disponível' : 'Não disponível' }}</span>
+    </div>
+
+    <div class="facilidade-tag" [class.ativa]="evento?.estacionamento" [class.inativa]="!evento?.estacionamento">
+      <i class="fa-solid fa-car"></i>
+      <span class="facilidade-nome">Estacionamento</span>
+      <span class="facilidade-status">{{ evento?.estacionamento ? 'Possui no local' : 'Não possui' }}</span>
+    </div>
+
+    <div class="facilidade-tag" [class.ativa]="evento?.wifi" [class.inativa]="!evento?.wifi">
+      <i class="fa-solid fa-wifi"></i>
+      <span class="facilidade-nome">Wi-Fi</span>
+      <span class="facilidade-status">{{ evento?.wifi ? 'Disponível' : 'Não disponível' }}</span>
+    </div>
+
+  </div>
+</section>

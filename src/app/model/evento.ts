@@ -1,22 +1,37 @@
 export interface Evento {
   id: number;          
   titulo: string;
-  dataExibicao: string;     // Ex: "24 de Fevereiro"
-  horario: string;
-  datasOcorrencia: string[]; // Ex: ["2026-05-10", "2026-05-12"]
-  intervalo?: {
-    inicio: string; // Ex: "2026-06-01"
-    fim: string;    // Ex: "2026-08-30"
-  };
-  preco: number;      // Obrigatório 
-  imagem: string;     // Obrigatório
+  preco: number;      
+  imagem: string;     
   descricao?: string; 
+  
+  horario: string;
+  horarioAbertura?: string;
+  dataExibicao: string;   
+  datasOcorrencia: string[]; 
+  intervalo?: {
+    inicio: string; 
+    fim: string;    
+  };
+  
   localNome: string;
+  enderecoCompleto?: string;
+  exibirMapa?: boolean;
   cidade: string; 
   uf: string;
-  lat: number;        // Obrigatório para o GPS funcionar
-  lng: number;        // Obrigatório para o GPS funcionar
+  lat: number;       
+  lng: number;       
   distancia?: number;
+  
   categoria: string[];
   artista?: string[];
+  
+  linkCompra?: string;
+ 
+  classificacao?: string;
+  organizadorNome?: string;
+  
+  acessibilidade?: boolean;
+  estacionamento?: boolean;
+  wifi?: boolean;
 }

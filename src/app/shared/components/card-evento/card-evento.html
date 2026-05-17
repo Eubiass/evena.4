@@ -1,4 +1,4 @@
-<div class="card-evento" (click)="irParaEvento()">
+<div class="card-evento" [routerLink]="['/detalhes-evento', dadosEvento.id]">
     <div class="imagem-container">
         <img [src]="dadosEvento.imagem" [alt]="dadosEvento.titulo">
     </div>

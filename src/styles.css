@@ -7,7 +7,6 @@ html, body{
 body {
   background: linear-gradient(180deg, var(--cor-principal) 0%, var(--cor-principal) 83px,#ffffff 40%);
 }
-
 :root {
   /* Defina seus nomes começando sempre com "--" */
   --cor-principal: #2f1a67;    /* Seu Roxo principal */

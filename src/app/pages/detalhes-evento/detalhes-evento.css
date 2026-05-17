@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
+/* CONTÊINER GLOBAL */
+.detalhes-wrapper {
+  background-color: #0b0712;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* MALHA ESTRUTURAL PRINCIPAL */
+.main-grid { 
+  display: grid; 
+  grid-template-columns: 1fr 380px; 
+  gap: 40px; 
+  max-width: 1200px; 
+  margin: 120px auto 0; 
+  padding: 0 20px 80px; 
+}
+
+@media (max-width: 992px) {
+  .main-grid { 
+    grid-template-columns: 1fr; 
+    margin-top: 60px;
+  }
+}
