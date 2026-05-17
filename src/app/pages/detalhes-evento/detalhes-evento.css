@@ -17,9 +17,21 @@
   padding: 0 20px 80px; 
 }
 
+/* --- ALTERAÇÃO PARA O MOBILE --- */
 @media (max-width: 992px) {
   .main-grid { 
-    grid-template-columns: 1fr; 
+    grid-template-columns: 1fr; /* Transforma a malha em uma única coluna */
     margin-top: 60px;
+    gap: 25px; /* Diminui um pouco o espaçamento no celular */
+  }
+
+  /* Garante que o Grid respeite a ordem numérica */
+  .content-column {
+    order: 2; /* Joga as informações da esquerda para baixo */
+  }
+
+  .coluna-direita {
+    order: 1; /* Força o card de checkout a aparecer no topo de tudo */
+    margin-bottom: 15px; /* Dá um recuo sutil antes do conteúdo começar */
   }
 }
