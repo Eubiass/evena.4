@@ -43,16 +43,20 @@ footer {
 }
 
 #container-img-footer{
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: var(--cor-principal);
+
 }
 #img-footer{
     width: 100vw;
-    object-fit: cover;
-    object-position: center;
-    height: 260px;
+    object-fit: contain;
+    height: auto;
     max-width: 1800px;
+    display: block;
 }
 
 .footer-container {
@@ -141,12 +145,15 @@ footer {
   #container-img-footer{
     display: none;
   }
-    .footer-links{
-        margin-left: 60px;
-        justify-content: center;
-        margin-top: 50px;
-    }
-    h4{
-        margin-right: 30px;
-    }
+  .footer-links{
+    margin-left: 60px;
+    justify-content: center;
+    margin-top: 50px;
+  }
+  h4{
+    margin-right: 30px;
+  }
+  #img-footer {
+    max-width: 100%; /* Permite que o logo ocupe bem o espaço horizontal do mobile */
+  }
 }
