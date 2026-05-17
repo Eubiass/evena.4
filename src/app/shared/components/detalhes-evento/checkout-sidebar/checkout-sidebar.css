@@ -67,8 +67,17 @@
 
 /* --- BOTÕES POLIGONAIS --- */
 .btn-poly {
-  display: flex; align-items: center; justify-content: center; gap: 10px; border: none;
-  cursor: pointer; font-weight: 800; transition: all 0.2s ease; padding: 18px; width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 800;
+  transition: all 0.2s ease;
+  padding: 18px;
+  width: 100%;
+  box-sizing: border-box;
 }
 .btn-poly:hover { filter: brightness(1.1); transform: translateY(-2px); }
 
@@ -83,14 +92,13 @@
 .action-container { display: flex; flex-direction: column; gap: 10px; }
 .secondary-actions-row { display: flex; gap: 10px; }
 
-/* --- MICRO-INTERAÇÃO DE RAIOS SIMPLIFICADA (MENOS BYTES) --- */
+/* --- MICRO-INTERAÇÃO DE RAIOS SIMPLIFICADA --- */
 .heart-wrapper { position: relative; display: inline-flex; align-items: center; justify-content: center; }
 .heart-wrapper i { transition: transform 0.2s ease, color 0.2s ease; }
 .btn-fav.active .heart-wrapper i { color: #ff4757; transform: scale(1.25); }
 
 .particle { position: absolute; width: 4px; height: 4px; background: #ff4757; border-radius: 50%; opacity: 0; pointer-events: none; }
 
-/* Unificação de seletores para diminuir drasticamente o CSS gerado */
 .btn-fav.active .p1 { animation: ray-top-left 0.5s ease-out forwards; }
 .btn-fav.active .p2 { animation: ray-top-right 0.5s ease-out forwards; }
 .btn-fav.active .p3 { animation: ray-bottom-left 0.5s ease-out forwards; }
