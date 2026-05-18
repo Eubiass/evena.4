@@ -28,9 +28,11 @@ export class DetalhesEvento implements OnInit {
   ){}
 
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
+    // Captura o slug da URL (ex: 'show-patati-patata')
+    const slug = this.route.snapshot.paramMap.get('slug') || '';
     
-    this.evento = this.eventoService.obterEventoPorId(id);
+    // Busca no serviço comparando dinamicamente com os títulos transformados
+    this.evento = this.eventoService.obterEventoPorSlug(slug);
     
     window.scrollTo(0, 0);
   }

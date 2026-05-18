@@ -39,7 +39,7 @@ export class EventoService {
       lat: -22.9068, 
       lng: -43.1229,
       categoria: ['Negócios'], 
-      descricao: "Transforme sua visão criativa em projetos de alto impacto. Este workshop prático no Teatro Multiplan é focado em UI/UX e Design Thinking, trazendo metodologias ágeis para quem deseja elevar o nível de suas entregas visuais. Seja você iniciante ou profissional, venha aprender a criar experiências que conectam marcas e pessoas."
+      descricao: "Transforme sua visão criativa em projetos de alto impacto. Este workshop prático no Teatro Multiplan é focado in UI/UX e Design Thinking, trazendo metodologias ágeis para quem deseja elevar o nível de suas entregas visuais. Seja você iniciante ou profissional, venha aprender a criar experiências que conectam marcas e pessoas."
     },
     {
       id: 3, 
@@ -91,7 +91,7 @@ export class EventoService {
       lat: -19.9678, 
       lng: -44.1985,
       categoria: ['Música'],
-      descricao: "O fenômeno japonês que revolucionou a música mundial desembarca em Sorocaba! Combinando o peso do Heavy Metal com a energia contagiante do J-Pop, o Babymetal apresenta uma performance eletrizante, coreografias impecáveis e uma produção visual de tirar o fôlego. Uma experiência sonora única que desafia gêneros e fronteiras."
+      descricao: "O fenômeno japonês que revolucionou a música mundial desembarca in Sorocaba! Combinando o peso do Heavy Metal com a energia contagiante do J-Pop, o Babymetal apresenta uma performance eletrizante, coreografias impecáveis e uma produção visual de tirar o fôlego. Uma experiência sonora única que desafia gêneros e fronteiras."
     }, 
     {
       id: 6, 
@@ -112,7 +112,7 @@ export class EventoService {
       artista: ['Jão'],
       descricao: "Um dos maiores fenômenos do pop nacional chega ao Allianz Parque com a grandiosa SUPERTURNÊ. Dividido em atos que representam os quatro elementos (Terra, Ar, Água e Fogo), o show é uma celebração da discografia de Jão, unindo cenografia monumental e uma conexão visceral com os fãs. Prepare-se para cantar cada letra a plenos pulmões."
     },
- {
+    {
       id: 7,
       titulo: 'Lollapalooza',
       dataExibicao: '30 de Julho a 02 de Agosto',
@@ -132,8 +132,6 @@ export class EventoService {
       artista: ["Sabrina Carpenter", "Tyler, The Creator", "Linkin Park", "Deftones", "Chappell Roan", "Shawn Mendes", "Olivia Rodrigo"],
       descricao: "Quatro dias de música, arte e cultura em uma atmosfera incomparável. O Lollapalooza retorna ao Autódromo de Interlagos trazendo um lineup épico com os maiores nomes do indie, rock, eletrônica e hip-hop mundial.",
       acessibilidade: true,
-      
-      // ALTERAÇÃO DO LOLLAPALOOZA AQUI: Adicionamos os dias detalhados com artistas e dados de cada dia!
       diasDetalhados: [
         {
           nomeSemana: 'Qui',
@@ -177,18 +175,27 @@ export class EventoService {
       lat: -23.5270,
       lng: -46.6726,
       wifi: true,
-      descricao: "O Mundo Bita convida todos os pequenos para a Festa dos Bichos! Neste espetáculo lúdico e educativo no Teatro Bradesco, Bita, Flora e toda a turma celebram a fauna brasileira com muita animação. Um show repleto de interação, cores e as canções que já acumulam bilhões de visualizações, ideal para a primeira experiência teatral das crianças."
+      descricao: "O Mundo Bita convida todos os pequenos para a Festa dos Bichos! Neste espetáculo lúdico e educativo no Teatro Bradesco, Bita, Flora e toda a turma celebra a fauna brasileira com muita animação. Um show repleto de interação, cores e as canções que já acumulam bilhões de visualizações, ideal para a primeira experiência teatral das crianças."
     }
   ];
 
   constructor() { }
 
-  // Função para retornar a lista completa
   getEventos(): Evento[] {
     return this.listaEventos;
   }
 
-  obterEventoPorId(id: number): Evento | undefined {
-    return this.listaEventos.find(evento => evento.id === id);
+  limparTexto(texto: string): string {
+    return texto
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '')
+      .trim()
+      .replace(/\s+/g, '-');
+  }
+
+  obterEventoPorSlug(slug: string): Evento | undefined {
+    return this.listaEventos.find(evento => this.limparTexto(evento.titulo) === slug);
   }
 }

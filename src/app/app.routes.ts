@@ -10,5 +10,6 @@ export const routes: Routes = [
   { path: 'eventos', 
     component: AllEvents 
   }, // Página de listagem
-  { path: 'detalhes-evento/:id', component: DetalhesEvento },
+  { path: 'detalhes-evento/:slug', 
+    component: DetalhesEvento},
 ];

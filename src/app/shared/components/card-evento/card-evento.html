@@ -1,4 +1,4 @@
-<div class="card-evento" [routerLink]="['/detalhes-evento', dadosEvento.id]">
+<div class="card-evento" [routerLink]="['/detalhes-evento', gerarSlug(dadosEvento.titulo)]">
     <div class="imagem-container">
         <img [src]="dadosEvento.imagem" [alt]="dadosEvento.titulo">
     </div>
