@@ -1,0 +1,55 @@
+.selecao-dias-container {
+  display: flex;
+  gap: 12px;
+  background-color: #110c26; /* Cor escura de fundo do bloco */
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid #231b40;
+  margin-bottom: 20px; /* Margem para descolar do bloco de baixo */
+}
+
+.botao-dia {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #1a1433; /* Roxo ligeiramente mais claro */
+  border: 1px solid #2d254c;
+  border-radius: 12px;
+  padding: 10px 22px;
+  cursor: pointer;
+  min-width: 75px;
+  transition: all 0.2s ease-in-out;
+}
+
+.botao-dia .semana {
+  font-size: 11px;
+  color: #a3a0b8;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.botao-dia .numero {
+  font-size: 22px;
+  color: #ffffff;
+  font-weight: bold;
+  margin-top: 2px;
+}
+
+.botao-dia:hover {
+  border-color: #3bf826;
+  transform: translateY(-2px);
+}
+
+.botao-dia.ativo {
+  background-color: #3bf826;
+  /* border-color: #00ff66; */
+  border-color: #3bf826;
+  box-shadow: 0 0 15px rgba(0, 255, 102, 0.4);
+}
+
+.botao-dia.ativo .semana,
+.botao-dia.ativo .numero {
+  color: #0b071e;
+}

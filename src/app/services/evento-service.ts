@@ -112,7 +112,7 @@ export class EventoService {
       artista: ['Jão'],
       descricao: "Um dos maiores fenômenos do pop nacional chega ao Allianz Parque com a grandiosa SUPERTURNÊ. Dividido em atos que representam os quatro elementos (Terra, Ar, Água e Fogo), o show é uma celebração da discografia de Jão, unindo cenografia monumental e uma conexão visceral com os fãs. Prepare-se para cantar cada letra a plenos pulmões."
     },
-    {
+ {
       id: 7,
       titulo: 'Lollapalooza',
       dataExibicao: '30 de Julho a 02 de Agosto',
@@ -129,9 +129,37 @@ export class EventoService {
       lat: -25.5273, 
       lng: -49.6785,
       exibirMapa: true,
-      artista: ["Sabrina Carpenter", "Tyler, The Creator", "Link Parque", "Deftones", "Chappell Roan", "Shawn Mendes", "Olivia Rodrigo"],
-      descricao: "Quatro dias de música, arte e cultura em uma atmosfera incomparável. O Lollapalooza retorna ao Autódromo de Interlagos trazendo um lineup épico com os maiores nomes do indie, rock, eletrônica e hip-hop mundial. Além dos palcos, aproveite o Lolla Lounge, as intervenções artísticas e o melhor da gastronomia urbana no Chef'Stage.",
+      artista: ["Sabrina Carpenter", "Tyler, The Creator", "Linkin Park", "Deftones", "Chappell Roan", "Shawn Mendes", "Olivia Rodrigo"],
+      descricao: "Quatro dias de música, arte e cultura em uma atmosfera incomparável. O Lollapalooza retorna ao Autódromo de Interlagos trazendo um lineup épico com os maiores nomes do indie, rock, eletrônica e hip-hop mundial.",
       acessibilidade: true,
+      
+      // ALTERAÇÃO DO LOLLAPALOOZA AQUI: Adicionamos os dias detalhados com artistas e dados de cada dia!
+      diasDetalhados: [
+        {
+          nomeSemana: 'Qui',
+          numeroDia: '30',
+          descricaoEspecifica: 'A abertura do festival vem com tudo na Quinta-Feira! Portões abrem meio-dia com ativações exclusivas e muita energia pop e indie.',
+          artistasDoDia: ['Sabrina Carpenter', 'Chappell Roan']
+        },
+        {
+          nomeSemana: 'Sex',
+          numeroDia: '31',
+          descricaoEspecifica: 'A sexta-feira do Lolla foca no peso e nas rimas trazendo o headliner do rap e do rock alternativo.',
+          artistasDoDia: ['Tyler, The Creator', 'Deftones']
+        },
+        {
+          nomeSemana: 'Sáb',
+          numeroDia: '01',
+          descricaoEspecifica: 'O sábado é o dia mais aguardado para os fãs do rock mundial. Clássicos e shows monumentais no palco principal.',
+          artistasDoDia: ['Linkin Park']
+        },
+        {
+          nomeSemana: 'Dom',
+          numeroDia: '02',
+          descricaoEspecifica: 'O encerramento do festival traz grandes hits do pop e momentos marcantes para fechar a edição de 2026 com chave de ouro.',
+          artistasDoDia: ['Olivia Rodrigo', 'Shawn Mendes']
+        }
+      ]
     },
     {
       id: 8,

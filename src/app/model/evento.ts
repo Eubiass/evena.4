@@ -1,3 +1,11 @@
+export interface DiaFestival {
+  nomeSemana: string;     
+  numeroDia: string;    
+  mesAno?: string;        
+  descricaoEspecifica?: string; 
+  artistasDoDia?: string[];     
+}
+
 export interface Evento {
   id: number;          
   titulo: string;
@@ -8,7 +16,9 @@ export interface Evento {
   horario: string;
   horarioAbertura?: string;
   dataExibicao: string;   
+  
   datasOcorrencia: string[]; 
+  diasDetalhados?: DiaFestival[]; 
   intervalo?: {
     inicio: string; 
     fim: string;    
@@ -24,14 +34,14 @@ export interface Evento {
   distancia?: number;
   
   categoria: string[];
-  artista?: string[];
+  artista?: string[]; 
   
   linkCompra?: string;
- 
   classificacao?: string;
   organizadorNome?: string;
   
   acessibilidade?: boolean;
   estacionamento?: boolean;
   wifi?: boolean;
+  online?: string;
 }

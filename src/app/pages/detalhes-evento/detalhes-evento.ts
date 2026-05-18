@@ -16,6 +16,11 @@ import { CheckoutSidebar } from "../../shared/components/detalhes-evento/checkou
 })
 export class DetalhesEvento implements OnInit {
   evento: Evento | undefined;
+  diaSelecionadoIndex: number = 0;
+  
+  mudarDia(index: number): void {
+    this.diaSelecionadoIndex = index;
+  }
 
   constructor(
     private route: ActivatedRoute,

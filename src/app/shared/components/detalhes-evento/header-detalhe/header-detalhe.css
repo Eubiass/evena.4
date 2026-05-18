@@ -53,7 +53,9 @@
   margin: 0;
 }
 
-.hero-loc i { color: #3bf826; }
+.hero-loc i { 
+  color: #3bf826; 
+}
 
 .tag-categoria { 
   background: #3bf826; 
@@ -67,11 +69,25 @@
 }
 
 @media (max-width: 992px) {
-  .hero-header { height: auto; padding-top: 40px; }
-  .hero-overlay { padding: 40px 20px; }
-  .hero-content { flex-direction: column; align-items: center; text-align: center; margin-bottom: 0; }
-  .hero-text h1 { font-size: 2.2rem; }
+  .hero-header { height: auto; 
+    padding-top: 40px; 
+  }
+  .hero-overlay { 
+    padding: 40px 20px; 
+  }
+  .hero-content { 
+    flex-direction: column; 
+    align-items: center; 
+    text-align: center; 
+    margin-bottom: 0; 
+  }
+  .hero-text h1 { 
+    font-size: 2.2rem; 
+  }
   .hero-capa{
     display: none;
+  }
+  .hero-text{
+    margin-top: 350px;
   }
 }
