@@ -1,0 +1,318 @@
+/* --- ESTRUTURA GLOBAL DO HEADER --- */
+.app-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    height: 70px;
+    background-color: var(--cor-principal);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding-right: 15px;
+}
+
+.header-section {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.header-section.center {
+    justify-content: center;
+}
+
+.header-section.right {
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+/* --- LOGO --- */
+.logo {
+    width: 200px; 
+    height: 70px;
+    display: block;
+    object-fit: cover;
+        margin-top: 5px;
+}
+
+/* --- NAVEGAÇÃO DESKTOP --- */
+.btn_nav_bar {
+    background: none;
+    border: none;
+    color: #5cae45;
+    font-size: 19px;
+    font-weight: 600;
+    margin: 0 15px;
+    cursor: pointer;
+    font-family: var(--fonte-secundaria);
+    transition: all 0.2s ease;
+}
+
+.btn_nav_bar:hover, 
+.btn_nav_bar.ativo {
+    color: var(--cor-secundaria);
+    font-size: 20px;
+}
+
+/* --- BARRA DE BUSCA --- */
+.btn-search {
+    cursor: text;
+    display: flex;
+    align-items: center;
+    border: 1.5px solid #579247;
+    border-radius: 10px;
+    padding: 5px 10px;
+    background: var(--cor-principal);
+    transition: all 0.3s ease;
+}
+
+.search {
+    height: 25px;
+    width: 25px;
+    padding-right: 10px;
+}
+
+#campo_busca {
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--cor-secundaria);
+    font-size: 14px;
+    width: 100%;
+}
+
+input::placeholder {
+  color: var(--cor-secundaria);
+  font-size: 15px;
+  opacity: 1; 
+  font-family: var(--fonte-principal);
+}
+
+/* --- PERFIL --- */
+.perfil {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* --- BOTÃO MENU MOBILE --- */
+.menu-mobile-btn {
+    display: none; /* Escondido por padrão no Desktop */
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.menu-mobile-btn span {
+    width: 25px;
+    height: 3px;
+    background-color: var(--cor-secundaria);
+    border-radius: 2px;
+}
+
+/* --- MENU GAVETA (OVERLAY MOBILE) --- */
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    right: -100%; /* Fora da tela */
+    width: 280px;
+    height: 100vh;
+    background-color: var(--cor-principal);
+    z-index: 2000;
+    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    padding: 40px 25px;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+}
+
+.menu-overlay.aberto {
+    right: 0; /* Entra na tela */
+}
+
+.btn_fechar {
+    align-self: flex-end;
+    background: none;
+    border: none;
+    color: var(--cor-secundaria);
+    font-size: 35px;
+    cursor: pointer;
+    padding-left: 10px;
+}
+
+.mobile-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.mobile-nav a {
+    color: var(--cor-secundaria);
+    text-decoration: none;
+    font-size: 22px;
+    font-weight: 700;
+    font-family: var(--fonte-secundaria);
+}
+
+.divisor-menu {
+    border: 0;
+    border-top: 1px solid rgba(109, 226, 76, 0.2);
+    width: 100%;
+}
+
+.app-header.busca-ativa {
+    justify-content: center; /* Centraliza a barra de busca */
+}
+
+.header-section.right.expandida {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0 10px;
+}
+.btn-search.active {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--cor-secundaria); /* Cor verde do seu logo */
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    padding: 5px 15px;
+}
+.search-trigger{
+    background: transparent; /* Remove o fundo branco/cinza */
+    border: none;            /* Remove bordas padrão */
+    padding: 0;             /* Remove espaços internos que podem causar sombras */
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    outline: none;
+}
+.search {
+    width: 30px;
+    height: 30px;
+    background: transparent; /* Garante que a imagem em si não tenha fundo */
+    display: block;
+}
+#campo-busca {
+    background: transparent;
+    border: none;
+    color: var(--cor-secundaria);
+    width: 100%;
+    margin-left: 10px;
+    outline: none;
+    font-size: 16px; /* Evita zoom automático no iOS */
+}
+.btn-fechar {
+    background: none;
+    border: none;
+    color: var(--cor-secundaria);
+    font-size: 20px;
+    padding-left: 10px;
+}
+
+/* --- RESPONSIVIDADE --- */
+
+/* Ponto de transição para Tablet/Mobile */
+@media (max-width: 1024px) {
+    .desktop-only {
+        display: none;
+    }
+
+    .header-section.center {
+        display: none;
+    }
+
+    .menu-mobile-btn {
+        display: flex;
+    }
+
+    .btn-search {
+    border-color: transparent;
+    background: transparent;
+    width: 40px;
+    padding: 0;
+    }
+
+    #campo-busca.hide-mobile {
+        display: none;
+    }
+
+    .logo {
+        width: 160px;
+    }
+
+    .app-header {
+        padding: 0 15px;
+    }
+
+    .procurar{
+        width: 35px;
+        height: 35px;
+        color: var(--cor-secundaria);
+    }
+    .app-header.busca-ativa {
+        justify-content: center; /* Centraliza a barra de busca */
+    }
+
+    .header-section.right.expandida {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        padding: 0 10px;
+    }
+
+    .btn-search.active {
+        position: absolute;
+        left: 15px;
+        right: 15px;
+        width: auto;
+        background: var(--cor-principal);
+        border-color: var(--cor-secundaria);
+        border-radius: 25px;
+        padding: 8px 15px;
+        z-index: 10;
+    }
+
+    #campo-busca {
+        background: transparent;
+        border: none;
+        color: white;
+        width: 100%;
+        margin-left: 10px;
+        outline: none;
+        font-size: 16px; /* Evita zoom automático no iOS */
+    }
+
+
+}
+/* Ajustes finos para celulares pequenos */
+@media (max-width: 480px) {
+    .app-header{
+        padding-left: 0;
+    }
+    .header-section.right {
+        gap: 10px;
+    }
+    
+    .logo {
+        width: 160px;
+    }
+    .btn_fechar_menu{
+        width: 50px;
+        height: 50px;
+        font-weight: 700;
+        font-size: 40px;
+        background: none;
+        border: none;
+        color: var(--cor-secundaria);
+        margin-left: 80%;
+    }
+}

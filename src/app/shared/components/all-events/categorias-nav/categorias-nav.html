@@ -1,0 +1,30 @@
+<div class="ingresse-carousel-container">
+  
+  <div class="nav-overlay left" [class.visible]="podeScrollEsquerda">
+    <button type="button" class="btn-nav" (click)="mover(-1)" aria-label="Ver anteriores">
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+  </div>
+
+  <nav class="scroll-wrapper" #scrollContainer (scroll)="verificarScroll()">
+    <ul class="chips-list">
+      @for (cat of categorias; track cat) {
+        <li>
+          <button 
+            type="button" 
+            class="chip-item"
+            [class.active]="categoriaAtiva === cat"
+            (click)="selecionar(cat)">
+            {{ cat }}
+          </button>
+        </li>
+      }
+    </ul>
+  </nav>
+
+  <div class="nav-overlay right" [class.visible]="podeScrollDireita">
+    <button type="button" class="btn-nav" (click)="mover(1)" aria-label="Ver próximos">
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+  </div>
+</div>

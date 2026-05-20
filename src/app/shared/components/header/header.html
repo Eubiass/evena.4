@@ -1,0 +1,55 @@
+<header class="app-header" [class.busca-ativa]="pesquisaAtiva">
+  <div class="header-section left">
+    @if (!pesquisaAtiva) {
+      <a routerLink="/" class="logo-link">
+        <img src="nomeEvena.svg" class="logo" alt="Evena Logo">
+      </a>
+    }
+  </div>
+
+  <nav class="header-section center desktop-only">
+    @if (!pesquisaAtiva) {
+      <button class="btn_nav_bar" routerLink="/" routerLinkActive="ativo" [routerLinkActiveOptions]="{exact: true}">Início</button>
+      <button class="btn_nav_bar" routerLink="/eventos" routerLinkActive="ativo">Eventos</button>
+    }
+  </nav>
+
+  <section class="header-section right" [class.expandida]="pesquisaAtiva">
+    
+    <label class="btn-search" [class.active]="pesquisaAtiva" for="campo-busca">
+      <button type="button" class="search-trigger" (click)="togglePesquisa()">
+        <img src="search.png" class="search" alt="Pesquisar">
+      </button>
+
+      <input 
+        type="text" 
+        placeholder="Pesquisar..." 
+        id="campo-busca"
+        [(ngModel)]="termoPesquisa"
+        (keyup.enter)="fazerPesquisa()"
+        autocomplete="off" >
+
+      @if (pesquisaAtiva) {
+        <button (click)="togglePesquisa()" class="btn-fechar" type="button" aria-label="Fechar busca">×</button>
+      }
+    </label>
+
+    @if (!pesquisaAtiva) {
+      <img src="perfil.png" class="perfil desktop-only" alt="Meu Perfil">
+      
+      <button class="menu-mobile-btn" (click)="toggleMenu()" aria-label="Menu principal">
+        <span></span><span></span><span></span>
+      </button>
+    }
+  </section>
+
+  <aside class="menu-overlay" [class.aberto]="menuAberto">
+    <button class="btn_fechar_menu" (click)="toggleMenu()">×</button>
+    <nav class="mobile-nav">
+      <a routerLink="/" (click)="toggleMenu()">Início</a>
+      <a routerLink="/eventos" (click)="toggleMenu()">Eventos</a>
+      <hr class="divisor-menu">
+      <a routerLink="/perfil" (click)="toggleMenu()">Meu Perfil</a>
+    </nav>
+  </aside>
+</header>

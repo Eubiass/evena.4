@@ -1,0 +1,25 @@
+<section id="sessao-categorias">
+    <div class="container-categorias">
+        <div class="titulo-sessao">
+            <h1>Categorias</h1>
+            <a href="#" class="ver-mais">Ver mais</a>
+        </div>
+
+        <div class="carousel-container">
+            <button class="seta-carousel left" (click)="scrollEsquerda()">❮</button>
+
+            <div class="lista-circulos" #carousel>
+                @for (cat of categorias; track cat.id) {
+                    <div class="item-wrapper">
+                        <div class="circulo-item" [title]="cat.nome">
+                            <img [src]="cat.icone" [alt]="cat.nome" class="icon-verde">
+                        </div>
+                        <span class="categoria-nome">{{ cat.nome }}</span>
+                    </div>
+                }
+            </div>
+
+            <button class="seta-carousel right" (click)="scrollDireita()">❯</button>
+        </div>
+    </div>
+</section>

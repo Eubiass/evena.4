@@ -1,0 +1,53 @@
+html, body{
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+body {
+  background: linear-gradient(180deg, var(--cor-principal) 0%, var(--cor-principal) 83px,#ffffff 40%);
+}
+:root {
+  /* Defina seus nomes começando sempre com "--" */
+  --cor-principal: #2f1a67;    /* Seu Roxo principal */
+  --cor-secundaria: #6DE24C;  /* Seu Verde neon */
+  --cor-fundo: #f4f4f4;
+  --cor-branco: #ffffff;
+  --cor-primaria-hover: #3d2285;
+
+  /* Famílias de fontes */
+  --fonte-principal: 'Poppins', sans-serif;
+  --fonte-secundaria: 'Lato', sans-serif;
+}
+
+/* BARRA DE ROLAGEM */
+/* (Chrome/Edge) */
+::-webkit-scrollbar {
+  width: 6px;  
+  height: 4px; 
+  transition: all 0.3s ease; 
+}
+
+::-webkit-scrollbar:hover {
+  width: 12px; 
+  height: 10px; 
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--cor-principal); 
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--cor-secundaria);
+  border-radius: 10px;
+  border: 2px solid var(--cor-principal); 
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #58b83d
+}
+/* Ajuste para Firefox  */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--cor-secundaria) var(--cor-principal);
+
+}

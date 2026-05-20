@@ -1,0 +1,18 @@
+@if (artistas?.length) {
+  <section class="info-block">
+    <div class="block-header">
+      <i class="fa-solid fa-microphone-lines"></i>
+      <h2>Atrações Confirmadas</h2>
+    </div>
+    <div class="lineup-grid">
+      @for (artista of artistas; track artista) {
+        <div class="artista-card">
+          <div class="artista-avatar">
+            <i class="fa-solid fa-user"></i>
+          </div>
+          <span>{{ artista }}</span>
+        </div>
+      }
+    </div>
+  </section>
+}

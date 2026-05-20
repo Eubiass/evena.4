@@ -1,0 +1,21 @@
+@if (evento) {
+<div class="detalhes-wrapper">
+  
+  <app-header-detalhe [evento]="evento"></app-header-detalhe>
+  
+  <div class="main-grid">
+    <main class="content-column">
+      <app-info-esquerda 
+        [evento]="evento" 
+        [diaAtivoIndex]="diaSelecionadoIndex"
+        (diaAlteradoNoBloco)="mudarDia($event)">
+      </app-info-esquerda>
+    </main>
+    
+    <div class="coluna-direita">
+      <app-checkout-sidebar [evento]="evento"></app-checkout-sidebar>
+    </div>
+  </div>
+
+</div>
+}

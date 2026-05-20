@@ -1,0 +1,12 @@
+# Dependências muito pesadas
+node_modules/
+
+# Cache do Angular e do sistema
+.angular/
+.cache/
+dist/
+
+# Logs e arquivos de sistemas
+npm-debug.log*
+.DS_Store
+Thumbs.db

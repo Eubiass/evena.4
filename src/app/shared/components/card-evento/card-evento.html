@@ -1,0 +1,11 @@
+<div class="card-evento" [routerLink]="['/detalhes-evento', gerarSlug(dadosEvento.titulo)]">
+    <div class="imagem-container">
+        <img [src]="dadosEvento.imagem" [alt]="dadosEvento.titulo">
+    </div>
+
+    <div class="info">
+        <h1>{{ dadosEvento.titulo }}</h1>
+        <h2>{{ dadosEvento.dataExibicao  }}</h2>
+        <h3>{{dadosEvento.localNome}} • {{ dadosEvento.cidade }}, {{ dadosEvento.uf}}</h3>
+    </div>
+</div>

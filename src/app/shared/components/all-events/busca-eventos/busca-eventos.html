@@ -1,0 +1,23 @@
+<form class="busca-container" role="search">
+  <div class="input-group">
+    <i class="fa-solid fa-location-dot icon"></i>
+    <input type="text" [(ngModel)]="cidade" name="cidade" (input)="aoMudarCidade()" placeholder="Cidade">
+  </div>
+
+  <div class="input-group">
+    <i class="fa-solid fa-tag icon"></i>
+    <select [(ngModel)]="precoSelecionado" name="preco" (change)="aoMudarPreco()">
+      <option value="todos">Qualquer preço</option>
+      <option value="gratis">Gratuito</option>
+      <option value="ate50">Até R$ 50</option>
+      <option value="50-150">R$ 50 a R$ 150</option>
+      <option value="mais150">Acima de R$ 150</option>
+    </select>
+    <i class="fa-solid fa-chevron-down arrow"></i>
+  </div>
+
+  <div class="input-group">
+    <i class="fa-solid fa-calendar-days icon"></i>
+    <input type="date" [(ngModel)]="data" name="data" (change)="aoMudarData()">
+  </div>
+</form>

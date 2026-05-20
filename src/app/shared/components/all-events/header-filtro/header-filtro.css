@@ -1,0 +1,54 @@
+.header-filtro-container {
+  margin-bottom: 25px;
+}
+
+.titulo-sessao {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  color: var(--cor-secundaria);
+  font-size: 2.2rem;
+  font-family: var(--fonte-principal);
+}
+
+.wrapper-select {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.wrapper-select select {
+  appearance: none; 
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid var(--cor-secundaria);
+  color: var(--cor-secundaria);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: bold;
+  padding-right: 30px;
+  cursor: pointer;
+  outline: none;
+  width: auto;
+}
+
+.seta-icon {
+  position: absolute;
+  right: 5px;
+  font-size: 0.5em; 
+  color: var(--cor-secundaria);
+  pointer-events: none;
+}
+
+select option {
+  background-color: #1a1a1a;
+  color: #fff;
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .wrapper-select select{
+    width: 50%;
+  }
+}

@@ -1,0 +1,213 @@
+/* --- CONTAINER E ESTRUTURA --- */
+#sessao-categorias{
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container-categorias {
+    width: 95%;
+    max-width: 1650px;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+
+/* Textos */
+.titulo-sessao {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--cor-principal);
+    width: 100%;
+    margin-top: 15px;
+}
+.titulo-sessao h1 {
+    font-size: 30px;
+    font-family: var(--fonte-principal);
+    font-weight: 700;
+}
+.ver-mais {
+    font-size: 14px;
+    font-family: var(--fonte-secundaria);
+    font-weight: 700;
+    color: var(--cor-principal);
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.ver-mais:hover{
+    color: #6b20b1;
+    text-decoration: underline;
+}
+
+
+/* --- CARROSSEL --- */
+.carousel-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.lista-circulos {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap; 
+    gap: 26px;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    width: 93.7%;
+    padding: 5px;
+}
+
+
+/* Wrapper para alinhar círculo + texto */
+.item-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+}
+.circulo-item {
+    width: 115px;
+    height: 115px;
+    background-color: var(--cor-principal);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+.circulo-item:hover {
+    background-color: #3d2285;
+    transform: scale(1.05);
+}
+.categoria-nome {
+    font-size: 12px;
+    color: var(--cor-principal);
+    font-family: var(--fonte-secundaria);
+    font-weight: 600;
+    text-align: center;
+}
+.icon-verde {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+/* --- SETAS  --- */
+.seta-carousel {
+    position: absolute;
+    z-index: 10;  
+    top: 40%; 
+    transform: translateY(-50%); 
+
+    color: var(--cor-principal);
+    border: none;
+    background-color: var(--cor-branco);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+
+    cursor: pointer;
+    display: flex;
+    align-items: center; /* align-items → alinha no eixo vertical */
+    justify-content: center; /* justify-content → alinha no eixo horizontal */
+    background: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+.seta-carousel:hover {
+    background-color: var(--cor-principal);
+    color: var(--cor-secundaria);
+    transform: translateY(-50%) scale(1.1);
+}
+.seta-carousel.left { 
+    left: -10px; 
+}
+.seta-carousel.right { 
+    right: -10px; 
+}
+
+/* --- MEDIA QUERIES --- */
+@media (max-width: 768px) {
+    /* TEXTOS */ 
+    .titulo-sessao{
+        padding-left: 0;
+    }
+    .titulo-sessao h1{
+        font-size: 24px;
+    }
+    .ver-mais{
+        padding-right: 0;
+    }
+    
+    /* CONTAINER */
+    .container-categorias{
+        width: 100%;
+    }
+
+    /* AJUSTES */
+    .seta-carousel {
+        display: none;
+    }
+
+    .lista-circulos {
+        overflow-x: auto;
+        scrollbar-width: none; 
+        width: 100%;
+        padding: 5px;
+        gap: 24px;
+    }
+    .lista-circulos::-webkit-scrollbar {
+        display: none;
+    }
+
+    .circulo-item {
+        width: 80px; 
+        height: 80px;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px){
+    /* TEXTOS */ 
+    .titulo-sessao{
+        padding-left: 0;
+    }
+    .titulo-sessao h1{
+        font-size: 24px;
+    }
+    .ver-mais{
+        padding-right: 0;
+    }
+    
+    /* CONTAINER */
+    .container-categorias{
+        width: 95%;
+    }
+
+    /* AJUSTES */
+    .seta-carousel {
+        display: none;
+    }
+
+    .lista-circulos {
+        overflow-x: auto;
+        scrollbar-width: none; 
+        width: 100%;
+        gap: 30px;
+    }
+    .lista-circulos::-webkit-scrollbar {
+        display: none;
+    }
+
+    .circulo-item {
+        width: 105px; 
+        height: 105px;
+    }
+}

@@ -1,0 +1,14 @@
+@if (dias && dias.length > 0) {
+  <div class="selecao-dias-container">
+    @for (dia of dias; track dia; let i = $index) {
+      <button 
+        type="button"
+        class="botao-dia" 
+        [class.ativo]="diaAtivoIndex === i"
+        (click)="selecionarDia(i)">
+        <span class="semana">{{ dia.nomeSemana }}</span>
+        <span class="numero">{{ dia.numeroDia }}</span>
+      </button>
+    }
+  </div>
+}

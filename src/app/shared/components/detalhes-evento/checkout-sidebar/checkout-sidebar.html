@@ -1,0 +1,97 @@
+<div class="checkout-card-neon">
+  <div class="price-box">
+    <span class="brief-label">Ingressos a partir de</span>
+    @if (evento?.preco && evento?.preco > 0) {
+      <h3>R$ {{ evento.preco.toFixed(2).replace('.', ',') }}</h3>
+    } @else {
+      <h3 class="free">Gratuito</h3>
+    }
+  </div>
+
+  <div class="org-card-container" (click)="irParaPerfilOrganizador()">
+    <div class="org-avatar-wrapper">
+      @if (evento?.organizador?.foto) {
+        <img [src]="evento.organizador.foto" [alt]="evento.organizador.nome" class="org-photo" />
+      } @else {
+        <div class="org-avatar-fallback">
+          {{ evento?.organizador?.nome ? evento.organizador.nome.charAt(0) : 'E' }}
+        </div>
+      }
+      @if (evento?.organizador?.verificado) {
+        <div class="org-badge-verified" title="Verificado pelo Evena">
+          <i class="fa-solid fa-check"></i>
+        </div>
+      }
+    </div>
+
+    <div class="org-content-info">
+      <div class="org-title-row">
+        <span class="brief-label">Organizado por</span>
+        <h4 class="org-profile-name">{{ evento?.organizador?.nome || 'Evena Oficial' }}</h4>
+      </div>
+      
+      <div class="org-stats-row">
+        <span class="org-stat-item"><b>{{ evento?.organizador?.seguidores || 0 }}</b> seguidores</span>
+      </div>
+    </div>
+
+    <button class="btn-org-follow" [class.following]="isSeguindo" (click)="alternarSeguir($event)">
+      <i class="fa-solid" [class.fa-plus]="!isSeguindo" [class.fa-user-check]="isSeguindo"></i>
+    </button>
+  </div>
+
+  <div class="brief-info">
+    <div class="brief-row">
+      <i class="fa-solid fa-calendar-check"></i>
+      <div>
+        <span class="brief-label">Data do Evento</span>
+        <p class="brief-value">{{ evento?.dataExibicao }}</p>
+      </div>
+    </div>
+
+    <div class="brief-row">
+      <i class="fa-regular fa-clock"></i>
+      <div>
+        <span class="brief-label">Horário de Início</span>
+        <p class="brief-value">{{ evento?.horario }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="action-container">
+    
+    <button class="btn-poly btn-main" (click)="redirecionarParceiro()">
+      <span>Garantir Ingressos</span>
+      <i class="fa-solid fa-arrow-up-right-from-square"></i>
+    </button>
+
+    <button class="btn-poly btn-fav" [class.active]="isSalvo" (click)="alternarSalvar()">
+      <div class="heart-wrapper">
+        <i class="fa-heart" [class.fa-solid]="isSalvo" [class.fa-regular]="!isSalvo"></i>
+        <span class="particle p1"></span>
+        <span class="particle p2"></span>
+        <span class="particle p3"></span>
+        <span class="particle p4"></span>
+      </div>
+      <span>{{ isSalvo ? 'Salvo' : 'Salvar Evento' }}</span>
+    </button>
+
+    <div class="secondary-actions-row">
+      <button class="btn-poly btn-dark btn-agenda" (click)="adicionarAoCalendario()">
+        <i class="fa-solid fa-calendar-plus"></i>
+        <span>Agenda</span>
+      </button>
+
+      <button class="btn-poly btn-dark btn-share" title="Compartilhar" (click)="compartilharEvento()">
+        <i class="fa-solid fa-share-nodes"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="card-footer-report">
+    <button class="btn-report">
+      <i class="fa-regular fa-flag"></i>
+      <span>Reportar este evento</span>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,51 @@
+<section id="sessao-eventos-perto-ip">
+    <div class="container-eventos">
+        <div class="titulo-sessao">
+            <h1>Eventos em <span>{{ cidadeDetectada || 'sua região' }}</span></h1>
+            <a routerLink="/eventos" class="ver-mais">Ver mais</a>
+        </div>
+        
+        <div class="carousel-container">
+            <button class="seta-carousel left" (click)="scrollEsquerda()">❮</button>
+            <div class="grid-eventos" #carousel>
+                @if (!localizacaoAtiva) {
+                    <div class="card-localizacao" (click)="solicitarLocalizacao()">
+                        <div class="icon-pulse">
+                            <img src="icons/location.png" id="icon-localizacao" alt="Localização">
+                        </div>
+                        <div class="textos">
+                            <h2>Onde você está?</h2>
+                            <p>Ative a localização para encontrarmos os melhores eventos ao seu redor.</p>
+                        </div>
+                        <button class="btn-ativar">Ativar Localização</button>
+                    </div>
+                }
+
+                @for (item of eventosCidadeIP; track item.id) {
+                    <app-card-evento [dadosEvento]="item"></app-card-evento>
+                }
+            </div>
+            <button class="seta-carousel right" (click)="scrollDireita()">❯</button>
+        </div>
+    </div>
+</section>
+
+@if (localizacaoAtiva && eventosProximosGps.length > 0) {
+    <section id="sessao-eventos-perto-gps">
+        <div class="container-eventos">
+            <div class="titulo-sessao">
+                <h1>Eventos perto de você</h1>
+            </div>
+            <div class="carousel-container">
+                <div class="grid-eventos">
+                    @for (item of eventosProximosGps; track item.id) {
+                        <div class="container-card-distancia">
+                            <app-card-evento [dadosEvento]="item"></app-card-evento>
+                            <span id="distancia">{{ item.distancia }} km de você</span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+}

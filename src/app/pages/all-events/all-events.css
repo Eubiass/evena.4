@@ -1,0 +1,54 @@
+#sessao-todos-eventos{
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 70px;
+    margin-bottom: 50px;
+}
+
+.container-todos-eventos{
+    width: 95%; 
+    max-width: 1650px;
+    padding: 0 20px;
+    box-sizing: border-box;  
+}
+
+.header-resultados {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  margin-top: 10px;
+  font-family: var(--fonte-principal);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.status-texto {
+  color: var(--cor-principal);
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.btn-limpar-topo, .btn-ver-todos {
+  background-color: var(--cor-principal); /* Fundo roxo muito escuro */
+  color: var(--cor-secundaria); /* Verde Neon igual à imagem */
+  border: none;
+  padding: 12px 30px;
+  border-radius: 40px; /* Bordas bem arredondadas */
+  font-weight: bold;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-limpar-topo:hover, .btn-ver-todos:hover {
+  filter: brightness(1.3);
+  transform: translateY(-2px);
+}

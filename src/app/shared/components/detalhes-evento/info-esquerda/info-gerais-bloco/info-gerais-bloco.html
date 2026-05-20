@@ -1,0 +1,33 @@
+<section class="info-block">
+  <div class="block-header">
+    <i class="fa-solid fa-circle-info"></i>
+    <h2>Informações Gerais</h2>
+  </div>
+  <div class="info-gerais-grid">
+    
+    <div class="info-geral-card">
+      <i class="fa-solid fa-globe"></i>
+      <div class="info-geral-textos">
+        <span class="info-geral-label">Formato</span>
+        <span class="info-geral-valor">{{ evento?.online ? 'Online' : 'Presencial' }}</span>
+      </div>
+    </div>
+
+    <div class="info-geral-card">
+      <i class="fa-solid fa-user-shield"></i>
+      <div class="info-geral-textos">
+        <span class="info-geral-label">Classificação</span>
+        <span class="info-geral-valor">{{ evento?.classificacao || 'Livre' }}</span>
+      </div>
+    </div>
+
+    <div class="info-geral-card">
+      <i class="fa-solid fa-clock"></i>
+      <div class="info-geral-textos">
+        <span class="info-geral-label">Abertura Portões</span>
+        <span class="info-geral-valor">{{ evento?.horario || 'A consultar' }}</span>
+      </div>
+    </div>
+
+  </div>
+</section>

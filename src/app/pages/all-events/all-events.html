@@ -1,0 +1,21 @@
+<section id="sessao-todos-eventos">
+  <div class="container-todos-eventos">
+    
+    <app-header-filtro></app-header-filtro>
+    <app-categorias-nav></app-categorias-nav>
+    <app-busca-eventos></app-busca-eventos>
+
+    @if (temFiltroAtivo$ | async) {
+      <div class="header-resultados">
+        <span class="status-texto">Mostrando resultados encontrados...</span>
+        <button class="btn-limpar-topo" (click)="limparTudo()">
+          Limpar pesquisa
+        </button>
+      </div>
+    }
+
+    <main>
+      <app-lista-eventos [eventos$]="eventosFiltrados$" (resetar)="limparTudo()"></app-lista-eventos>
+    </main>
+  </div>
+</section>

@@ -1,0 +1,10 @@
+@if (evento) {
+  <app-selecao-dias-bloco [dias]="evento.diasDetalhados || []" [diaAtivoIndex]="diaAtivoIndex" (diaAlterado)="repassarMudancaDia($event)"> </app-selecao-dias-bloco>
+
+  <app-lineup-bloco [artistas]="obterArtistas"></app-lineup-bloco>
+  <app-sobre-bloco [descricao]="obterDescricao"></app-sobre-bloco>
+  
+  <app-info-gerais-bloco [evento]="evento"></app-info-gerais-bloco>
+  <app-localizacao-bloco [evento]="evento"></app-localizacao-bloco>
+  <app-comodidades-bloco [evento]="evento"></app-comodidades-bloco>
+}
