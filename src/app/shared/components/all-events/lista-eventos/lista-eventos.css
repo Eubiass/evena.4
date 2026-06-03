@@ -1,105 +1,155 @@
 .lista-eventos-container {
-  padding: 20px 0;
+  padding: 10px 0 30px 0;
   width: 100%;
-
 }
 
 .grid-eventos {
   display: grid;
-  gap: 10px;
-  grid-template-columns: repeat(2, 1fr); 
+  gap: 24px;
+  grid-template-columns: repeat(1, 1fr); 
   max-width: 1600px;
-  justify-items: center;
+  width: 100%;
 }
 
-.empty-state {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 60px 20px;
-  color: var(--cor-secundaria);
+.card-item-fluid :deep(.imagem-card-container) {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
-.icon-empty {
-  font-size: 4rem;
-  color: var(--cor-principal);
-  margin-bottom: 15px;
-  opacity: 0.5;
+.card-item-fluid :deep(.imagem-card-container img) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.empty-state h3 {
-  font-family: var(--fonte-principal);
-  font-size: 1.5rem;
-  margin-bottom: 10px;
-}
-
-.empty-state p {
-  opacity: 0.7;
-}
-
-.loading {
-  text-align: center;
-  color: var(--cor-principal);
-  font-family: var(--fonte-principal);
-  margin-top: 50px;
-}
-
-.empty-state-container {
+/* ==========================================================================
+   NOVA TELA "OPS!" TOTALMENTE CENTRALIZADA
+   ========================================================================== */
+.empty-state-hero {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   width: 100%;
-  padding-left: 30px;
+  min-height: 380px; /* Cria uma área de respiro vertical imponente */
+  margin: 40px auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+  animation: smoothFadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.empty-icon-wrapper {
+  font-size: 3.8rem;
+  color: var(--cor-principal);
+  margin-bottom: 20px;
+  opacity: 0.35;
 }
 
 .ops-titulo {
-  color: var(--cor-principal);
+  color: #fff;
   font-family: var(--fonte-principal);
   font-size: 2.2rem;
   font-weight: 700;
-  margin-bottom: 15px;
-  letter-spacing: -1px;
-  white-space: nowrap;
+  margin: 0 0 14px 0;
+  letter-spacing: -0.5px;
 }
 
 .ops-subtitulo {
-  color: var(--cor-principal);
+  color: rgba(255, 255, 255, 0.6);
   font-family: var(--fonte-secundaria);
-  font-size: 1.1rem;
-  margin-bottom: 20px;
-  max-width: 500px;
-  white-space: nowrap;
+  font-size: 1.05rem;
+  margin: 0 0 30px 0;
+  line-height: 1.6;
+  max-width: 540px; /* Evita que o texto estique demais em telas ultra-wide */
 }
 
-.btn-ver-todos{
-  width: 60%;
-  padding: 15px 25px;
+.btn-ver-todos {
+  width: auto;
+  min-width: 240px;
+  padding: 14px 32px;
   border-radius: 50px;
-  border: 2px solid var(--cor-principal);
+  border: none;
   background-color: var(--cor-principal);
   color: var(--cor-secundaria);
   font-weight: 700;
+  font-size: 0.95rem;
   font-family: var(--fonte-secundaria);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
-.btn-ver-todos:hover{
-  transform: translateY(-2px) scale(1.05);
+.btn-ver-todos:hover {
+  filter: brightness(1.25);
+  transform: translateY(-2px);
 }
 
-@media (min-width: 768px) and (max-width: 1024px) {
-  .grid-eventos {
-    grid-template-columns: repeat(2, 1fr);
+.btn-ver-todos:active {
+  transform: translateY(0);
+}
+
+/* Loader */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: var(--fonte-principal);
+  gap: 15px;
+}
+
+.spinner-loader {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  border-top-color: var(--cor-principal);
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes smoothFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-/* Laptops: 3 colunas */
-@media (min-width: 1025px) and (max-width: 1450px) {
-  .grid-eventos {
-    grid-template-columns: repeat(3, 1fr);
-  }
+/* ==========================================================================
+   MEDIA QUERIES RESPONSIVAS
+   ========================================================================== */
+@media (min-width: 550px) {
+  .grid-eventos { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* Desktops Grandes: Só aqui libera a 4ª coluna */
-@media (min-width: 1450px) {
-  .grid-eventos {
-    grid-template-columns: repeat(4, 1fr);
+@media (min-width: 950px) {
+  .grid-eventos { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (min-width: 1400px) {
+  .grid-eventos { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .ops-titulo {
+    font-size: 1.75rem;
+  }
+  .ops-subtitulo {
+    font-size: 0.95rem;
+  }
+  .btn-ver-todos {
+    width: 100%;
   }
 }

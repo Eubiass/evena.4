@@ -1,30 +1,47 @@
-<section id="exibicao-banner">
+<section id="exibicao-banner" aria-roledescription="carrossel" aria-label="Eventos em destaque">
     <div class="banner-grande" 
-        (click)="abrirEvento(listaBanner[index].id)"
-        tabindex="0"
         (touchstart)="touchStart($event)" 
         (touchend)="touchEnd($event)">
 
-        <img [src]="listaBanner[index].imagem" class="imagem">
+        <img [src]="listaBanner[index].imagem" class="imagem" [attr.alt]="'Destaque: ' + listaBanner[index].titulo">
 
         <div class="layer"></div>
+
+        <button type="button" 
+                class="wcag-banner-link" 
+                (click)="abrirEvento(listaBanner[index].titulo)"
+                [attr.aria-label]="'Acessar evento: ' + listaBanner[index].titulo">
+        </button>
 
         <div class="info">
             <h1>{{ listaBanner[index].titulo }}</h1>
             <p>{{ listaBanner[index].localNome }} • {{ listaBanner[index].cidade }} | {{ listaBanner[index].dataExibicao }}</p>
-            <button class="btn-info">Mais informações</button>
+            
+            <span class="btn-info" (click)="abrirEvento(listaBanner[index].titulo); $event.stopPropagation()">
+                Mais informações
+            </span>
         </div>
 
         <div class="setas">
-            <button class="seta-left" (click)="anterior(); $event.stopPropagation()">❮</button>
-            <button class="seta-right" (click)="proximo(); $event.stopPropagation()">❯</button>
+            <button type="button" class="seta-left" (click)="anterior(); $event.stopPropagation()" aria-label="Banner anterior">
+                <span aria-hidden="true">❮</span>
+            </button>
+            <button type="button" class="seta-right" (click)="proximo(); $event.stopPropagation()" aria-label="Próximo banner">
+                <span aria-hidden="true">❯</span>
+            </button>
         </div>
 
-        <div class="indicadores">
+        <div class="indicadores" role="tablist" aria-label="Slides do destaque">
             @for (img of listaBanner; track $index) {
-              <span class="ponto" 
-              [class.ativo]="$index === index" 
-              (click)="irPara($index); $event.stopPropagation()"></span>
+              <button 
+                type="button"
+                class="ponto" 
+                [class.ativo]="$index === index" 
+                (click)="irPara($index); $event.stopPropagation()"
+                role="tab"
+                [attr.aria-selected]="$index === index"
+                [attr.aria-label]="'Ir para o slide ' + ($index + 1)">
+              </button>
             }
         </div>
     </div>

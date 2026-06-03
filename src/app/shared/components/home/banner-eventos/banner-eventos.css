@@ -1,4 +1,4 @@
-#exibicao-banner{
+#exibicao-banner {
     margin-top: clamp(70px, 5vh, 80px);
     width: 99vw;
     display: flex;
@@ -23,7 +23,8 @@
     object-position: center;
     transition: 0.5s ease;
     display: block;
-    z-index: 1;
+    position: relative;
+    z-index: 1; /* Mantido na base */
 }
 
 /* --- INTERAÇÕES --- */
@@ -82,6 +83,7 @@
     opacity: 0;
     transition: 0.4s;
     pointer-events: none;
+    z-index: 2; 
 }
 
 .info {
@@ -92,7 +94,7 @@
     padding: 30px;
     opacity: 0;
     transition: 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    z-index: 2;
+    z-index: 3; /* Fica acima da layer escura */
 }
 
 .info h1 {
@@ -110,6 +112,9 @@
 }
 
 .btn-info {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     width: 170px;
     height: 45px;
     clip-path: polygon(0% 0%, 85% 0%, 100% 50%, 85% 100%, 0% 100%);
@@ -119,71 +124,132 @@
     color: var(--cor-principal);
     font-weight: 600;
     border-radius: 10px;
+    text-decoration: none; /* Remove o sublinhado padrão de link */
+    z-index: 5; /* Fica acima do botão invisível do WCAG */
+    position: relative;
+    font-family: var(--fonte-secundaria);
 }
 
-/* --- HOVER (DESKTOP APENAS) --- */
+/* ==========================================================================
+   AJUSTES E FIX DO BOTÃO DE ACESSIBILIDADE (WCAG)
+   ========================================================================== */
+.wcag-banner-link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 4; /* Fica no topo para garantir o clique limpo e o foco do Tab */
+    padding: 0;
+    margin: 0;
+}
+
+/* Garante que os controles manuais fiquem acima do clique do banner inteiro */
+.setas, .indicadores {
+    z-index: 12; 
+}
+
+.indicadores .ponto {
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+/* Repassa o estado de Hover do Banner para o botão invisível da WCAG */
+.banner-grande:hover .wcag-banner-link {
+    outline: none;
+}
+
 @media (min-width: 1025px) {
     .banner-grande:hover .imagem { transform: scale(1.05); }
     .banner-grande:hover .layer { opacity: 1; }
     .banner-grande:hover .info { bottom: 0; opacity: 1; }
 }
 
-
-@media (max-width: 768px) {
+/* ==========================================================================
+   CORREÇÃO DE LEGIBILIDADE E RESPONSIVIDADE (MOBILE E TABLET)
+   ========================================================================== */
+@media (max-width: 1024px) {
     .banner-grande {
         width: 100%;
-        height: 350px; /* Altura confortável para mobile */
+        height: 380px;
         border-radius: 0;
     }
 
-    /* Escondemos o botão para limpar o visual */
     .btn-info {
-        display: none;
+        display: inline-flex; 
+        width: 140px;
+        height: 35px;
+        font-size: 13px;
+        margin-top: 8px;
+        clip-path: none; 
+        border-radius: 6px;
     }
 
-    /* Centralizamos as informações */
     .info {
-        bottom: 0;
-        opacity: 1;
+        bottom: 0 !important;
+        opacity: 1 !important;
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
+        align-items: flex-start; 
         height: 100%;
         padding: 20px 20px 45px 20px;
+        box-sizing: border-box;
     }
 
+    /* FIX DA LAYER: Mudado de 75px fixos para 75% da altura total */
     .layer {
-        opacity: 1; /* Sempre visível no mobile */
-        height: 60%; /* Um pouco menor para não escurecer a foto toda */
+        opacity: 1 !important; 
+        height: 75%; 
+        /* Gradiente refinado: bem escuro na base (95% opacidade) sumindo suavemente até o topo */
+        background: linear-gradient(
+            to top, 
+            rgba(0, 0, 0, 0.95) 0%, 
+            rgba(0, 0, 0, 0.7) 50%, 
+            rgba(0, 0, 0, 0.2) 80%, 
+            transparent 100%
+        );
     }
 
     .info h1 {
-        font-size: 22px; /* Tamanho equilibrado */
-
+        font-size: 24px;
+        line-height: 1.2;
+        margin-bottom: 4px;
     }
 
     .info p {
         font-size: 14px;
-        margin-bottom: 0;
-        opacity: 0.9;
+        margin-bottom: 4px;
+        opacity: 0.95;
     }
 
-    /* Isso remove as setas completamente da visualização no mobile */
     .setas { 
         display: none; 
     }
 
-
-    /* Mantemos as bolinhas centralizadas na parte de baixo */
     .indicadores {
         bottom: 15px;
         left: 50%;
         transform: translateX(-50%);
-        gap: 8px;
+        gap: 12px;
     }
 
     .ponto {
-        width: 10px;
-        height: 5px;
+        width: 12px;
+        height: 6px;
+        position: relative;
+    }
+    
+    .ponto::before {
+        content: '';
+        position: absolute;
+        top: -10px;
+        bottom: -10px;
+        left: -10px;
+        right: -10px;
     }
 }

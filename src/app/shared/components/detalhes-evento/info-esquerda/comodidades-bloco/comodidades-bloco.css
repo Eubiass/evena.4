@@ -1,19 +1,34 @@
+/* ==========================================================================
+   COMPONENTE COMODIDADES E FACILIDADES (comodidades-bloco.css)
+   ========================================================================== */
+
 .info-block { 
-  background: #161122; 
+  background: #ccc3ed;
   padding: 35px; 
   border-radius: 24px; 
   margin-bottom: 25px; 
-  border: 1px solid rgba(255, 255, 255, 0.03); 
+  border: none;
+  box-shadow: 0 8px 30px rgba(43, 27, 84, 0.05);
 }
-.block-header { display: flex; align-items: center; gap: 12px; margin-bottom: 25px; color: #3bf826; }
-.block-header h2 { color: #ffffff; font-size: 1.5rem; margin: 0; font-weight: 700; }
 
-/* ==========================================================================
-   COMODIDADES E FACILIDADES (GRID CONFIGURADO E ESPAÇADO)
-   ========================================================================== */
+.block-header { 
+  display: flex; 
+  align-items: center; 
+  gap: 12px; 
+  margin-bottom: 25px; 
+  color: #2b1b54; 
+}
+
+.block-header h2 { 
+  color: #2b1b54; 
+  font-size: 1.5rem; 
+  margin: 0; 
+  font-weight: 700; 
+}
+
 .facilidades-container-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Aumentado para dar espaço */
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
   gap: 20px; 
 }
 
@@ -27,30 +42,35 @@
   border-radius: 22px;
   transition: all 0.3s ease;
 }
+
 .facilidade-nome {
   font-weight: 700;
   font-size: 1rem;
   margin: 6px 0;
 }
+
 .facilidade-status {
   font-size: 0.8rem;
   font-weight: 500;
-  opacity: 0.6;
 }
 
-/* --- ESTADO ACESO (Ativa) --- */
 .facilidade-tag.ativa {
-  background: #3af82508;
-  border: 1px solid #3bf8261f;
-  color: #ffffff;
+  background: #2b1b54; 
+  color: #ffffff; 
+  box-shadow: 0 6px 18px rgba(43, 27, 84, 0.15);
 }
+
 .facilidade-tag.ativa .facilidade-status {
-  color: #3bf826;
-  opacity: 0.9;
+  color: #ffffff;
+  opacity: 0.8;
 }
-/* --- ESTADO APAGADO (Inativa) --- */
+
 .facilidade-tag.inativa {
-  background: #ffffff02;
-  border: 1px solid #ffffff05;
-  color: #4a4553;
+  background: #f7f5ff; 
+  color: #2b1b54;
+  opacity: 0.5;
+}
+
+.facilidade-tag.inativa .facilidade-status {
+  color: #554f6c;
 }

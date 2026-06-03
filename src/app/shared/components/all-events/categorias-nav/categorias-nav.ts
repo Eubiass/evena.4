@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FiltroEventosService } from '../../../../services/filtros/filtro-eventos-service';
 
@@ -9,7 +9,7 @@ import { FiltroEventosService } from '../../../../services/filtros/filtro-evento
   templateUrl: './categorias-nav.html',
   styleUrl: './categorias-nav.css'
 })
-export class CategoriasNavComponent implements OnInit, AfterViewInit {
+export class CategoriasNavComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLElement>;
 
   public categorias: string[] = ['Todos', 'Música', 'Teatro', 'Educação', 'Infantil', 'Tecnologia', 'Gastronomia', 'Esportes', 'Festival', 'Workshop', 'Stand-up', 'Networking'];
@@ -18,6 +18,8 @@ export class CategoriasNavComponent implements OnInit, AfterViewInit {
   public podeScrollEsquerda = false;
   public podeScrollDireita = true;
 
+  private resizeListener!: () => void;
+
   constructor(public filtroService: FiltroEventosService) {}
 
   ngOnInit(): void {
@@ -25,14 +27,21 @@ export class CategoriasNavComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // Pequeno delay para o Angular renderizar os chips antes de calcular o scroll
     setTimeout(() => this.verificarScroll(), 100);
-    window.addEventListener('resize', () => this.verificarScroll());
+    
+    this.resizeListener = () => this.verificarScroll();
+    window.addEventListener('resize', this.resizeListener);
+  }
+
+  ngOnDestroy(): void {
+    if (this.resizeListener) {
+      window.removeEventListener('resize', this.resizeListener);
+    }
   }
 
   public mover(direcao: number): void {
+    if (!this.scrollContainer) return;
     const el = this.scrollContainer.nativeElement;
-    // Move 70% da largura visível para uma rolagem fluida
     const scrollAmount = el.offsetWidth * 0.7; 
     el.scrollBy({ left: direcao * scrollAmount, behavior: 'smooth' });
   }
@@ -41,12 +50,28 @@ export class CategoriasNavComponent implements OnInit, AfterViewInit {
     if (!this.scrollContainer) return;
     const el = this.scrollContainer.nativeElement;
     
-    // Margem de 5px para evitar problemas de arredondamento de pixels nos navegadores
     this.podeScrollEsquerda = el.scrollLeft > 5;
     this.podeScrollDireita = el.scrollLeft + el.offsetWidth < el.scrollWidth - 5;
   }
 
   public selecionar(cat: string): void {
     this.filtroService.atualizarFiltros({ categoria: cat });
+  }
+
+  /**
+   * REQUISITO WCAG: Permite que usuários de teclado naveguem entre os chips usando as setas horizontais.
+   */
+   public moverFocoTeclado(event: any, direcao: number): void {
+    const target = event.target as HTMLElement;
+    const li = target.parentElement;
+    if (!li) return;
+
+    const proximoLi = direcao === 1 ? li.nextElementSibling : li.previousElementSibling;
+    const proximoBotao = proximoLi?.querySelector('button') as HTMLElement;
+
+    if (proximoBotao) {
+      proximoBotao.focus();
+      event.preventDefault(); // Evita o scroll padrão das setas do teclado
+    }
   }
 }

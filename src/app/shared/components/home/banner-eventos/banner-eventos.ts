@@ -1,10 +1,12 @@
 import { Component, OnInit, OnDestroy, HostListener, ChangeDetectorRef } from '@angular/core';
 import { Evento } from '../../../../model/evento';
 import { EventoService } from '../../../../services/evento-service';
+import { Router, RouterLink } from '@angular/router'; // CORREÇÃO: Importado o Router do Angular
 
 @Component({
   selector: 'app-banner-eventos',
   standalone: true,
+  imports: [RouterLink],
   templateUrl: './banner-eventos.html',
   styleUrl: './banner-eventos.css',
 })
@@ -18,9 +20,13 @@ export class BannerEventos implements OnInit, OnDestroy {
   private touchStartX = 0;
   private touchEndX = 0;
   private isMoving = false; // Proteção para não clicar enquanto desliza
+
+  // CORREÇÃO: Injetado o 'Router' dentro do construtor
   constructor(
     private eventoService: EventoService,
-    private cdr: ChangeDetectorRef) {}
+    private cdr: ChangeDetectorRef,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     // 1. Pega todos os eventos do service
@@ -31,7 +37,7 @@ export class BannerEventos implements OnInit, OnDestroy {
       this.idsDestaque.includes(evento.id)
     );
 
-    // 3. Opcional: Se quiser garantir uma ordem específica baseada no array idsDestaque
+    // 3. Garante a ordem específica baseada no array idsDestaque
     this.listaBanner.sort((a, b) => 
       this.idsDestaque.indexOf(a.id) - this.idsDestaque.indexOf(b.id)
     );
@@ -47,7 +53,7 @@ export class BannerEventos implements OnInit, OnDestroy {
     this.pararTimer();
     this.timer = setInterval(() => {
       this.proximo(false);
-     }, 4000);
+    }, 4000);
   }
 
   pararTimer() {
@@ -56,27 +62,27 @@ export class BannerEventos implements OnInit, OnDestroy {
     }
   }
 
-   proximo(manual: boolean = true) {
+  proximo(manual: boolean = true) {
+    if (this.listaBanner.length === 0) return;
     this.index = (this.index + 1) % this.listaBanner.length;
     this.cdr.detectChanges();
     if (manual) {
       this.iniciarTimer();
-
     }
   }
 
   anterior() {
+    if (this.listaBanner.length === 0) return;
     this.index = (this.index - 1 + this.listaBanner.length) % this.listaBanner.length;
     this.cdr.detectChanges();
     this.iniciarTimer();
   }
 
   irPara(i: number) {
-  this.index = i;
-  this.iniciarTimer(); // Reinicia o contador de 4 segundos
-  this.cdr.detectChanges(); // Garante que a bolinha mude de cor na hora
+    this.index = i;
+    this.iniciarTimer(); // Reinicia o contador de 4 segundos
+    this.cdr.detectChanges(); // Garante que a bolinha mude de cor na hora
   }
-
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
@@ -113,8 +119,23 @@ export class BannerEventos implements OnInit, OnDestroy {
     this.iniciarTimer();
   }
 
-  abrirEvento(id: number) {
+  abrirEvento(titulo: string) {
     if (this.isMoving) return;
-    console.log('Navegando para o evento:', id);
+    
+    // Gera o slug com base no título antes de navegar
+    const slug = this.gerarSlug(titulo);
+    this.router.navigate(['/detalhes-evento', slug]);
+  }
+
+  // Função para converter o título em slug (se você já tiver uma global, pode importar)
+  gerarSlug(texto: string): string {
+    return texto
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-') // <-- Adicione isso aqui para garantir um único hífen
+      .trim();
   }
 }

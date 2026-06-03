@@ -1,9 +1,9 @@
 .ingresse-carousel-container {
-  position: relative;
+  position: relative; /* Mantém as setas absolutas presas dentro deste bloco */
   display: flex;
   align-items: center;
   width: 100%;
-  margin: 10px 0 20px 0;
+  margin: 20px 0 20px 0;
 }
 
 .scroll-wrapper {
@@ -12,11 +12,18 @@
   scroll-behavior: smooth;
   scrollbar-width: none; /* Firefox */
   width: 100%;
-  padding: 5px;
+  padding: 10px 0; /* Removido padding lateral fixo para alinhar com o grid principal */
 }
 
 .scroll-wrapper::-webkit-scrollbar {
   display: none; /* Chrome/Safari */
+}
+
+/* Garante o foco acessível na área de rolagem para usuários de teclado */
+.scroll-wrapper:focus-visible {
+  outline: 2px dashed var(--cor-secundaria, #5cae45);
+  outline-offset: 4px;
+  border-radius: 8px;
 }
 
 .chips-list {
@@ -25,6 +32,35 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  width: 100%; /* Ocupa sempre o espaço total disponível */
+}
+
+/* --- BOTÕES DE NAVEGAÇÃO (SETAS FLUTUANTES) --- */
+.nav-overlay {
+  position: absolute; /* Retira a seta do fluxo flexbox para não desalinhá-la */
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  visibility: hidden; /* WCAG: Oculta para leitores de tela quando invisível */
+  z-index: 5; /* Garante que fique acima das imagens dos cards */
+}
+
+/* Quando o TypeScript valida que há scroll disponível, a classe entra em ação */
+.nav-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+}
+
+/* Posiciona as setas exatamente nas extremidades do container */
+.nav-overlay.left {
+  left: -16px; /* Ajuste essa distância se quiser que ela fique mais para dentro ou fora */
+}
+
+.nav-overlay.right {
+  right: -16px;
 }
 
 .btn-nav {
@@ -39,10 +75,15 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-  margin: 0 2px;
   font-size: 0.8rem;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
+.btn-nav:hover {
+  transform: scale(1.1);
+}
+
+/* --- CHIPS DE CATEGORIA --- */
 .chip-item {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -52,20 +93,53 @@
   white-space: nowrap;
   cursor: pointer;
   font-family: var(--fonte-principal);
+  font-size: 15px;
+  transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+  
+  /* Reset de heranças da header */
+  text-decoration: none;
+  position: relative;
 }
+
+.chip-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Estado de Ativo (Filtro selecionado pelo usuário) */
 .chip-item.active {
   background: var(--cor-principal);
   color: var(--cor-secundaria);
   font-weight: bold;
   border-color: var(--cor-principal);
 }
-.chip-item:hover {
-  background: rgba(255, 255, 255, 0.15);
-  transform: translateY(-2px);
+
+/* Isolamento do pseudo-elemento ativo da header */
+.chip-item.active::after {
+  display: none !important;
 }
 
-@media (max-width: 768px){
-  .btn-nav{
-    display: none;
+/* --- REQUISITO WCAG PRINCIPAL: ESTADO DE FOCO ACESSÍVEL --- */
+.chip-item:focus-visible,
+.btn-nav:focus-visible {
+  outline: 2px solid var(--cor-secundaria, #5cae45);
+  outline-offset: 3px;
+}
+
+.chip-item:focus,
+.btn-nav:focus {
+  outline: none;
+}
+
+/* --- RESPONSIVIDADE --- */
+@media (max-width: 768px) {
+  .btn-nav, 
+  .nav-overlay {
+    display: none !important; /* Em telas touch, removemos as setas absolutas */
+  }
+
+  .chip-item {
+    padding: 8px 20px;
+    font-size: 14px;
   }
 }

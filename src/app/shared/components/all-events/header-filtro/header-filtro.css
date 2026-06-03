@@ -1,5 +1,6 @@
 .header-filtro-container {
   margin-bottom: 25px;
+  margin-top: 50px;
 }
 
 .titulo-sessao {
@@ -20,6 +21,7 @@
 
 .wrapper-select select {
   appearance: none; 
+  -webkit-appearance: none;
   background: transparent;
   border: none;
   border-bottom: 2px solid var(--cor-secundaria);
@@ -27,15 +29,21 @@
   font-family: inherit;
   font-size: inherit;
   font-weight: bold;
-  padding-right: 30px;
   cursor: pointer;
   outline: none;
-  width: auto;
+  width: auto; 
+  transition: width 0.1s ease;
+}
+
+.wrapper-select select:focus-visible {
+  outline: 2px solid var(--cor-secundaria);
+  outline-offset: 4px;
+  border-radius: 4px;
 }
 
 .seta-icon {
   position: absolute;
-  right: 5px;
+  right: 10px;
   font-size: 0.5em; 
   color: var(--cor-secundaria);
   pointer-events: none;
@@ -47,8 +55,14 @@ select option {
   font-size: 1rem;
 }
 
+/* Medias Queries Corrigidas */
 @media (max-width: 768px) {
-  .wrapper-select select{
-    width: 50%;
+  .titulo-sessao {
+    font-size: 1.8rem; /* Suaviza o tamanho da fonte em dispositivos móveis */
+  }
+  
+  .wrapper-select select {
+    /* Removido o 'width: 50%' antigo para permitir que a largura responda organicamente ao cálculo ch */
+    max-width: 100%; 
   }
 }

@@ -1,90 +1,157 @@
-.busca-container {
+.busca-wrapper-geral {
   display: flex;
-  gap: 15px;
+  align-items: center;
+  gap: 12px;
   width: 100%;
-  justify-content: space-between;
+  margin-top: 15px;
+  margin-bottom: 35px; /* Garante o espaçamento ideal para respirar o grid abaixo */
 }
 
-.input-group {
+.busca-container-slim {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 2px 6px;
+  box-sizing: border-box;
+  height: 48px;
+}
+
+.input-group-slim {
   position: relative;
   flex: 1;
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--cor-principal);
-  border-radius: 50px;
-  padding: 12px 20px;
-  transition: all 0.3s ease;
-  min-width: 0; /* Evita que o flexbox quebre com inputs */
+  background: transparent;
+  border: none;
+  height: 100%;
+  padding: 0 12px;
+  min-width: 0;
 }
 
-.input-group:focus-within {
-  box-shadow: 0 0 15px rgba(59, 248, 38, 0.3);
-  background: rgba(59, 248, 38, 0.1);
-  border-color: #fff; /* Dá um destaque extra ao focar */
+.input-group-slim:focus-within {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
 }
 
-.icon {
-  color: var(--cor-principal);
-  margin-right: 12px;
-  font-size: 1.1rem;
+.input-group-slim input:focus-visible,
+.input-group-slim select:focus-visible {
+  outline: 2px dashed var(--cor-principal);
+  outline-offset: 2px;
 }
 
-/* Estilo unificado para Input e Select */
-.input-group input, 
-.input-group select {
+.icon-slim {
+  color: rgba(255, 255, 255, 0.4);
+  margin-right: 10px;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+.input-group-slim input, 
+.input-group-slim select {
   background: transparent;
   border: none;
   color: #fff;
   font-family: var(--fonte-principal);
-  font-size: 1rem;
+  font-size: 0.9rem;
   width: 100%;
+  height: 100%;
   outline: none;
   cursor: pointer;
 }
 
-.input-group select {
+.input-group-slim input::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.input-group-slim select {
   appearance: none;
   -webkit-appearance: none;
-  -moz-appearance: none;
+  padding-right: 18px;
 }
 
-
-.input-group select option {
-  background-color: var(--cor-principal); 
+.input-group-slim select option {
+  background-color: #1a1a1a;
   color: #fff;
 }
 
-.input-group input::placeholder {
-  color: #fff;
-}
-
-.arrow {
-  color: var(--cor-principal);
-  font-size: 0.8rem;
-  margin-left: 10px;
+.arrow-slim {
+  position: absolute;
+  right: 12px;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.7rem;
   pointer-events: none; 
 }
 
+/* Ocultação elegante do seletor duplo nativo do navegador */
 input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(1);
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  width: auto; height: auto;
+  color: transparent; background: transparent;
   cursor: pointer;
-  opacity: 0.6;
 }
 
-/* Responsividade */
-@media (max-width: 900px) {
-  .busca-container {
-    flex-wrap: wrap; 
-  }
+.divisor-vertical {
+  width: 1px;
+  height: 20px;
+  background-color: rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+
+/* Botão limpar anexado à barra */
+.btn-limpar-barra {
+  background-color: var(--cor-principal);
+  color: var(--cor-secundaria);
+  border: none;
+  height: 48px;
+  padding: 0 22px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  font-family: var(--fonte-principal);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.btn-limpar-barra:hover {
+  filter: brightness(1.2);
+  transform: translateY(-1px);
 }
 
 @media (max-width: 768px) {
-  .busca-container {
-    gap: 10px;
+  .busca-wrapper-geral {
+    flex-direction: column;
+    gap: 8px;
   }
-  
-  .input-group {
-    width: 30%;
+  .busca-container-slim {
+    flex-direction: column;
+    height: auto;
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 0;
+    gap: 8px;
+  }
+  .input-group-slim {
+    width: 100%;
+    height: 46px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+  }
+  .btn-limpar-barra {
+    width: 100%;
+    height: 46px;
+    justify-content: center;
+  }
+  .divisor-vertical {
+    display: none;
   }
 }

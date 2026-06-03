@@ -35,7 +35,7 @@
     height: 70px;
     display: block;
     object-fit: cover;
-        margin-top: 5px;
+    margin-top: 5px;
 }
 
 /* --- NAVEGAÇÃO DESKTOP --- */
@@ -49,15 +49,34 @@
     cursor: pointer;
     font-family: var(--fonte-secundaria);
     transition: all 0.2s ease;
+    text-decoration: none; /* Garante que não haja sublinhado padrão de link */
+    position: relative;
+    padding-bottom: 4px;
 }
 
-.btn_nav_bar:hover, 
+.btn_nav_bar:hover {
+    color: var(--cor-secundaria);
+    font-size: 20px;
+}
+
+/* CORREÇÃO CIRÚRGICA: O traço verde agora só aparece no link que o Angular marcar como ativo */
 .btn_nav_bar.ativo {
     color: var(--cor-secundaria);
     font-size: 20px;
 }
 
-/* --- BARRA DE BUSCA --- */
+.btn_nav_bar.ativo::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--cor-secundaria);
+    border-radius: 2px;
+}
+
+/* --- BARRA DE BUSCA (ESTADO PADRÃO) --- */
 .btn-search {
     cursor: text;
     display: flex;
@@ -69,26 +88,46 @@
     transition: all 0.3s ease;
 }
 
+.search-trigger {
+    background: transparent; 
+    border: none;            
+    padding: 0;             
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    outline: none;
+}
+
 .search {
     height: 25px;
     width: 25px;
-    padding-right: 10px;
+    display: block;
 }
 
-#campo_busca {
+#campo-busca {
     border: none;
     outline: none;
     background: transparent;
     color: var(--cor-secundaria);
     font-size: 14px;
     width: 100%;
+    margin-left: 10px;
 }
 
 input::placeholder {
-  color: var(--cor-secundaria);
-  font-size: 15px;
-  opacity: 1; 
-  font-family: var(--fonte-principal);
+    color: var(--cor-secundaria);
+    font-size: 15px;
+    opacity: 1; 
+    font-family: var(--fonte-principal);
+}
+
+.btn-fechar {
+    background: none;
+    border: none;
+    color: var(--cor-secundaria);
+    font-size: 20px;
+    padding-left: 10px;
+    cursor: pointer;
 }
 
 /* --- PERFIL --- */
@@ -101,7 +140,7 @@ input::placeholder {
 
 /* --- BOTÃO MENU MOBILE --- */
 .menu-mobile-btn {
-    display: none; /* Escondido por padrão no Desktop */
+    display: none; 
     flex-direction: column;
     gap: 5px;
     background: none;
@@ -120,7 +159,7 @@ input::placeholder {
 .menu-overlay {
     position: fixed;
     top: 0;
-    right: -100%; /* Fora da tela */
+    right: -100%; 
     width: 280px;
     height: 100vh;
     background-color: var(--cor-principal);
@@ -130,13 +169,14 @@ input::placeholder {
     flex-direction: column;
     padding: 40px 25px;
     box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+    box-sizing: border-box;
 }
 
 .menu-overlay.aberto {
-    right: 0; /* Entra na tela */
+    right: 0; 
 }
 
-.btn_fechar {
+.btn_fechar_menu {
     align-self: flex-end;
     background: none;
     border: none;
@@ -159,6 +199,15 @@ input::placeholder {
     font-size: 22px;
     font-weight: 700;
     font-family: var(--fonte-secundaria);
+    padding: 5px 0;
+    border-left: 4px solid transparent;
+    transition: all 0.2s ease;
+}
+
+/* Estilo para marcar a página ativa dentro do menu mobile */
+.mobile-nav a.ativo {
+    padding-left: 10px;
+    border-left-color: var(--cor-secundaria);
 }
 
 .divisor-menu {
@@ -167,8 +216,9 @@ input::placeholder {
     width: 100%;
 }
 
+/* --- BARRA DE BUSCA ATIVA (EXPANDIDA) --- */
 .app-header.busca-ativa {
-    justify-content: center; /* Centraliza a barra de busca */
+    justify-content: center; 
 }
 
 .header-section.right.expandida {
@@ -177,53 +227,30 @@ input::placeholder {
     justify-content: center;
     padding: 0 10px;
 }
+
 .btn-search.active {
     width: 100%;
     background: rgba(255, 255, 255, 0.1);
-    border: 1px solid var(--cor-secundaria); /* Cor verde do seu logo */
+    border: 1px solid var(--cor-secundaria); 
     border-radius: 25px;
     display: flex;
     align-items: center;
     padding: 5px 15px;
 }
-.search-trigger{
-    background: transparent; /* Remove o fundo branco/cinza */
-    border: none;            /* Remove bordas padrão */
-    padding: 0;             /* Remove espaços internos que podem causar sombras */
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    outline: none;
-}
-.search {
+
+.btn-search.active .search {
     width: 30px;
     height: 30px;
-    background: transparent; /* Garante que a imagem em si não tenha fundo */
-    display: block;
-}
-#campo-busca {
-    background: transparent;
-    border: none;
-    color: var(--cor-secundaria);
-    width: 100%;
-    margin-left: 10px;
-    outline: none;
-    font-size: 16px; /* Evita zoom automático no iOS */
-}
-.btn-fechar {
-    background: none;
-    border: none;
-    color: var(--cor-secundaria);
-    font-size: 20px;
-    padding-left: 10px;
 }
 
-/* --- RESPONSIVIDADE --- */
+.btn-search.active #campo-busca {
+    font-size: 16px; 
+}
 
-/* Ponto de transição para Tablet/Mobile */
+/* --- RESPONSIVIDADE (TABLET & MOBILE) --- */
 @media (max-width: 1024px) {
     .desktop-only {
-        display: none;
+        display: none !important;
     }
 
     .header-section.center {
@@ -235,14 +262,14 @@ input::placeholder {
     }
 
     .btn-search {
-    border-color: transparent;
-    background: transparent;
-    width: 40px;
-    padding: 0;
+        border-color: transparent;
+        background: transparent;
+        width: 40px;
+        padding: 0;
     }
 
-    #campo-busca.hide-mobile {
-        display: none;
+    #campo-busca {
+        display: none; /* Esconde o input no mobile quando não está em busca ativa */
     }
 
     .logo {
@@ -253,22 +280,7 @@ input::placeholder {
         padding: 0 15px;
     }
 
-    .procurar{
-        width: 35px;
-        height: 35px;
-        color: var(--cor-secundaria);
-    }
-    .app-header.busca-ativa {
-        justify-content: center; /* Centraliza a barra de busca */
-    }
-
-    .header-section.right.expandida {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        padding: 0 10px;
-    }
-
+    /* Ajuste da caixa expandida de busca por cima do layout no mobile */
     .btn-search.active {
         position: absolute;
         left: 15px;
@@ -281,31 +293,28 @@ input::placeholder {
         z-index: 10;
     }
 
-    #campo-busca {
-        background: transparent;
-        border: none;
+    .btn-search.active #campo-busca {
+        display: block; /* Força a aparição do campo de texto na busca ativa */
         color: white;
-        width: 100%;
-        margin-left: 10px;
-        outline: none;
-        font-size: 16px; /* Evita zoom automático no iOS */
     }
-
-
 }
-/* Ajustes finos para celulares pequenos */
+
+/* Ajustes finos para smartphones pequenos */
 @media (max-width: 480px) {
-    .app-header{
+    .app-header {
         padding-left: 0;
     }
+    
     .header-section.right {
         gap: 10px;
     }
     
     .logo {
-        width: 160px;
+        width: 140px; /* Reduzi levemente para caber melhor com a margem zero */
     }
-    .btn_fechar_menu{
+    
+    .btn_fechar_menu {
+        align-self: flex-end;
         width: 50px;
         height: 50px;
         font-weight: 700;
@@ -313,6 +322,6 @@ input::placeholder {
         background: none;
         border: none;
         color: var(--cor-secundaria);
-        margin-left: 80%;
+        margin-right: 0; /* Alinhamento corrigido via flexbox pai */
     }
 }

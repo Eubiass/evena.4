@@ -1,13 +1,14 @@
-#sessao-eventos-perto-ip, #sessao-eventos-perto-gps{
+#sessao-eventos-perto-ip, #sessao-eventos-perto-gps {
     width: 100vw;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-#sessao-eventos-perto-gps{
+#sessao-eventos-perto-gps {
     margin-top: 10px;
 }
+
 .container-eventos {
     width: 95%; 
     max-width: 1650px;
@@ -15,8 +16,8 @@
     box-sizing: border-box;
 }
 
-/**/
-#distancia{
+/* Alterado de #distancia para .distancia para evitar duplicidade de IDs no laço @for */
+.distancia {
     font-size: 15px;
     font-family: var(--fonte-principal);
     font-weight: 500;
@@ -33,18 +34,20 @@
     width: 100%;
     margin-top: 15px;
 }
+
 .titulo-sessao h1 {
     font-size: 30px;
     font-family: var(--fonte-principal);
     font-weight: 700;
     color: var(--cor-principal);
-    display: inline-block; /* Garante que fiquem na mesma linha */
+    display: inline-block;
 }
 
-.titulo-sessao h1 span {
-    color: var(--cor-principal); /* Mesma cor de 'Eventos' */
+.titulo-sessao h1 span.destaque-cidade {
+    color: var(--cor-principal);
 }
-.ver-mais{
+
+.ver-mais {
     font-size: 14px;
     font-family: var(--fonte-secundaria);
     font-weight: 700;
@@ -53,7 +56,8 @@
     cursor: pointer;
     transition: 0.3s;
 }
-.ver-mais:hover{
+
+.ver-mais:hover {
     color: #6b20b1;
     text-decoration: underline;
 }
@@ -64,7 +68,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
 }
+
 .grid-eventos {
     display: flex;
     flex-direction: row; 
@@ -73,6 +79,17 @@
     overflow-x: hidden; 
     scroll-behavior: smooth;
     width: 94.3%;
+    padding: 10px 5px; /* Adicionado padding sutil para não cortar o contorno de foco do teclado */
+}
+
+/* Foco nítido nos carrosséis para navegação por teclado */
+.grid-eventos:focus-visible {
+    outline: 3px solid var(--cor-secundaria, #6de24c);
+    outline-offset: 4px;
+    border-radius: 8px;
+}
+.grid-eventos:focus {
+    outline: none;
 }
 
 .container-card-distancia {
@@ -80,7 +97,7 @@
     flex-direction: column;
 }
 
-/* --- SETAS  --- */
+/* --- SETAS --- */
 .seta-carousel {
     position: absolute;
     z-index: 10;  
@@ -89,7 +106,7 @@
 
     color: var(--cor-principal);
     border: none;
-    background-color: var(--cor-branco);
+    background-color: var(--cor-branco, #fff);
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 
     border-radius: 50%;
@@ -99,17 +116,24 @@
 
     cursor: pointer;
     display: flex;
-    align-items: center; /* align-items → alinha no eixo vertical */
-    justify-content: center; /* justify-content → alinha no eixo horizontal */
-    background: none;
+    align-items: center; 
+    justify-content: center; 
     font-weight: bold;
     transition: all 0.3s ease;
 }
+
 .seta-carousel:hover {
     background-color: var(--cor-principal);
     color: var(--cor-secundaria);
     transform: translateY(-50%) scale(1.1);
 }
+
+/* Foco acessível nas setas */
+.seta-carousel:focus-visible {
+    outline: 3px solid var(--cor-secundaria, #6de24c);
+    outline-offset: 2px;
+}
+
 .seta-carousel.left { 
     left: -10px; 
 }
@@ -117,82 +141,10 @@
     right: -10px; 
 }
 
-
-
-/* --- MEDIA QUERIES --- */
-@media (max-width: 768px) {
-    /* TEXTOS */ 
-    .titulo-sessao{
-        padding-left: 0;
-    }
-    .titulo-sessao h1{
-        font-size: 24px;
-    }
-    .ver-mais{
-        padding-right: 0;
-    }
-
-    /* CONTAINER */
-    .container-eventos{
-        width: 100%;
-    }
-
-    /* AJUSTES */
-    .seta-carousel {
-        display: none ;
-    }
-
-    .grid-eventos {
-        overflow-x: auto;
-        scrollbar-width: none;
-        gap: 5px;
-    }
-
-    .grid-eventos::-webkit-scrollbar {
-        display: none;
-    }
-}
-
-@media (min-width: 769px) and (max-width: 1024px) {
-    /* TEXTOS */ 
-    .titulo-sessao{
-        padding-left: 25px;
-    }
-    .titulo-sessao h1{
-        font-size: 24px;
-    }
-    .ver-mais{
-        padding-right: 55px;
-    }
-
-    /* CONTAINER */
-    .container-eventos{
-        width: 100%;
-    }
-
-    /* AJUSTES */
-    .seta-carousel {
-        display: none ;
-    }
-
-    .grid-eventos {
-        overflow-x: auto;
-        scrollbar-width: none;
-        gap: 15px;
-    }
-
-    .grid-eventos::-webkit-scrollbar {
-        display: none;
-    }
-
-    
-}
-
-
-
-.card-localizacao {
+/* --- CARD DE LOCALIZAÇÃO (Modificado para elemento BUTTON semântico) --- */
+button.card-localizacao {
     flex-shrink: 0;
-    width: 280px; /* Mesma largura do seu card-evento */
+    width: 280px;
 
     background: linear-gradient(135deg, var(--cor-principal) 0%, #2a1b52 100%);
     border-radius: 12px;
@@ -202,15 +154,27 @@
     justify-content: center;
     padding: 30px;
     text-align: center;
-    color: white;
+    color: #ffffff;
     cursor: pointer;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, border-color 0.3s ease;
     border: 4px solid var(--cor-principal);
+    
+    /* Resets essenciais para a tag nativa <button> */
     font-family: var(--fonte-secundaria);
+    font-size: inherit;
+    line-height: normal;
+    appearance: none;
+    -webkit-appearance: none;
 }
 
-.card-localizacao:hover {
+button.card-localizacao:hover {
     border-color: var(--cor-secundaria);
+}
+
+/* Foco nítido quando o usuário alternar pelo card usando a tecla TAB */
+button.card-localizacao:focus-visible {
+    outline: 3px solid var(--cor-secundaria, #6de24c);
+    outline-offset: 6px;
 }
 
 .icon-pulse {
@@ -226,26 +190,39 @@
     animation: pulse-local 2s infinite;
     flex-shrink: 0;
 }
-#icon-localizacao{
+
+.icon-localizacao {
     width: 50px;
 }
-.textos p{
+
+.titulo-card-btn {
+    display: block;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-family: var(--fonte-principal);
+}
+
+.textos p {
     font-family: var(--fonte-principal);
     font-size: 14px;
+    margin: 0;
 }
-.btn-ativar {
+
+/* Estilização do marcador visual que simula o botão interno antigo */
+.btn-ativar-fake {
     margin-top: 15px;
     background-color: var(--cor-secundaria);
     color: var(--cor-principal);
-    border: none;
+    border: 2px solid var(--cor-secundaria);
     padding: 10px 20px;
     border-radius: 25px;
     font-weight: 700;
     font-size: 14px;
-    cursor: pointer;
-    border: 2px solid var(--cor-secundaria);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
-.btn-ativar:hover{
+
+button.card-localizacao:hover .btn-ativar-fake {
     background-color: var(--cor-principal);
     color: var(--cor-secundaria);
 }
@@ -256,10 +233,68 @@
     100% { box-shadow: 0 0 0 0 rgba(109, 226, 76, 0); }
 }
 
-/* Ajuste mobile */
+/* --- MEDIA QUERIES --- */
 @media (max-width: 768px) {
-    .card-localizacao {
+    .titulo-sessao {
+        padding-left: 0;
+    }
+    .titulo-sessao h1 {
+        font-size: 24px;
+    }
+    .ver-mais {
+        padding-right: 0;
+    }
+
+    .container-eventos {
+        width: 100%;
+    }
+
+    .seta-carousel {
+        display: none;
+    }
+
+    .grid-eventos {
+        overflow-x: auto;
+        scrollbar-width: none;
+        gap: 5px;
+    }
+
+    .grid-eventos::-webkit-scrollbar {
+        display: none;
+    }
+
+    button.card-localizacao {
         width: 200px;
         height: 310px;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .titulo-sessao {
+        padding-left: 25px;
+    }
+    .titulo-sessao h1 {
+        font-size: 24px;
+    }
+    .ver-mais {
+        padding-right: 55px;
+    }
+
+    .container-eventos {
+        width: 100%;
+    }
+
+    .seta-carousel {
+        display: none;
+    }
+
+    .grid-eventos {
+        overflow-x: auto;
+        scrollbar-width: none;
+        gap: 15px;
+    }
+
+    .grid-eventos::-webkit-scrollbar {
+        display: none;
     }
 }

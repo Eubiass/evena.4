@@ -1,9 +1,14 @@
+/* ==========================================================================
+   COMPONENTE LOCALIZAÇÃO E MAPA (localizacao-bloco.css)
+   ========================================================================== */
+
 .info-block { 
-  background: #161122; 
+  background: #ccc3ed;
   padding: 35px; 
   border-radius: 24px; 
   margin-bottom: 25px; 
-  border: 1px solid rgba(255, 255, 255, 0.03); 
+  border: none;
+  box-shadow: 0 8px 30px rgba(43, 27, 84, 0.05);
 }
 
 .block-header { 
@@ -11,11 +16,11 @@
   align-items: center; 
   gap: 12px; 
   margin-bottom: 25px; 
-  color: #3bf826; 
+  color: #2b1b54; 
 }
 
 .block-header h2 { 
-  color: #ffffff; 
+  color: #2b1b54; 
   font-size: 1.5rem; 
   margin: 0; 
   font-weight: 700; 
@@ -31,35 +36,42 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(255, 255, 255, 0.015);
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  background: #f7f5ff; 
+  border: none;
   padding: 24px;
   border-radius: 20px;
   gap: 16px;
 }
 
 .endereco-texto h3 {
-  color: #ffffff;
+  color: #2b1b54; 
   font-size: 1.15rem;
   margin: 0 0 6px 0;
   font-weight: 700;
 }
 
 .endereco-texto p {
-  color: #888888;
+  color: #554f6c; 
   font-size: 0.95rem;
   margin: 0;
   line-height: 1.5;
 }
 
-/* Botão Estilizado "Como Chegar" */
+.endereco-cidade {
+  display: block;
+  font-size: 0.85rem;
+  color: #554f6c;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
 .btn-maps {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: rgba(59, 248, 38, 0.04);
-  border: 1px solid rgba(59, 248, 38, 0.2);
-  color: #3bf826;
+  background: #2b1b54; 
+  border: none;
+  color: #ffffff; 
   padding: 12px 20px;
   border-radius: 14px;
   font-weight: 600;
@@ -70,24 +82,14 @@
 }
 
 .btn-maps:hover {
-  background: #3bf826;
-  color: #161122;
-  box-shadow: 0 0 15px rgba(59, 248, 38, 0.4);
+  background: #1b103a; 
+  box-shadow: 0 4px 12px rgba(43, 27, 84, 0.2);
   transform: translateY(-1px);
 }
 
 .mapa-wrapper {
   width: 100%;
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  border: 4px solid #f7f5ff; 
   border-radius: 16px;
   overflow: hidden;
-  background: #110d1a;
-}
-
-.endereco-cidade {
-  display: block;
-  font-size: 0.85rem;
-  color: #666666;
-  margin-top: 4px;
-  font-weight: 500;
 }

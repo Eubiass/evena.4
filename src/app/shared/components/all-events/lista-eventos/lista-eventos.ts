@@ -1,10 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EventoService } from '../../../../services/evento-service';
-import { FiltroEventosService } from '../../../../services/filtros/filtro-eventos-service';
+import { Observable } from 'rxjs';
 import { Evento } from '../../../../model/evento';
-import { combineLatest, map, Observable } from 'rxjs';
-import { CardEvento } from '../../card-evento/card-evento'; // Importando a classe CardEvento
+import { CardEvento } from '../../card-evento/card-evento';
 
 @Component({
   selector: 'app-lista-eventos',
@@ -13,19 +11,11 @@ import { CardEvento } from '../../card-evento/card-evento'; // Importando a clas
   templateUrl: './lista-eventos.html',
   styleUrl: './lista-eventos.css'
 })
-export class ListaEventosComponent implements OnInit {
-  // O componente recebe o fluxo já filtrado do pai (AllEvents)
+export class ListaEventosComponent {
   @Input() eventos$!: Observable<Evento[]>;
-  @Output() resetar = new EventEmitter<void>(); // Novo aviso para o pai
+  @Output() resetar = new EventEmitter<void>();
 
-  // Remova toda a lógica de combineLatest daqui, ela não é necessária neste componente
-  constructor() {}
-
-  ngOnInit(): void {
-    // Não precisa de nada aqui se você usar o [eventos$] no HTML
-  }
-
-  onResetarClique() {
+  onResetarClique(): void {
     this.resetar.emit();
   }
 }

@@ -1,18 +1,19 @@
 @if (artistas?.length) {
-  <section class="info-block">
+  <section class="info-block" aria-labelledby="titulo-atracoes">
     <div class="block-header">
-      <i class="fa-solid fa-microphone-lines"></i>
-      <h2>Atrações Confirmadas</h2>
+      <i class="fa-solid fa-microphone-lines" aria-hidden="true"></i>
+      <h2 id="titulo-atracoes">Atrações Confirmadas</h2>
     </div>
-    <div class="lineup-grid">
+    
+    <ul class="lineup-grid" style="list-style: none; padding: 0; margin: 0;">
       @for (artista of artistas; track artista) {
-        <div class="artista-card">
-          <div class="artista-avatar">
+        <li class="artista-card">
+          <div class="artista-avatar" aria-hidden="true">
             <i class="fa-solid fa-user"></i>
           </div>
           <span>{{ artista }}</span>
-        </div>
+        </li>
       }
-    </div>
+    </ul>
   </section>
 }

@@ -186,13 +186,16 @@ export class EventoService {
   }
 
   limparTexto(texto: string): string {
-    return texto
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .toLowerCase()
-      .replace(/[^a-z0-9\s-]/g, '')
-      .trim()
-      .replace(/\s+/g, '-');
+    if (!texto) return '';
+  
+  return texto
+    .normalize('NFD')                     // 1. Separa os acentos das letras
+    .replace(/[\u0300-\u036f]/g, '')       // 2. Remove os acentos
+    .toLowerCase()                        // 3. Coloca tudo em minúsculas
+    .replace(/[^a-z0-9\s-]/g, '')         // 4. Remove pontuações (preserva letras, números, espaços e hifens)
+    .replace(/\s+/g, '-')                 // 5. Transforma qualquer espaço em hífen
+    .replace(/-+/g, '-')                  // 6. Junta múltiplos hifens (---) transformando em apenas um (-)
+    .trim();
   }
 
   obterEventoPorSlug(slug: string): Evento | undefined {

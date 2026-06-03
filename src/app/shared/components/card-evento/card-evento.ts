@@ -19,7 +19,8 @@ export class CardEvento {
       .replace(/[\u0300-\u036f]/g, '')
       .toLowerCase()
       .replace(/[^a-z0-9\s-]/g, '')
-      .trim()
-      .replace(/\s+/g, '-');
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-') // <-- Adicione isso aqui para garantir um único hífen
+      .trim();
   }
 }

@@ -1,38 +1,47 @@
 /* CONTÊINER GLOBAL */
 .detalhes-wrapper {
-  background-color: #0b0712;
-  color: #ffffff;
+  /* Mantém o degradê institucional de fundo, preparando para receber os blocos escuros */
+  background: linear-gradient(
+    180deg, 
+    var(--cor-principal) 0%, 
+    var(--cor-principal) 20%, 
+    rgba(47, 26, 103, 1) 40%, 
+    rgba(255, 255, 255, 0.9) 75%, 
+    #ffffff 100%
+  );
+  color: #ffffff;            
   min-height: 100vh;
   overflow-x: hidden;
   font-family: var(--fonte-secundaria);
 }
 
-/* MALHA ESTRUTURAL PRINCIPAL */
-.main-grid { 
-  display: grid; 
-  grid-template-columns: 1fr 380px; 
-  gap: 40px; 
-  max-width: 1200px; 
-  margin: 120px auto 0; 
-  padding: 0 20px 80px; 
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 40px auto 0; 
+  margin-top: 110px;
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-
-/* --- ALTERAÇÃO PARA O MOBILE --- */
 @media (max-width: 992px) {
-  .main-grid { 
-    grid-template-columns: 1fr; /* Transforma a malha em uma única coluna */
-    margin-top: 60px;
-    gap: 25px; /* Diminui um pouco o espaçamento no celular */
+  .main-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding: 0 15px 40px;
+    margin-top: 20px;
   }
-
-  /* Garante que o Grid respeite a ordem numérica */
+  
   .content-column {
-    order: 2; /* Joga as informações da esquerda para baixo */
+    order: 2;
   }
-
+  
   .coluna-direita {
-    order: 1; /* Força o card de checkout a aparecer no topo de tudo */
-    margin-bottom: 15px; /* Dá um recuo sutil antes do conteúdo começar */
+    order: 1;
+    margin-bottom: 15px;
   }
 }

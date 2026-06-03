@@ -1,16 +1,26 @@
-<header class="hero-header" [style.backgroundImage]="'url(' + evento?.imagem + ')'">
+<header class="hero-header" [style.backgroundImage]="'url(' + evento?.imagem + ')'" role="banner">
   <div class="hero-overlay">
     <div class="hero-content">
       
-      <img [src]="evento?.imagem" class="hero-capa" alt="Capa do Evento">
+      <img 
+        [src]="evento?.imagem" 
+        class="hero-capa" 
+        [attr.alt]="evento?.titulo ? 'Imagem de capa do evento: ' + evento.titulo : 'Imagem de capa do evento'">
       
       <div class="hero-text">
         @if (evento?.categoria?.length) {
-          <span class="tag-categoria">{{ evento?.categoria?.[0] }}</span>
+          <span class="tag-categoria" [attr.aria-label]="'Categoria: ' + evento.categoria[0]">
+            {{ evento.categoria[0] }}
+          </span>
         }
+        
         <h1>{{ evento?.titulo }}</h1>
+        
         <p class="hero-loc">
-          <i class="fa-solid fa-location-dot"></i> {{ evento?.cidade }}, {{ evento?.uf }}
+          <i class="fa-solid fa-location-dot" aria-hidden="true"></i> 
+          <span [attr.aria-label]="'Localização: ' + evento?.cidade + ', ' + evento?.uf">
+            {{ evento?.cidade }}, {{ evento?.uf }}
+          </span>
         </p>
       </div>
 

@@ -1,20 +1,30 @@
-<div class="ingresse-carousel-container">
+<div class="ingresse-carousel-container" 
+     role="region" 
+     aria-label="Filtros de categorias de eventos">
   
   <div class="nav-overlay left" [class.visible]="podeScrollEsquerda">
-    <button type="button" class="btn-nav" (click)="mover(-1)" aria-label="Ver anteriores">
-      <i class="fa-solid fa-chevron-left"></i>
+    <button type="button" 
+            class="btn-nav" 
+            (click)="mover(-1)" 
+            [attr.tabindex]="podeScrollEsquerda ? 0 : -1"
+            aria-label="Rolar filtros para a esquerda">
+      <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
     </button>
   </div>
 
   <nav class="scroll-wrapper" #scrollContainer (scroll)="verificarScroll()">
-    <ul class="chips-list">
+    <ul class="chips-list" role="tablist" aria-label="Categorias disponíveis">
       @for (cat of categorias; track cat) {
-        <li>
+        <li role="presentation">
           <button 
             type="button" 
             class="chip-item"
+            role="tab"
             [class.active]="categoriaAtiva === cat"
-            (click)="selecionar(cat)">
+            [attr.aria-selected]="categoriaAtiva === cat"
+            (click)="selecionar(cat)"
+            (keydown.arrowleft)="moverFocoTeclado($event, -1)"
+            (keydown.arrowright)="moverFocoTeclado($event, 1)">
             {{ cat }}
           </button>
         </li>
@@ -23,8 +33,12 @@
   </nav>
 
   <div class="nav-overlay right" [class.visible]="podeScrollDireita">
-    <button type="button" class="btn-nav" (click)="mover(1)" aria-label="Ver próximos">
-      <i class="fa-solid fa-chevron-right"></i>
+    <button type="button" 
+            class="btn-nav" 
+            (click)="mover(1)" 
+            [attr.tabindex]="podeScrollDireita ? 0 : -1"
+            aria-label="Rolar filtros para a direita">
+      <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
     </button>
   </div>
 </div>

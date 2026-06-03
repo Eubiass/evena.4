@@ -1,7 +1,10 @@
-<section class="info-block">
+<section class="info-block" aria-labelledby="titulo-sobre">
   <div class="block-header">
-    <i class="fa-solid fa-align-left"></i>
-    <h2>Sobre o evento</h2>
+    <i class="fa-solid fa-align-left" aria-hidden="true"></i>
+    <h2 id="titulo-sobre">Sobre o evento</h2>
   </div>
-  <p class="description-text">{{ descricao }}</p>
+  
+  <div class="description-text" aria-live="polite">
+    <p style="margin: 0; white-space: pre-line;">{{ descricao }}</p>
+  </div>
 </section>

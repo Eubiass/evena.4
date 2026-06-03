@@ -1,23 +1,51 @@
-<form class="busca-container" role="search">
-  <div class="input-group">
-    <i class="fa-solid fa-location-dot icon"></i>
-    <input type="text" [(ngModel)]="cidade" name="cidade" (input)="aoMudarCidade()" placeholder="Cidade">
-  </div>
+<div class="busca-wrapper-geral">
+  <form class="busca-container-slim" role="search" aria-label="Filtros rápidos de eventos">
+    
+    <div class="input-group-slim">
+      <i class="fa-solid fa-location-dot icon-slim" aria-hidden="true"></i>
+      <input type="text" 
+             [(ngModel)]="cidade" 
+             name="cidade" 
+             (input)="aoMudarCidade()" 
+             placeholder="Buscar cidade..."
+             aria-label="Buscar por nome da cidade">
+    </div>
 
-  <div class="input-group">
-    <i class="fa-solid fa-tag icon"></i>
-    <select [(ngModel)]="precoSelecionado" name="preco" (change)="aoMudarPreco()">
-      <option value="todos">Qualquer preço</option>
-      <option value="gratis">Gratuito</option>
-      <option value="ate50">Até R$ 50</option>
-      <option value="50-150">R$ 50 a R$ 150</option>
-      <option value="mais150">Acima de R$ 150</option>
-    </select>
-    <i class="fa-solid fa-chevron-down arrow"></i>
-  </div>
+    <span class="divisor-vertical" aria-hidden="true"></span>
 
-  <div class="input-group">
-    <i class="fa-solid fa-calendar-days icon"></i>
-    <input type="date" [(ngModel)]="data" name="data" (change)="aoMudarData()">
-  </div>
-</form>
+    <div class="input-group-slim">
+      <i class="fa-solid fa-tag icon-slim" aria-hidden="true"></i>
+      <select [(ngModel)]="precoSelecionado" 
+              name="preco" 
+              (change)="aoMudarPreco()"
+              aria-label="Selecionar faixa de preço">
+        <option value="todos">Qualquer preço</option>
+        <option value="gratis">Gratuito</option>
+        <option value="ate50">Até R$ 50</option>
+        <option value="50-150">R$ 50 a R$ 150</option>
+        <option value="mais150">Acima de R$ 150</option>
+      </select>
+      <i class="fa-solid fa-chevron-down arrow-slim" aria-hidden="true"></i>
+    </div>
+
+    <span class="divisor-vertical" aria-hidden="true"></span>
+
+    <div class="input-group-slim">
+      <i class="fa-solid fa-calendar-days icon-slim" aria-hidden="true"></i>
+      <input type="date" 
+             [(ngModel)]="data" 
+             name="data" 
+             (change)="aoMudarData()"
+             aria-label="Selecionar data do evento">
+    </div>
+
+  </form>
+
+  <button *ngIf="isFiltrado" 
+          class="btn-limpar-barra" 
+          (click)="limparFiltrosLocal()"
+          aria-label="Limpar todos os filtros da busca">
+    <i class="fa-solid fa-arrow-rotate-left" aria-hidden="true"></i>
+    <span>Limpar</span>
+  </button>
+</div>

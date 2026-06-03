@@ -1,22 +1,32 @@
 <section class="lista-eventos-container">
   @if (eventos$ | async; as eventos) {
-    <div class="grid-eventos">
-      @for (item of eventos; track item.id) {
-        <app-card-evento [dadosEvento]="item"></app-card-evento>
-      } @empty {
-        <div class="empty-state-container">
-          <h2 class="ops-titulo">Ops! Nenhum evento encontrado.</h2>
-          <p class="ops-subtitulo">
-            Não encontramos eventos nesta busca no momento.
-          </p>
-          <button class="btn-ver-todos" (click)="onResetarClique()">
-            Ver todos os eventos
-          </button>
+    
+    @if (eventos.length > 0) {
+      <div class="grid-eventos" role="region" aria-label="Resultados da busca de eventos">
+        @for (item of eventos; track item.id) {
+          <app-card-evento [dadosEvento]="item" class="card-item-fluid"></app-card-evento>
+        }
+      </div>
+    } 
+    
+    @else {
+      <div class="empty-state-hero" role="alert">
+        <div class="empty-icon-wrapper">
+          <i class="fa-solid fa-calendar-xmark" aria-hidden="true"></i>
         </div>
-      }
-    </div>
+        <h2 class="ops-titulo">Ops! Nenhum evento encontrado.</h2>
+        <p class="ops-subtitulo">
+          Não encontramos eventos cadastrados para os critérios selecionados no momento. Tente alterar a cidade ou limpar os filtros de busca.
+        </p>
+        <button class="btn-ver-todos" (click)="onResetarClique()">
+          Ver todos os eventos
+        </button>
+      </div>
+    }
+
   } @else {
-    <div class="loading-container">
+    <div class="loading-container" aria-live="polite">
+      <div class="spinner-loader" aria-hidden="true"></div>
       <p>Buscando eventos...</p>
     </div>
   }

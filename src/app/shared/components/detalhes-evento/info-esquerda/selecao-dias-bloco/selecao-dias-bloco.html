@@ -1,13 +1,18 @@
 @if (dias && dias.length > 0) {
-  <div class="selecao-dias-container">
+  <div class="selecao-dias-container" role="tablist" aria-label="Dias do evento">
     @for (dia of dias; track dia; let i = $index) {
       <button 
         type="button"
         class="botao-dia" 
         [class.ativo]="diaAtivoIndex === i"
+        [attr.aria-selected]="diaAtivoIndex === i ? 'true' : 'false'"
+        [attr.aria-label]="'Selecionar ' + dia.nomeSemana + ' dia ' + dia.numeroDia"
+        role="tab"
         (click)="selecionarDia(i)">
-        <span class="semana">{{ dia.nomeSemana }}</span>
-        <span class="numero">{{ dia.numeroDia }}</span>
+        
+        <span class="semana" aria-hidden="true">{{ dia.nomeSemana }}</span>
+        <span class="numero" aria-hidden="true">{{ dia.numeroDia }}</span>
+        
       </button>
     }
   </div>

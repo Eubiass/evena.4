@@ -1,33 +1,40 @@
-<section class="info-block">
+<section class="info-block" aria-labelledby="titulo-infos-gerais">
   <div class="block-header">
-    <i class="fa-solid fa-circle-info"></i>
-    <h2>Informações Gerais</h2>
+    <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+    <h2 id="titulo-infos-gerais">Informações Gerais</h2>
   </div>
-  <div class="info-gerais-grid">
+  
+  <ul class="info-gerais-grid" style="list-style: none; padding: 0; margin: 0;">
     
-    <div class="info-geral-card">
-      <i class="fa-solid fa-globe"></i>
+    <li class="info-geral-card">
+      <i class="fa-solid fa-globe" aria-hidden="true"></i>
       <div class="info-geral-textos">
         <span class="info-geral-label">Formato</span>
-        <span class="info-geral-valor">{{ evento?.online ? 'Online' : 'Presencial' }}</span>
+        <span class="info-geral-valor" aria-live="polite">
+          {{ evento?.online ? 'Online' : 'Presencial' }}
+        </span>
       </div>
-    </div>
+    </li>
 
-    <div class="info-geral-card">
-      <i class="fa-solid fa-user-shield"></i>
+    <li class="info-geral-card">
+      <i class="fa-solid fa-user-shield" aria-hidden="true"></i>
       <div class="info-geral-textos">
         <span class="info-geral-label">Classificação</span>
-        <span class="info-geral-valor">{{ evento?.classificacao || 'Livre' }}</span>
+        <span class="info-geral-valor" aria-live="polite">
+          {{ evento?.classificacao || 'Livre' }}
+        </span>
       </div>
-    </div>
+    </li>
 
-    <div class="info-geral-card">
-      <i class="fa-solid fa-clock"></i>
+    <li class="info-geral-card">
+      <i class="fa-solid fa-clock" aria-hidden="true"></i>
       <div class="info-geral-textos">
         <span class="info-geral-label">Abertura Portões</span>
-        <span class="info-geral-valor">{{ evento?.horario || 'A consultar' }}</span>
+        <span class="info-geral-valor" aria-live="polite">
+          {{ evento?.horario || 'A consultar' }}
+        </span>
       </div>
-    </div>
+    </li>
 
-  </div>
+  </ul>
 </section>

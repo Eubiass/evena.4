@@ -1,72 +1,88 @@
-<div class="checkout-card-neon">
-  <div class="price-box">
+<div class="checkout-card-neon" role="region" aria-label="Área de ingressos e ações do evento">
+  
+  <div class="price-box" aria-live="polite">
     <span class="brief-label">Ingressos a partir de</span>
     @if (evento?.preco && evento?.preco > 0) {
-      <h3>R$ {{ evento.preco.toFixed(2).replace('.', ',') }}</h3>
+      <h3><span class="sr-only">Preço: </span>R$ {{ evento.preco.toFixed(2).replace('.', ',') }}</h3>
     } @else {
       <h3 class="free">Gratuito</h3>
     }
   </div>
 
-  <div class="org-card-container" (click)="irParaPerfilOrganizador()">
-    <div class="org-avatar-wrapper">
-      @if (evento?.organizador?.foto) {
-        <img [src]="evento.organizador.foto" [alt]="evento.organizador.nome" class="org-photo" />
-      } @else {
-        <div class="org-avatar-fallback">
-          {{ evento?.organizador?.nome ? evento.organizador.nome.charAt(0) : 'E' }}
-        </div>
-      }
-      @if (evento?.organizador?.verificado) {
-        <div class="org-badge-verified" title="Verificado pelo Evena">
-          <i class="fa-solid fa-check"></i>
-        </div>
-      }
-    </div>
-
-    <div class="org-content-info">
-      <div class="org-title-row">
-        <span class="brief-label">Organizado por</span>
-        <h4 class="org-profile-name">{{ evento?.organizador?.nome || 'Evena Oficial' }}</h4>
+  <div class="org-card-container">
+    
+    <button type="button" class="org-profile-trigger" (click)="irParaPerfilOrganizador()" [attr.aria-label]="'Acessar perfil do organizador ' + (evento?.organizador?.nome || 'Evena Oficial')">
+      <div class="org-avatar-wrapper">
+        @if (evento?.organizador?.foto) {
+          <img [src]="evento.organizador.foto" alt="Foto de perfil do organizador" class="org-photo" />
+        } @else {
+          <div class="org-avatar-fallback" aria-hidden="true">
+            {{ evento?.organizador?.nome ? evento.organizador.nome.charAt(0) : 'E' }}
+          </div>
+        }
+        @if (evento?.organizador?.verificado) {
+          <div class="org-badge-verified">
+            <i class="fa-solid fa-check" aria-hidden="true"></i>
+            <span class="sr-only">Organizador verificado pelo Evena</span>
+          </div>
+        }
       </div>
-      
-      <div class="org-stats-row">
-        <span class="org-stat-item"><b>{{ evento?.organizador?.seguidores || 0 }}</b> seguidores</span>
-      </div>
-    </div>
 
-    <button class="btn-org-follow" [class.following]="isSeguindo" (click)="alternarSeguir($event)">
-      <i class="fa-solid" [class.fa-plus]="!isSeguindo" [class.fa-user-check]="isSeguindo"></i>
+      <div class="org-content-info">
+        <div class="org-title-row">
+          <span class="brief-label">Organizado por</span>
+          <h4 class="org-profile-name">{{ evento?.organizador?.nome || 'Evena Oficial' }}</h4>
+        </div>
+        
+        <div class="org-stats-row">
+          <span class="org-stat-item"><b>{{ evento?.organizador?.seguidores || 0 }}</b> seguidores</span>
+        </div>
+      </div>
+    </button>
+
+    <button 
+      type="button"
+      class="btn-org-follow" 
+      [class.following]="isSeguindo" 
+      (click)="alternarSeguir($event)"
+      [attr.aria-pressed]="isSeguindo ? 'true' : 'false'"
+      [attr.aria-label]="isSeguindo ? 'Parar de seguir organizador' : 'Seguir organizador'">
+      <i class="fa-solid" [class.fa-plus]="!isSeguindo" [class.fa-user-check]="isSeguindo" aria-hidden="true"></i>
     </button>
   </div>
 
-  <div class="brief-info">
-    <div class="brief-row">
-      <i class="fa-solid fa-calendar-check"></i>
+  <ul class="brief-info" style="list-style: none; padding: 0; margin: 0;">
+    <li class="brief-row">
+      <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
       <div>
         <span class="brief-label">Data do Evento</span>
         <p class="brief-value">{{ evento?.dataExibicao }}</p>
       </div>
-    </div>
+    </li>
 
-    <div class="brief-row">
-      <i class="fa-regular fa-clock"></i>
+    <li class="brief-row">
+      <i class="fa-regular fa-clock" aria-hidden="true"></i>
       <div>
         <span class="brief-label">Horário de Início</span>
         <p class="brief-value">{{ evento?.horario }}</p>
       </div>
-    </div>
-  </div>
+    </li>
+  </ul>
 
   <div class="action-container">
     
-    <button class="btn-poly btn-main" (click)="redirecionarParceiro()">
+    <button type="button" class="btn-poly btn-main" (click)="redirecionarParceiro()" aria-label="Garantir Ingressos (abre em uma nova aba do parceiro)">
       <span>Garantir Ingressos</span>
-      <i class="fa-solid fa-arrow-up-right-from-square"></i>
+      <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
     </button>
 
-    <button class="btn-poly btn-fav" [class.active]="isSalvo" (click)="alternarSalvar()">
-      <div class="heart-wrapper">
+    <button 
+      type="button"
+      class="btn-poly btn-fav" 
+      [class.active]="isSalvo" 
+      (click)="alternarSalvar()"
+      [attr.aria-pressed]="isSalvo ? 'true' : 'false'">
+      <div class="heart-wrapper" aria-hidden="true">
         <i class="fa-heart" [class.fa-solid]="isSalvo" [class.fa-regular]="!isSalvo"></i>
         <span class="particle p1"></span>
         <span class="particle p2"></span>
@@ -77,20 +93,20 @@
     </button>
 
     <div class="secondary-actions-row">
-      <button class="btn-poly btn-dark btn-agenda" (click)="adicionarAoCalendario()">
-        <i class="fa-solid fa-calendar-plus"></i>
+      <button type="button" class="btn-poly btn-dark btn-agenda" (click)="adicionarAoCalendario()" aria-label="Adicionar evento ao calendário ou agenda">
+        <i class="fa-solid fa-calendar-plus" aria-hidden="true"></i>
         <span>Agenda</span>
       </button>
 
-      <button class="btn-poly btn-dark btn-share" title="Compartilhar" (click)="compartilharEvento()">
-        <i class="fa-solid fa-share-nodes"></i>
+      <button type="button" class="btn-poly btn-dark btn-share" (click)="compartilharEvento()" aria-label="Compartilhar este evento">
+        <i class="fa-solid fa-share-nodes" aria-hidden="true"></i>
       </button>
     </div>
   </div>
 
   <div class="card-footer-report">
-    <button class="btn-report">
-      <i class="fa-regular fa-flag"></i>
+    <button type="button" class="btn-report">
+      <i class="fa-regular fa-flag" aria-hidden="true"></i>
       <span>Reportar este evento</span>
     </button>
   </div>
