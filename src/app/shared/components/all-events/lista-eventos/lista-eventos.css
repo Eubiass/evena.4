@@ -6,7 +6,7 @@
 .grid-eventos {
   display: grid;
   gap: 24px;
-  grid-template-columns: repeat(1, 1fr); 
+  grid-template-columns: repeat(2, 1fr); 
   max-width: 1600px;
   width: 100%;
 }
@@ -127,29 +127,22 @@
   }
 }
 
-/* ==========================================================================
-   MEDIA QUERIES RESPONSIVAS
-   ========================================================================== */
-@media (min-width: 550px) {
-  .grid-eventos { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (min-width: 950px) {
-  .grid-eventos { grid-template-columns: repeat(3, 1fr); }
-}
-
-@media (min-width: 1400px) {
-  .grid-eventos { grid-template-columns: repeat(4, 1fr); }
-}
-
-@media (max-width: 600px) {
-  .ops-titulo {
-    font-size: 1.75rem;
+@media (min-width: 768px) and (max-width: 1024px) {
+  .grid-eventos {
+    grid-template-columns: repeat(2, 1fr);
   }
-  .ops-subtitulo {
-    font-size: 0.95rem;
+}
+
+
+@media (min-width: 1025px) and (max-width: 1450px) {
+  .grid-eventos {
+    grid-template-columns: repeat(3, 1fr);
   }
-  .btn-ver-todos {
-    width: 100%;
+}
+
+
+@media (min-width: 1450px) {
+  .grid-eventos {
+    grid-template-columns: repeat(4, 1fr);
   }
 }

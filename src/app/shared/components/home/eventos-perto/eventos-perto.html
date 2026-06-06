@@ -1,7 +1,7 @@
 <section id="sessao-eventos-perto-ip" [attr.aria-labelledby]="cidadeDetectada ? 'titulo-regiao-detectada' : 'titulo-regiao-padrao'">
     <div class="container-eventos">
         <div class="titulo-sessao">
-            @if (cidadeDetectada) {
+            @if (cidadeDetectada && cidadeDetectada !== 'sua região') {
                 <h1 id="titulo-regiao-detectada">Eventos em <span class="destaque-cidade">{{ cidadeDetectada }}</span></h1>
             } @else {
                 <h1 id="titulo-regiao-padrao">Eventos em sua região</h1>
@@ -12,21 +12,29 @@
         <div class="carousel-container" role="region" aria-label="Carrossel de eventos regionais">
             <button type="button" 
                     class="seta-carousel left" 
-                    (click)="scrollEsquerda()" 
+                    (click)="scrollEsquerda('ip')" 
                     aria-label="Rolar carrossel de eventos para a esquerda">❮</button>
             
-            <div class="grid-eventos" #carousel tabindex="0" role="group" aria-label="Lista de eventos">
+            <div class="grid-eventos" #carouselIp tabindex="0" role="group" aria-label="Lista de eventos">
                 
                 @if (!localizacaoAtiva) {
-                    <button type="button" class="card-localizacao" (click)="solicitarLocalizacao()" aria-describedby="desc-localizacao">
-                        <div class="icon-pulse" aria-hidden="true">
+                    <button type="button" 
+                            class="card-localizacao" 
+                            (click)="solicitarLocalizacao()" 
+                            [disabled]="carregandoGps"
+                            aria-describedby="desc-localizacao">
+                        <div class="icon-pulse" [class.carregando]="carregandoGps" aria-hidden="true">
                             <img src="icons/location.png" class="icon-localizacao" alt="">
                         </div>
                         <div class="textos">
                             <span class="titulo-card-btn">Onde você está?</span>
-                            <p id="desc-localizacao">Ative a localização para encontrarmos os melhores eventos ao seu redor.</p>
+                            <p id="desc-localizacao">
+                                @if (carregandoGps) { Aguardando autorização do navegador... } @else { Ative a localização para encontrarmos os melhores eventos ao seu redor. }
+                            </p>
                         </div>
-                        <span class="btn-ativar-fake" aria-hidden="true">Ativar Localização</span>
+                        <span class="btn-ativar-fake" aria-hidden="true">
+                            @if (carregandoGps) { Validando... } @else { Ativar Localização }
+                        </span>
                     </button>
                 }
 
@@ -37,7 +45,7 @@
             
             <button type="button" 
                     class="seta-carousel right" 
-                    (click)="scrollDireita()" 
+                    (click)="scrollDireita('ip')" 
                     aria-label="Rolar carrossel de eventos para a direita">❯</button>
         </div>
     </div>
@@ -47,10 +55,15 @@
     <section id="sessao-eventos-perto-gps" aria-labelledby="titulo-gps">
         <div class="container-eventos">
             <div class="titulo-sessao">
-                <h1 id="titulo-gps">Eventos perto de você</h1>
+                <h1 id="titulo-gps">A até 15 km de você</h1>
             </div>
             <div class="carousel-container" role="region" aria-label="Carrossel de eventos próximos por GPS">
-                <div class="grid-eventos" tabindex="0" role="group" aria-label="Lista de eventos ordenados por distância">
+                <button type="button" 
+                        class="seta-carousel left" 
+                        (click)="scrollEsquerda('gps')" 
+                        aria-label="Rolar carrossel para a esquerda">❮</button>
+
+                <div class="grid-eventos" #carouselGps tabindex="0" role="group" aria-label="Lista de eventos ordenados por distância">
                     @for (item of eventosProximosGps; track item.id) {
                         <div class="container-card-distancia">
                             <app-card-evento [dadosEvento]="item"></app-card-evento>
@@ -58,6 +71,11 @@
                         </div>
                     }
                 </div>
+
+                <button type="button" 
+                        class="seta-carousel right" 
+                        (click)="scrollDireita('gps')" 
+                        aria-label="Rolar carrossel para a direita">❯</button>
             </div>
         </div>
     </section>
