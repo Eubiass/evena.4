@@ -249,6 +249,10 @@
   color: #ff4757;
 }
 
+.org-profile-trigger .brief-label, .org-profile-name, .org-stats-row  {
+    padding: 0 20px;
+  }
+
 /* Garante que o botão do perfil se comporte de forma idêntica à div antiga */
 .org-profile-trigger {
   display: flex;
@@ -285,9 +289,5 @@
   }
   .brief-label {
     font-size: 1rem;
-  }
-
-  .org-profile-trigger .brief-label, .org-profile-name, .org-stats-row  {
-    padding: 0 20px;
   }
 }
