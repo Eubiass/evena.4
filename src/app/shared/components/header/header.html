@@ -1,5 +1,6 @@
 <header class="app-header" [class.busca-ativa]="pesquisaAtiva" role="banner">
   
+  <!-- SEÇÃO ESQUERDA: Logo -->
   <div class="header-section left">
     @if (!pesquisaAtiva) {
       <a routerLink="/" class="logo-link">
@@ -8,6 +9,7 @@
     }
   </div>
 
+  <!-- SEÇÃO CENTRAL: Menu Desktop -->
   <nav class="header-section center desktop-only" aria-label="Navegação principal">
     @if (!pesquisaAtiva) {
       <a class="btn_nav_bar" 
@@ -24,8 +26,10 @@
     }
   </nav>
 
+  <!-- SEÇÃO DIREITA: Busca, Perfil/Entrar e Menu Mobile -->
   <section class="header-section right" [class.expandida]="pesquisaAtiva">
     
+    <!-- Componente de Busca -->
     <div class="btn-search" [class.active]="pesquisaAtiva">
       <button 
         type="button" 
@@ -43,28 +47,43 @@
         aria-label="Pesquisar eventos"
         [(ngModel)]="termoPesquisa"
         (keyup.enter)="fazerPesquisa()"
-        autocomplete="off" >
+        autocomplete="off">
 
       @if (pesquisaAtiva) {
         <button (click)="togglePesquisa()" class="btn-fechar" type="button" aria-label="Fechar busca">×</button>
       }
     </div>
 
+    <!-- Botões Desktop e Acionador Mobile -->
     @if (!pesquisaAtiva) {
-      <a routerLink="/perfil" class="perfil-link desktop-only" aria-label="Acessar meu perfil">
-        <img src="perfil.png" class="perfil" alt="" aria-hidden="true">
-      </a>
       
+      <!-- LÓGICA DE AUTENTICAÇÃO (DESKTOP) -->
+      @if (!usuarioAutenticado) {
+        <!-- Exibido apenas se NÃO estiver logado -->
+        <a routerLink="/login" class="desktop-only" aria-label="Entrar ou cadastrar">
+          <button class="btn-login">Entrar</button>
+        </a>
+      } @else {
+        <!-- Exibido apenas se ESTIVER logado -->
+        <a routerLink="/perfil" class="desktop-only" aria-label="Acessar meu perfil">
+          <img src="perfil-placeholder.png" class="perfil" alt="Foto de perfil">
+        </a>
+      }
+
+      <!-- Botão Hambúrguer Mobile -->
       <button 
         class="menu-mobile-btn" 
         (click)="toggleMenu()" 
         [attr.aria-expanded]="menuAberto ? 'true' : 'false'"
         aria-label="Menu principal">
-        <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
       </button>
     }
   </section>
 
+  <!-- MENU OVERLAY (GAVETA MOBILE) -->
   <aside class="menu-overlay" [class.aberto]="menuAberto" [attr.aria-hidden]="!menuAberto ? 'true' : 'false'" role="dialog" aria-label="Menu móvel">
     <button type="button" class="btn_fechar_menu" (click)="toggleMenu()" aria-label="Fechar menu principal">×</button>
     
@@ -80,12 +99,25 @@
          (click)="toggleMenu()">
          Eventos
       </a>
+      
       <hr class="divisor-menu" role="presentation">
-      <a routerLink="/perfil" 
-         routerLinkActive="ativo" 
-         (click)="toggleMenu()">
-         Meu Perfil
-      </a>
+
+      <!-- LÓGICA DE AUTENTICAÇÃO (MOBILE) -->
+      @if (!usuarioAutenticado) {
+        <!-- Exibido se NÃO estiver logado -->
+        <a routerLink="/login" 
+           routerLinkActive="ativo" 
+           (click)="toggleMenu()">
+           Entrar / Cadastrar
+        </a>
+      } @else {
+        <!-- Exibido se ESTIVER logado -->
+        <a routerLink="/perfil" 
+           routerLinkActive="ativo" 
+           (click)="toggleMenu()">
+           Meu Perfil
+        </a>
+      }
     </nav>
   </aside>
 

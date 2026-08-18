@@ -26,7 +26,9 @@
 
 .header-section.right {
     justify-content: flex-end;
-    gap: 15px;
+    align-items: center;
+    gap: 8px; /* Diminuído de 15px para 8px para aproximar os elementos */
+    flex: 0 0 auto;
 }
 
 /* --- LOGO --- */
@@ -136,6 +138,26 @@ input::placeholder {
     height: 40px;
     border-radius: 50%;
     object-fit: cover;
+    cursor: pointer;
+    border: 2px solid var(--cor-secundaria);
+}
+
+.btn-login{
+    width: 90px;
+    height: 40px;
+    border: 1px var(--cor-secundaria) solid;
+    background: var(--cor-secundaria);
+    border-radius: 10px;
+    font-family: var(--fonte-principal);
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--cor-principal);
+    cursor: pointer;
+}
+.btn-login:hover{
+    background: none;
+    transform: translateY(-2px);
+    color: var(--cor-secundaria);
 }
 
 /* --- BOTÃO MENU MOBILE --- */
@@ -297,6 +319,15 @@ input::placeholder {
         display: block; /* Força a aparição do campo de texto na busca ativa */
         color: white;
     }
+
+    .header-section.right {
+        gap: 8px; /* Mantém a distância curta entre a lupa e o menu hambúrguer no tablet/mobile */
+    }
+
+    /* Remove qualquer margem interna ou externa do container de busca no mobile */
+    .btn-search {
+        margin: 0;
+    }
 }
 
 /* Ajustes finos para smartphones pequenos */
@@ -310,7 +341,7 @@ input::placeholder {
     }
     
     .logo {
-        width: 140px; /* Reduzi levemente para caber melhor com a margem zero */
+        width: 140px; 
     }
     
     .btn_fechar_menu {
@@ -322,6 +353,10 @@ input::placeholder {
         background: none;
         border: none;
         color: var(--cor-secundaria);
-        margin-right: 0; /* Alinhamento corrigido via flexbox pai */
+        margin-right: 0; 
+    }
+
+    .header-section.right {
+        gap: 6px;
     }
 }

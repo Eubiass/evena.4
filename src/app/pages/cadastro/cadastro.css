@@ -1,0 +1,314 @@
+/* Layout Base e Centralização */
+.tela-cadastro-background {
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 40px 20px;
+}
+
+/* Container de Cadastro */
+.wrapper-cadastro{
+    display: flex;
+    width: 900px;
+    min-height: 580px;
+    border: 4px solid var(--cor-secundaria);
+    border-radius: 32px;
+    box-shadow: 0 25px 60px rgba(19, 10, 43, 0.3);
+    overflow: hidden;
+    background-color: #ffffff;
+    transition: min-height 0.3s ease;
+    margin-top: 35px;
+}
+
+/* Painel Esquerdo Fixo */
+#container-esq{
+    width: 380px;
+    background: linear-gradient(135deg, var(--cor-principal) 0%, #170d35 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+ /* Painel com a marca e slogan */
+.overlay-brand {
+    text-align: center;
+}
+
+#img-coroa {
+    width: 180px;
+    height: 180px;
+    object-fit: contain;
+    /* filter: drop-shadow(0 10px 20px rgba(109, 226, 76, 0.2)); */
+}
+
+.tagline-evena {
+    color: var(--cor-secundaria);
+    font-family: var(--fonte-principal);
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 24px;
+    opacity: 0.9;
+}
+
+/* Painel Direito Dinâmico */
+#container-principal {
+    flex: 1;
+    padding: 45px 55px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#form-cadastro {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.header-form {
+    margin-bottom: 20px;
+}
+
+.titulo-cadastro {
+    color: var(--cor-principal);
+    font-family: var(--fonte-principal);
+    font-size: 28px;
+    font-weight: 800;
+    margin: 0 0 6px 0;
+}
+
+.subtitulo-cadastro {
+    color: #79748f;
+    font-family: var(--fonte-secundaria);
+    font-size: 14px;
+    margin: 0;
+}
+
+/* Seletor Deslizante de Abas */
+.opcoes {
+    position: relative;
+    width: 100%;
+    height: 46px;
+    border-radius: 14px;
+    margin-bottom: 24px;
+    background-color: #f3effa;
+    display: flex;
+    padding: 3px;
+    box-sizing: border-box;
+}
+
+.sliding-pill {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: calc(50% - 3px);
+    height: calc(100% - 6px);
+    background-color: var(--cor-principal);
+    border-radius: 11px;
+    transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: 1;
+}
+
+.sliding-pill.slide-organizador {
+    transform: translateX(100%);
+}
+
+.btn-opcoes {
+    position: relative;
+    width: 50%;
+    height: 100%;
+    border: none;
+    background: transparent;
+    color: var(--cor-principal);
+    font-family: var(--fonte-principal);
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.btn-opcoes.active {
+    color: #ffffff;
+}
+
+/* Área de Inputs Geral */
+.area-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+}
+
+/* Espaçamento lado a lado para Senhas e Localização */
+.linha-dupla-inputs, 
+.grid-localizacao {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 16px !important; 
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.campo-largo {
+    grid-column: span 2 !important;
+}
+
+.grupo-input {
+    width: 100%;
+}
+
+.grupo-input input, 
+.grupo-input select {
+    width: 100%;
+    height: 48px;
+    background-color: #f8f6fc;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    padding: 0 16px;
+    font-size: 14px;
+    color: var(--cor-principal);
+    font-family: var(--fonte-secundaria);
+    box-sizing: border-box;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.grupo-input input:focus,
+.grupo-input select:focus {
+    background-color: #ffffff;
+    border-color: var(--cor-secundaria);
+    box-shadow: 0 8px 20px rgba(109, 226, 76, 0.2);
+}
+
+/* .grupo-input input[type="date"] {
+    color: #79748f;
+} */
+
+/* Área dos botões inferiores */
+.btn-navegacao {
+    display: flex !important;
+    gap: 16px !important;
+    margin-top: 14px;
+    width: 100%;
+}
+
+/* BOTÃO AVANÇAR / ENTRAR */
+.btn-entrar, .btn-entrar1 {
+    height: 52px;
+    background-color: var(--cor-secundaria) !important;
+    color: var(--cor-principal) !important;
+    border: none;
+    border-radius: 14px;
+    font-family: var(--fonte-principal);
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 6px 16px rgba(109, 226, 76, 0.2);
+}
+
+.btn-entrar1 {
+    width: 100%;
+}
+
+.btn-entrar {
+    flex: 1;
+}
+.btn-entrar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(109, 226, 76, 0.35);
+}
+
+/* BOTÃO VOLTAR */
+.btn-voltar-passo {
+    width: 140px !important;
+    height: 52px !important;
+    background-color: #ffffff !important;
+    border: 2px solid #eae6f3 !important;
+    color: #79748f !important;
+    border-radius: 14px !important;
+    font-family: var(--fonte-principal) !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    transition: all 0.22s ease !important;
+    box-sizing: border-box;
+}
+
+.btn-voltar-passo:hover {
+    background-color: #f8f6fc !important;
+    color: var(--cor-principal) !important;
+    border-color: var(--cor-principal) !important;
+}
+
+.margin-top-ajustado {
+    margin-top: 20px;
+}
+
+/* Links do Login */
+.container-login-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    margin-top: 20px;
+    font-family: var(--fonte-secundaria);
+    font-size: 13px;
+}
+
+.texto-chamada {
+    color: #79748f;
+}
+
+.link-login {
+    color: var(--cor-principal);
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.link-login:hover {
+    text-decoration: underline;
+}
+
+/* Responsividade Adaptativa */
+@media (max-width: 930px) {
+    .wrapper-cadastro {
+        flex-direction: column;
+        width: 100%;
+        max-width: 500px;
+        min-height: auto;
+    }
+    #container-esq {
+        width: 100%;
+        height: 110px;
+        padding: 15px;
+    }
+    #img-coroa {
+        width: 65px;
+        height: 65px;
+    }
+    .tagline-evena {
+        display: none;
+    }
+    #container-principal {
+        padding: 30px 20px;
+    }
+    .linha-dupla-inputs, 
+    .grid-localizacao {
+        grid-template-columns: 1fr !important;
+    }
+    .campo-largo {
+        grid-column: span 1 !important;
+    }
+    .btn-voltar-passo {
+        width: 100px !important;
+    }
+}

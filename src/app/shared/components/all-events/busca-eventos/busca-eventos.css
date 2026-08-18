@@ -36,12 +36,6 @@
   border-radius: 8px;
 }
 
-.input-group-slim input:focus-visible,
-.input-group-slim select:focus-visible {
-  outline: 2px dashed var(--cor-principal);
-  outline-offset: 2px;
-}
-
 .icon-slim {
   color: rgba(255, 255, 255, 0.4);
   margin-right: 10px;
