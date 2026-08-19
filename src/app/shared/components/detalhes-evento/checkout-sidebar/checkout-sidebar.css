@@ -1,4 +1,5 @@
-.checkout-card-neon {
+.checkout-card {
+  width: 100vh;
   background: #ffffff; 
   border: 2px solid var(--cor-principal); 
   padding: 30px;
@@ -278,8 +279,44 @@
   .sidebar-column {
     order: -1;
   }
-  .checkout-card-neon{
-    width: 90%;
+  .checkout-card{
+    width: 91%;
+  }
+  .btn-main {
+    margin-top: 40px;
+  }
+  .brief-row{
+    padding: 10px 0;
+  }
+  .brief-label {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 800px) {
+  .sidebar-column {
+    order: -1;
+  }
+  .checkout-card{
+    width: 84%;
+  }
+  .btn-main {
+    margin-top: 40px;
+  }
+  .brief-row{
+    padding: 10px 0;
+  }
+  .brief-label {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .sidebar-column {
+    order: -1;
+  }
+  .checkout-card{
+    width: 81%;
   }
   .btn-main {
     margin-top: 40px;
