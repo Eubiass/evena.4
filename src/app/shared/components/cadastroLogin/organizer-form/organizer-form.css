@@ -1,0 +1,107 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.area-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.grupo-input {
+  width: 100%;
+}
+
+.linha-dupla-inputs {
+  display: flex;
+  gap: 12px;
+}
+
+.linha-dupla-inputs .grupo-input {
+  flex: 1;
+}
+
+/* Estilização nativa dos campos */
+input, select {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  background-color: #f5f4f9;
+  font-family: var(--fonte-principal);
+  font-size: 14px;
+  color: #333;
+  outline: none;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+input:focus, select:focus {
+  border-color: var(--cor-principal);
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(23, 13, 53, 0.1);
+}
+
+/* Mostra borda vermelha APENAS quando o usuário já tocou no campo e ele for inválido */
+input.ng-invalid.ng-touched,
+select.ng-invalid.ng-touched {
+  border: 1.5px solid #e74c3c !important;
+  background-color: #fdf2f2;
+}
+
+/* Botões */
+.btn-entrar {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  background-color: var(--cor-secundaria);
+  color: #130a2b;
+  font-family: var(--fonte-principal);
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: transform 0.1s ease, filter 0.2s ease;
+}
+
+.btn-entrar:hover {
+  filter: brightness(0.95);
+  transform: translateY(-1px);
+}
+
+.btn-navegacao {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.btn-voltar-passo {
+  flex: 1;
+  padding: 14px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 12px;
+  background: transparent;
+  font-family: var(--fonte-principal);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.grid-localizacao {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.grid-localizacao .campo-largo {
+  grid-column: span 2;
+}
+
+.erro-texto {
+  color: #e74c3c;
+  font-size: 12px;
+  font-family: var(--fonte-principal);
+  margin-top: -8px;
+}

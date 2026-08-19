@@ -1,0 +1,91 @@
+<form [formGroup]="form">
+
+  <!-- PASSO 1: Dados de Acesso -->
+  @if (passoAtual === 1) {
+    <div class="area-inputs">
+      <div class="grupo-input">
+        <input type="email" formControlName="emailEmpresa" placeholder="E-mail Corporativo *">
+      </div>
+      
+      <div class="grupo-input">
+        <input type="text" formControlName="telefoneEmpresa" placeholder="Telefone / Celular Comercial *">
+      </div>
+
+      <div class="linha-dupla-inputs">
+        <div class="grupo-input">
+          <input type="password" formControlName="senhaOrganizador" placeholder="Senha *">
+        </div>
+        <div class="grupo-input">
+          <input type="password" formControlName="confirmarSenhaOrganizador" placeholder="Confirmar Senha *">
+        </div>
+      </div>
+
+      @if (form.hasError('senhasDiferentes') && form.get('confirmarSenhaOrganizador')?.touched) {
+        <span class="erro-texto">As senhas não coincidem.</span>
+      }
+
+      <button type="button" class="btn-entrar" (click)="avancarPasso()">Próximo Passo</button>
+    </div>
+  }
+
+  <!-- PASSO 2: Identificação Jurídica -->
+  @if (passoAtual === 2) {
+    <div class="area-inputs">
+      <div class="grupo-input">
+        <input type="text" formControlName="razaoSocial" placeholder="Razão Social *">
+      </div>
+      <div class="grupo-input">
+        <input type="text" formControlName="nomeFantasia" placeholder="Nome Fantasia *">
+      </div>
+      <div class="grupo-input">
+        <input type="text" formControlName="cnpj" placeholder="CNPJ (Apenas 14 números) *">
+      </div>
+      <div class="grupo-input">
+        <select formControlName="ramoEmpresa">
+          <option value="" disabled selected>Ramo de Atuação *</option>
+          <option value="Shows">Shows e Festivais</option>
+          <option value="Teatro">Teatro e Cultura</option>
+          <option value="Corporativo">Corporativo / Palestras</option>
+        </select>
+      </div>
+
+      <div class="btn-navegacao">
+        <button type="button" class="btn-voltar-passo" (click)="voltarPasso()">Voltar</button>
+        <button type="button" class="btn-entrar" (click)="avancarPasso()">Próximo Passo</button>
+      </div>
+    </div>
+  }
+
+  <!-- PASSO 3: Endereço Fiscal -->
+  @if (passoAtual === 3) {
+    <div class="area-inputs grid-localizacao">
+      <div class="grupo-input campo-largo">
+        <input type="text" formControlName="cep" placeholder="CEP (Apenas números) *">
+      </div>
+      <div class="grupo-input">
+        <input type="text" formControlName="estado" placeholder="Estado *">
+      </div>
+      <div class="grupo-input">
+        <input type="text" formControlName="cidade" placeholder="Cidade *">
+      </div>
+      <div class="grupo-input campo-largo">
+        <input type="text" formControlName="bairro" placeholder="Bairro *">
+      </div>
+      <div class="grupo-input campo-largo">
+        <input type="text" formControlName="endereco" placeholder="Endereço Fiscal / Rua *">
+      </div>
+      <div class="grupo-input">
+        <input type="text" formControlName="numero" placeholder="Número *">
+      </div>
+      <div class="grupo-input">
+        <input type="text" formControlName="complemento" placeholder="Complemento">
+      </div>
+      
+      <div class="btn-navegacao campo-largo">
+        <button type="button" class="btn-voltar-passo" (click)="voltarPasso()">Voltar</button>
+        <button type="button" class="btn-entrar" (click)="submeter()">Concluir Cadastro</button>
+      </div>
+    </div>
+  }
+
+</form>

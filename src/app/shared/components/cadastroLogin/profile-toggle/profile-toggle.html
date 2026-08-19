@@ -1,0 +1,22 @@
+<div class="opcoes-container">
+  <div 
+    class="sliding-pill" 
+    [class.organizador]="perfilSelecionado === 'organizador'">
+  </div>
+  
+  <button 
+    type="button" 
+    class="btn-opcao" 
+    [class.ativo]="perfilSelecionado === 'usuario'"
+    (click)="selecionarPerfil('usuario')">
+    Usuário
+  </button>
+
+  <button 
+    type="button" 
+    class="btn-opcao" 
+    [class.ativo]="perfilSelecionado === 'organizador'"
+    (click)="selecionarPerfil('organizador')">
+    Organizador
+  </button>
+</div>

@@ -1,0 +1,65 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.divisor {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0 16px 0;
+  color: #888;
+  font-family: var(--fonte-principal);
+  font-size: 13px;
+}
+
+.divisor::before,
+.divisor::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.divisor span {
+  padding: 0 12px;
+}
+
+.container-sociais {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-social {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  border-radius: 12px;
+  font-family: var(--fonte-principal);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Estilo e Hover do Botão Google */
+.btn-social.google, .btn-social.apple {
+  background-color: #ffffff;
+  border: 1.5px solid #e0e0e0;
+  color: var(--cor-principal);
+}
+
+.btn-social.google:hover {
+  background-color: #f8f9fa;
+  border-color: #cccccc;
+  transform: translateY(-1px);
+}
+
+/* Estilo e Hover do Botão Apple */
+.btn-social.apple:hover {
+  background-color: #222222;
+  border-color: #222222;
+  transform: translateY(-1px);
+  color: #ffffff;
+}

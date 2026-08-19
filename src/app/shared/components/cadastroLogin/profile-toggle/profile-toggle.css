@@ -1,0 +1,48 @@
+:host {
+  display: block;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.opcoes-container {
+  position: relative;
+  display: flex;
+  background-color: #f0edf8;
+  border-radius: 14px;
+  padding: 4px;
+}
+
+.btn-opcao {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 10px 0;
+  font-family: var(--fonte-principal);
+  font-weight: 600;
+  font-size: 14px;
+  color: #555;
+  cursor: pointer;
+  z-index: 2;
+  transition: color 0.3s ease;
+}
+
+.btn-opcao.ativo {
+  color: #ffffff;
+}
+
+/* Pílula deslizante de fundo */
+.sliding-pill {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: calc(50% - 4px);
+  height: calc(100% - 8px);
+  background-color: var(--cor-principal);
+  border-radius: 10px;
+  z-index: 1;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sliding-pill.organizador {
+  transform: translateX(100%);
+}

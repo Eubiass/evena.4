@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router'; 
+import { BrandSideAuth } from '../../shared/components/cadastroLogin/brand-side-auth/brand-side-auth';
+import { ProfileToggle } from '../../shared/components/cadastroLogin/profile-toggle/profile-toggle';
+import { SocialLogin } from '../../shared/components/cadastroLogin/social-login/social-login';
+import { OrganizerForm } from '../../shared/components/cadastroLogin/organizer-form/organizer-form';
 
 @Component({
   selector: 'app-cadastro',
   standalone: true,
-  imports: [FormsModule, RouterLink], 
+  imports: [FormsModule, RouterLink, BrandSideAuth, ProfileToggle, SocialLogin, OrganizerForm], 
   templateUrl: './cadastro.html',
   styleUrl: './cadastro.css'
 })
@@ -40,8 +44,8 @@ export class Cadastro {
   numero = '';
   complemento = '';
 
-  mudarPerfil(perfil: 'usuario' | 'organizador') {
-    this.tipoPerfil = perfil;
+  mudarPerfil(perfil: string) {
+    this.tipoPerfil = perfil as 'usuario' | 'organizador';
     this.passoOrganizador = 1;
   }
 
@@ -68,5 +72,18 @@ export class Cadastro {
       }
       console.log('Organizador cadastrado com sucesso.');
     }
+  }
+
+  cadastroComGoogle() {
+    console.log(`Iniciando cadastro via GOOGLE para o perfil: ${this.tipoPerfil.toUpperCase()}`);
+  }
+
+  cadastroComApple() {
+    console.log(`Iniciando cadastro via APPLE para o perfil: ${this.tipoPerfil.toUpperCase()}`);
+  }
+
+  executarCadastroOrganizador(dadosOrganizador: any) {
+    console.log('Dados do Organizador recebidos:', dadosOrganizador);
+    // Lógica para enviar para a API / backend
   }
 }

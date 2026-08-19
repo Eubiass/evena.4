@@ -1,12 +1,7 @@
 <div class="tela-login-background">
   <div class="wrapper-login">
     
-    <section id="container-esq">
-      <div class="overlay-brand">
-        <img src="coroaEvena.svg" alt="Logo Evena" id="img-coroa">
-        <p class="tagline-evena">Viver é melhor ao vivo.</p>
-      </div>
-    </section>
+    <app-brand-side-auth></app-brand-side-auth>
 
     <section id="container-principal">
       <form id="form-login" (submit)="executarLogin($event)">
@@ -16,22 +11,10 @@
           <p class="subtitulo-login">Escolha como deseja acessar a plataforma</p>
         </header>
 
-        <div class="opcoes">
-          <div class="sliding-pill" [class.slide-organizador]="tipoPerfil === 'organizador'"></div>
-          
-          <button type="button" 
-                  class="btn-opcoes" 
-                  [class.active]="tipoPerfil === 'usuario'"
-                  (click)="mudarPerfil('usuario')">
-            Usuário
-          </button>
-          <button type="button" 
-                  class="btn-opcoes" 
-                  [class.active]="tipoPerfil === 'organizador'"
-                  (click)="mudarPerfil('organizador')">
-            Organizador
-          </button>
-        </div>
+        <app-profile-toggle 
+          [perfilSelecionado]="tipoPerfil" 
+          (perfilChange)="mudarPerfil($event)">
+        </app-profile-toggle>
 
         <div class="area-inputs">
           <div class="grupo-input">
@@ -70,19 +53,10 @@
             <a class="link-cadastre-se" routerLink="/cadastro">Cadastre-se</a>
         </div>
         
-        <div class="divisor">
-          <span>ou conecte-se via</span>
-        </div>
-
-        <div class="container-sociais">
-          <button type="button" class="btn-social google" (click)="loginComGoogle()" aria-label="Entrar com o Google">
-            <span>Google</span>
-          </button>
-          
-          <button type="button" class="btn-social apple" (click)="loginComApple()" aria-label="Entrar com a Apple">
-            <span>Apple</span>
-          </button>
-        </div>
+        <app-social-login 
+          (googleClick)="loginComGoogle()" 
+          (appleClick)="loginComApple()">
+        </app-social-login>
 
       </form>
     </section>

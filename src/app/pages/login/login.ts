@@ -2,11 +2,14 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { BrandSideAuth } from '../../shared/components/cadastroLogin/brand-side-auth/brand-side-auth';
+import { ProfileToggle } from '../../shared/components/cadastroLogin/profile-toggle/profile-toggle';
+import { SocialLogin } from '../../shared/components/cadastroLogin/social-login/social-login';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterLink],
+  imports: [FormsModule, CommonModule, RouterLink, BrandSideAuth, ProfileToggle, SocialLogin],
   templateUrl: './login.html',
   styleUrl: './login.css'
 })
@@ -21,8 +24,8 @@ export class Login {
   usuario = '';
   senha = '';
 
-  mudarPerfil(perfil: 'usuario' | 'organizador') {
-    this.tipoPerfil = perfil;
+  mudarPerfil(perfil: string) {
+    this.tipoPerfil = perfil as 'usuario' | 'organizador';
   }
 
   executarLogin(event: Event) {

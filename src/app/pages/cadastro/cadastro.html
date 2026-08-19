@@ -2,125 +2,78 @@
   <div class="wrapper-cadastro">
     
     <!-- PAINEL LATERAL ESQUERDO: Marca e Identidade Visual -->
-    <section id="container-esq">
-      <div class="overlay-brand">
-        <img src="coroaEvena.svg" alt="Logo Evena" id="img-coroa">
-        <p class="tagline-evena">Crie e viva momentos únicos.</p>
-      </div>
-    </section>
+    <app-brand-side-auth></app-brand-side-auth>
 
     <!-- PAINEL PRINCIPAL DIREITO: Formulário Dinâmico -->
     <section id="container-principal">
       <form id="form-cadastro" (submit)="executarCadastro($event)">
         
-        <!-- CABEÇALHO DINÂMICO: Altera títulos e subtítulos de acordo com perfil e etapa -->
+        <!-- CABEÇALHO DINÂMICO -->
         <header class="header-form">
           <h1 class="titulo-cadastro">
             @if (tipoPerfil === 'usuario') {
               <span>Criar nova conta</span>
-            } @else if (tipoPerfil === 'organizador' && passoOrganizador === 1) {
-              <span>Dados de Acesso</span>
-            } @else if (tipoPerfil === 'organizador' && passoOrganizador === 2) {
-              <span>Identificação Jurídica</span>
-            } @else if (tipoPerfil === 'organizador' && passoOrganizador === 3) {
-              <span>Endereço Fiscal (Sede)</span>
+            } @else {
+              <span>Cadastro Corporativo</span>
             }
           </h1>
           <p class="subtitulo-cadastro">
             @if (tipoPerfil === 'usuario') {
               <span>Preencha os dados essenciais de acesso</span>
             } @else {
-              <span>Passo {{passoOrganizador}} de 3 para validação da empresa</span>
+              <span>Preencha os dados para validação da empresa</span>
             }
           </p>
         </header>
 
-        <!-- SELETOR DE PERFIL: Exibido apenas no primeiro passo do formulário -->
-        @if (passoOrganizador === 1) {
-          <div class="opcoes">
-            <div class="sliding-pill" [class.slide-organizador]="tipoPerfil === 'organizador'"></div>
-            <button type="button" class="btn-opcoes" [class.active]="tipoPerfil === 'usuario'" (click)="mudarPerfil('usuario')">Usuário</button>
-            <button type="button" class="btn-opcoes" [class.active]="tipoPerfil === 'organizador'" (click)="mudarPerfil('organizador')">Organizador</button>
-          </div>
-        }
+        <!-- SELETOR DE PERFIL -->
+        <app-profile-toggle 
+          [perfilSelecionado]="tipoPerfil" 
+          (perfilChange)="mudarPerfil($event)">
+        </app-profile-toggle>
 
-        <!-- BLOCO 1: Cadastro de Usuário Comum (Fluxo Único) -->
+        <!-- FLUXO 1: Cadastro de Usuário Comum -->
         @if (tipoPerfil === 'usuario') {
           <div class="area-inputs">
-            <div class="grupo-input"><input type="text" name="nome" [(ngModel)]="nome" placeholder="Nome Completo" required></div>
-            <!-- div class="grupo-input"><input type="date" name="dataNascimento" [(ngModel)]="dataNascimento" required></div -->
-            <div class="grupo-input"><input type="email" name="emailUsuario" [(ngModel)]="emailUsuario" placeholder="E-mail" required></div>
-            <div class="grupo-input"><input type="text" name="nomeUsuario" [(ngModel)]="nomeUsuario" placeholder="Nome de Usuário" required></div>
+            <div class="grupo-input">
+              <input type="text" name="nome" [(ngModel)]="nome" placeholder="Nome Completo" required>
+            </div>
+            <div class="grupo-input">
+              <input type="email" name="emailUsuario" [(ngModel)]="emailUsuario" placeholder="E-mail" required>
+            </div>
+            <div class="grupo-input">
+              <input type="text" name="nomeUsuario" [(ngModel)]="nomeUsuario" placeholder="Nome de Usuário" required>
+            </div>
             <div class="linha-dupla-inputs">
-              <div class="grupo-input"><input type="password" name="senhaUsuario" [(ngModel)]="senhaUsuario" placeholder="Senha *" required></div>
-              <div class="grupo-input"><input type="password" name="confirmarSenhaUsuario" [(ngModel)]="confirmarSenhaUsuario" placeholder="Confirmar Senha *" required></div>
+              <div class="grupo-input">
+                <input type="password" name="senhaUsuario" [(ngModel)]="senhaUsuario" placeholder="Senha *" required>
+              </div>
+              <div class="grupo-input">
+                <input type="password" name="confirmarSenhaUsuario" [(ngModel)]="confirmarSenhaUsuario" placeholder="Confirmar Senha *" required>
+              </div>
             </div>
 
             <button type="submit" class="btn-entrar1">Finalizar Cadastro</button>
             
+            <app-social-login 
+              (googleClick)="cadastroComGoogle()" 
+              (appleClick)="cadastroComApple()">
+            </app-social-login>
           </div>
         }
 
-        <!-- BLOCO 2: Organizador - Passo 1 (Dados de Acesso) -->
-        @if (tipoPerfil === 'organizador' && passoOrganizador === 1) {
-          <div class="area-inputs">
-            <div class="grupo-input"><input type="email" name="emailEmpresa" [(ngModel)]="emailEmpresa" placeholder="E-mail Corporativo *" required></div>
-            <div class="grupo-input"><input type="text" name="telefoneEmpresa" [(ngModel)]="telefoneEmpresa" placeholder="Telefone / Celular Comercial *" required></div>
-            <div class="linha-dupla-inputs">
-              <div class="grupo-input"><input type="password" name="senhaOrganizador" [(ngModel)]="senhaOrganizador" placeholder="Senha *" required></div>
-              <div class="grupo-input"><input type="password" name="confirmarSenhaOrganizador" [(ngModel)]="confirmarSenhaOrganizador" placeholder="Confirmar Senha *" required></div>
-            </div>
-            <button type="button" class="btn-entrar1" (click)="avancarPasso()">Próximo Passo</button>
-            
-          </div>
+        <!-- FLUXO 2: Cadastro do Organizador (Gerenciado pelo novo componente) -->
+        @if (tipoPerfil === 'organizador') {
+          <app-organizer-form 
+            (formSubmit)="executarCadastroOrganizador($event)">
+          </app-organizer-form>
         }
 
-        <!-- BLOCO 3: Organizador - Passo 2 (Identificação Jurídica) -->
-        @if (tipoPerfil === 'organizador' && passoOrganizador === 2) {
-          <div class="area-inputs">
-            <div class="grupo-input"><input type="text" name="razaoSocial" [(ngModel)]="razaoSocial" placeholder="Razão Social *" required></div>
-            <div class="grupo-input"><input type="text" name="nomeFantasia" [(ngModel)]="nomeFantasia" placeholder="Nome Fantasia *" required></div>
-            <div class="grupo-input"><input type="text" name="cnpj" [(ngModel)]="cnpj" placeholder="CNPJ (Apenas números) *" required></div>
-            <div class="grupo-input">
-              <select name="ramoEmpresa" [(ngModel)]="ramoEmpresa" required>
-                <option value="" disabled selected>Ramo de Atuação *</option>
-                <option value="Shows">Shows e Festivais</option>
-                <option value="Teatro">Teatro e Cultura</option>
-                <option value="Corporativo">Corporativo / Palestras</option>
-              </select>
-            </div>
-            <div class="btn-navegacao">
-              <button type="button" class="btn-voltar-passo" (click)="voltarPasso()">Voltar</button>
-              <button type="button" class="btn-entrar" (click)="avancarPasso()">Próximo Passo</button>
-            </div>
-          </div>
-        }
-
-        <!-- BLOCO 4: Organizador - Passo 3 (Endereço Fiscal / Sede) -->
-        @if (tipoPerfil === 'organizador' && passoOrganizador === 3) {
-          <div class="area-inputs grid-localizacao">
-            <div class="grupo-input campo-largo"><input type="text" name="cep" [(ngModel)]="cep" placeholder="CEP *" required></div>
-            <div class="grupo-input"><input type="text" name="estado" [(ngModel)]="estado" placeholder="Estado *" required></div>
-            <div class="grupo-input"><input type="text" name="cidade" [(ngModel)]="cidade" placeholder="Cidade *" required></div>
-            <div class="grupo-input campo-largo"><input type="text" name="bairro" [(ngModel)]="bairro" placeholder="Bairro *" required></div>
-            <div class="grupo-input campo-largo"><input type="text" name="endereco" [(ngModel)]="endereco" placeholder="Endereço Fiscal / Rua *" required></div>
-            <div class="grupo-input"><input type="text" name="numero" [(ngModel)]="numero" placeholder="Número *" required></div>
-            <div class="grupo-input"><input type="text" name="complemento" [(ngModel)]="complemento" placeholder="Complemento"></div>
-            
-            <div class="btn-navegacao campo-largo">
-              <button type="button" class="btn-voltar-passo" (click)="voltarPasso()">Voltar</button>
-              <button type="submit" class="btn-entrar">Concluir Cadastro</button>
-            </div>
-          </div>
-        }
-
-        <!-- LINK DE RODAPÉ: Redirecionamento para a página de Login -->
-        @if (passoOrganizador === 1) {
-          <div class="container-login-link">
-            <span class="texto-chamada">Já possui uma conta?</span>
-            <a class="link-login" routerLink="/login">Entrar</a>
-          </div>
-        }
+        <!-- LINK DE RODAPÉ -->
+        <div class="container-login-link">
+          <span class="texto-chamada">Já possui uma conta?</span>
+          <a class="link-login" routerLink="/login">Entrar</a>
+        </div>
 
       </form>
     </section>
