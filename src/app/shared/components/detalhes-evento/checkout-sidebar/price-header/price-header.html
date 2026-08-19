@@ -1,0 +1,8 @@
+<div class="price-box" aria-live="polite">
+  <span class="brief-label">Ingressos a partir de</span>
+  @if (preco && preco > 0) {
+    <h3><span class="sr-only">Preço: </span>R$ {{ preco.toFixed(2).replace('.', ',') }}</h3>
+  } @else {
+    <h3 class="free">Gratuito</h3>
+  }
+</div>

@@ -1,0 +1,66 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.brief-info {
+  list-style: none;
+  padding: 18px 0;
+  margin: 0 0 20px 0;
+  border-top: 1px solid #e2dbf5;
+  border-bottom: 1px solid #e2dbf5;
+  font-family: var(--fonte-principal, inherit);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.brief-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.brief-row:last-child {
+  margin-bottom: 0;
+}
+
+.brief-row i {
+  font-size: 1.1rem;
+  color: var(--cor-principal, #2f1a67);
+}
+
+.brief-label {
+  font-size: 0.7rem;
+  color: #685f85;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-family: var(--fonte-principal, inherit);
+}
+
+.brief-value {
+  font-weight: 700;
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--cor-principal, #2f1a67);
+}
+
+@media (max-width: 1024px) {
+  .brief-row {
+    padding: 6px 0;
+  }
+
+  .brief-label {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .brief-label {
+    font-size: 0.8rem !important;
+  }
+
+  .brief-value {
+    font-size: 0.85rem !important;
+  }
+}

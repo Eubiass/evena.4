@@ -1,28 +1,29 @@
 import { Component, Input } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { OrganizerCard } from "./organizer-card/organizer-card";
+import { EventActions } from "./event-actions/event-actions";
+import { EventBriefInfo } from "./event-brief-info/event-brief-info";
+import { PriceHeader } from "./price-header/price-header";
 
 @Component({
   selector: "app-checkout-sidebar",
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, OrganizerCard, EventActions, EventBriefInfo, PriceHeader],
   templateUrl: "./checkout-sidebar.html",
   styleUrl: "./checkout-sidebar.css",
 })
 export class CheckoutSidebar {
   @Input() evento: any;
 
-  // Estados de controle das interações da tela
   isSalvo: boolean = false;
   isSeguindo: boolean = false;
 
-  // 1. Lógica do Botão Salvar (Ativa as animações de raios no CSS)
   alternarSalvar(): void {
     this.isSalvo = !this.isSalvo;
   }
 
-  // 2. Lógica de Seguir o Organizador (Modifica o contador local e evita propagação)
   alternarSeguir(event: Event): void {
-    event.stopPropagation(); // Evita que o clique dispare o método 'irParaPerfilOrganizador' do container pai
+    event.stopPropagation();
     this.isSeguindo = !this.isSeguindo;
     
     if (this.evento?.organizador) {
@@ -33,16 +34,12 @@ export class CheckoutSidebar {
     }
   }
 
-  // 3. Redirecionamento para o Perfil do Organizador
   irParaPerfilOrganizador(): void {
     if (this.evento?.organizador?.id) {
       console.log('Redirecionando para o perfil do organizador ID:', this.evento.organizador.id);
-      // Aqui, futuramente, você pode injetar o Router do Angular e navegar:
-      // this.router.navigate(['/organizador', this.evento.organizador.id]);
     }
   }
 
-  // 4. Lógica da Agenda (Abre o formulário do Google Agenda preenchido em nova aba)
   adicionarAoCalendario(): void {
     if (!this.evento) return;
 
@@ -71,7 +68,6 @@ export class CheckoutSidebar {
     window.open(googleCalendarUrl, '_blank');
   }
 
-  // 5. Lógica de Compartilhamento (Usa a folha nativa do celular ou copia o link)
   compartilharEvento(): void {
     if (!this.evento) return;
 
@@ -90,7 +86,6 @@ export class CheckoutSidebar {
     }
   }
 
-  // 6. Botão Principal (Redirecionamento para o link de compra externo)
   redirecionarParceiro(): void {
     if (this.evento?.linkIngresso) {
       window.open(this.evento.linkIngresso, "_blank");

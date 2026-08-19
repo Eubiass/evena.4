@@ -1,0 +1,45 @@
+<div class="org-card-container">
+  <button 
+    type="button" 
+    class="org-profile-trigger" 
+    (click)="onProfileClick()" 
+    [attr.aria-label]="'Acessar perfil do organizador ' + (organizador?.nome || 'Evena Oficial')">
+    
+    <div class="org-avatar-wrapper">
+      @if (organizador?.foto) {
+        <img [src]="organizador.foto" alt="Foto de perfil do organizador" class="org-photo" />
+      } @else {
+        <div class="org-avatar-fallback" aria-hidden="true">
+          {{ organizador?.nome ? organizador.nome.charAt(0) : 'E' }}
+        </div>
+      }
+      @if (organizador?.verificado) {
+        <div class="org-badge-verified">
+          <i class="fa-solid fa-check" aria-hidden="true"></i>
+          <span class="sr-only">Organizador verificado pelo Evena</span>
+        </div>
+      }
+    </div>
+
+    <div class="org-content-info">
+      <div class="org-title-row">
+        <span class="brief-label">Organizado por</span>
+        <h4 class="org-profile-name">{{ organizador?.nome || 'Evena Oficial' }}</h4>
+      </div>
+      
+      <div class="org-stats-row">
+        <span class="org-stat-item"><b>{{ organizador?.seguidores || 0 }}</b> seguidores</span>
+      </div>
+    </div>
+  </button>
+
+  <button 
+    type="button"
+    class="btn-org-follow" 
+    [class.following]="isSeguindo" 
+    (click)="onFollowClick($event)"
+    [attr.aria-pressed]="isSeguindo ? 'true' : 'false'"
+    [attr.aria-label]="isSeguindo ? 'Parar de seguir organizador' : 'Seguir organizador'">
+    <i class="fa-solid" [class.fa-plus]="!isSeguindo" [class.fa-user-check]="isSeguindo" aria-hidden="true"></i>
+  </button>
+</div>

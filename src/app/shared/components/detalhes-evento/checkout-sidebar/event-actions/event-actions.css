@@ -1,0 +1,127 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.action-container { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 10px; 
+  width: 100%;
+}
+
+.secondary-actions-row { 
+  display: flex; 
+  gap: 10px; 
+  width: 100%;
+}
+
+/* --- BOTÕES POLIGONAIS --- */
+.btn-poly {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 800;
+  transition: all 0.2s ease;
+  padding: 18px;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.btn-poly:hover { 
+  filter: brightness(1.1); 
+  transform: translateY(-2px); 
+}
+
+.btn-main { 
+  background-color: var(--cor-principal, #2f1a67); 
+  color: #ffffff; 
+  margin-top: 10px;
+  font-size: 1.2rem; 
+  clip-path: polygon(6% 0, 100% 0, 94% 100%, 0% 100%); 
+} 
+
+.btn-fav { 
+  background: #f8f6ff; 
+  color: var(--cor-principal, #2f1a67); 
+  border: 2px solid #e2dbf5; 
+  font-size: 1.1rem; 
+  clip-path: polygon(0 0, 94% 0, 100% 100%, 6% 100%); 
+}
+
+.btn-fav.active { 
+  background-color: rgba(255, 71, 87, 0.1) !important; 
+  color: #ff4757; 
+  border: 2px solid #ff4757 !important; 
+}
+
+.btn-dark { 
+  background-color: #ffffff; 
+  color: var(--cor-principal, #2f1a67); 
+  font-size: 0.95rem; 
+  border: 2px solid #e2dbf5; 
+}
+
+.btn-agenda { 
+  flex: 1; 
+  clip-path: polygon(8% 0, 100% 0, 92% 100%, 0% 100%); 
+}
+
+.btn-share { 
+  width: 75px; 
+  flex-shrink: 0; 
+  clip-path: polygon(20% 0, 100% 0, 80% 100%, 0% 100%); 
+}
+
+/* --- MICRO-INTERAÇÃO DE RAIOS --- */
+.heart-wrapper { 
+  position: relative; 
+  display: inline-flex; 
+  align-items: center; 
+  justify-content: center; 
+}
+
+.heart-wrapper i { 
+  transition: transform 0.2s ease, color 0.2s ease; 
+}
+
+.btn-fav.active .heart-wrapper i { 
+  color: #ff4757; 
+  transform: scale(1.25); 
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: #ff4757;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.btn-fav.active .p1 { animation: ray-top-left 0.5s ease-out forwards; }
+.btn-fav.active .p2 { animation: ray-top-right 0.5s ease-out forwards; }
+.btn-fav.active .p3 { animation: ray-bottom-left 0.5s ease-out forwards; }
+.btn-fav.active .p4 { animation: ray-bottom-right 0.5s ease-out forwards; }
+
+@keyframes ray-top-left { 0% { transform: translate(0,0) scale(1); opacity: 1; } 100% { transform: translate(-16px,-16px) scale(0); opacity: 0; } }
+@keyframes ray-top-right { 0% { transform: translate(0,0) scale(1); opacity: 1; } 100% { transform: translate(16px,-16px) scale(0); opacity: 0; } }
+@keyframes ray-bottom-left { 0% { transform: translate(0,0) scale(1); opacity: 1; } 100% { transform: translate(-16px,16px) scale(0); opacity: 0; } }
+@keyframes ray-bottom-right { 0% { transform: translate(0,0) scale(1); opacity: 1; } 100% { transform: translate(16px,16px) scale(0); opacity: 0; } }
+
+/* --- RESPONSIVIDADE PARA DISPOSITIVOS MUITO PEQUENOS --- */
+@media (max-width: 380px) {
+  .btn-poly {
+    padding: 14px 8px !important;
+    font-size: 0.85rem !important;
+  }
+
+  .btn-share {
+    width: 55px !important;
+  }
+}

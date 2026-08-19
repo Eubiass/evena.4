@@ -1,0 +1,48 @@
+<div class="action-container">
+  <!-- Botão Principal -->
+  <button 
+    type="button" 
+    class="btn-poly btn-main" 
+    (click)="onComprar()" 
+    aria-label="Garantir Ingressos (abre em uma nova aba do parceiro)">
+    <span>Garantir Ingressos</span>
+    <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+  </button>
+
+  <!-- Botão Favoritar / Salvar -->
+  <button 
+    type="button"
+    class="btn-poly btn-fav" 
+    [class.active]="isSalvo" 
+    (click)="onSalvar()"
+    [attr.aria-pressed]="isSalvo ? 'true' : 'false'">
+    <div class="heart-wrapper" aria-hidden="true">
+      <i class="fa-heart" [class.fa-solid]="isSalvo" [class.fa-regular]="!isSalvo"></i>
+      <span class="particle p1"></span>
+      <span class="particle p2"></span>
+      <span class="particle p3"></span>
+      <span class="particle p4"></span>
+    </div>
+    <span>{{ isSalvo ? 'Salvo' : 'Salvar Evento' }}</span>
+  </button>
+
+  <!-- Botões Secundários -->
+  <div class="secondary-actions-row">
+    <button 
+      type="button" 
+      class="btn-poly btn-dark btn-agenda" 
+      (click)="onAgenda()" 
+      aria-label="Adicionar evento ao calendário ou agenda">
+      <i class="fa-solid fa-calendar-plus" aria-hidden="true"></i>
+      <span>Agenda</span>
+    </button>
+
+    <button 
+      type="button" 
+      class="btn-poly btn-dark btn-share" 
+      (click)="onCompartilhar()" 
+      aria-label="Compartilhar este evento">
+      <i class="fa-solid fa-share-nodes" aria-hidden="true"></i>
+    </button>
+  </div>
+</div>

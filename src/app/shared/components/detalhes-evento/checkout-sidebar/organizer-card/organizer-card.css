@@ -1,0 +1,187 @@
+/* --- CONTAINER DO ORGANIZADOR --- */
+.org-card-container {
+  background: #f8f6ff;
+  border: 1px solid #e2dbf5;
+  padding: 16px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 25px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.org-card-container:hover {
+  background: #f1edff;
+  border-color: var(--cor-principal, #2f1a67);
+  transform: translateY(-1px);
+}
+
+/* --- BOTÃO ÁREA DO PERFIL --- */
+.org-profile-trigger {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Garante o espaço perfeito entre o avatar e os textos */
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  cursor: pointer;
+  flex: 1;
+  min-width: 0; /* Evita que o texto estoure o flexbox */
+  font-family: inherit;
+}
+
+.org-profile-trigger:focus-visible {
+  outline: 2px solid var(--cor-principal, #2f1a67);
+  border-radius: 12px;
+}
+
+/* Reset de padding/margin para evitar que o texto encoste no avatar */
+.org-profile-trigger .brief-label,
+.org-profile-trigger .org-profile-name,
+.org-profile-trigger .org-stats-row {
+  padding: 0 !important;
+  margin: 0;
+}
+
+/* --- AVATAR E BADGE --- */
+.org-avatar-wrapper {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+}
+
+.org-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 1px solid #e2dbf5;
+}
+
+.org-avatar-fallback {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #f1edff 0%, #e2dbf5 100%);
+  color: var(--cor-principal, #2f1a67);
+  border: 1px solid #e2dbf5;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.org-badge-verified {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  background: var(--cor-principal, #2f1a67);
+  color: #ffffff;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  font-weight: 900;
+  border: 2px solid #ffffff;
+}
+
+/* --- INFORMAÇÕES DE TEXTO --- */
+.org-content-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.brief-label {
+  font-size: 0.7rem;
+  color: #685f85;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-family: var(--fonte-principal, inherit);
+}
+
+.org-profile-name {
+  color: var(--cor-principal, #2f1a67);
+  font-size: 1rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.org-stats-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  color: #685f85;
+}
+
+.org-stat-item b {
+  color: #1b1432;
+}
+
+/* --- BOTÃO SEGUIR --- */
+.btn-org-follow {
+  background: #ffffff;
+  border: 1px solid #e2dbf5;
+  color: var(--cor-principal, #2f1a67);
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.btn-org-follow:hover {
+  background: rgba(47, 26, 103, 0.05);
+  border-color: var(--cor-principal, #2f1a67);
+  transform: scale(1.05);
+}
+
+.btn-org-follow.following {
+  background: var(--cor-principal, #2f1a67);
+  color: #ffffff;
+  border-color: var(--cor-principal, #2f1a67);
+}
+
+.btn-org-follow.following:hover {
+  background: #ff4757;
+  border-color: #ff4757;
+  color: #ffffff;
+}
+
+/* --- RESPONSIVIDADE PARA DISPOSITIVOS MUITO PEQUENOS --- */
+@media (max-width: 380px) {
+  .org-card-container {
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .org-avatar-wrapper {
+    width: 42px;
+    height: 42px;
+  }
+
+  .org-profile-name {
+    font-size: 0.85rem;
+  }
+}
