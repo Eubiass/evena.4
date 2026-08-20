@@ -334,11 +334,26 @@ button.card-localizacao {
   flex-shrink: 0;
 }
 
+/* MOBILE (< 769px) */
+@media (max-width: 768px) {
+  .container-card-distancia,
+  button.card-localizacao {
+    width: 180px !important;
+    min-width: 180px !important;
+    flex-shrink: 0;
+  }
+}
+
 /* DESKTOP (>= 769px) */
 @media (min-width: 769px) {
   .container-card-distancia,
   button.card-localizacao {
     width: calc((100% - (3 * 28px)) / 3.5) !important;
     min-width: unset !important;
+    flex-shrink: 0;
   }
+}
+
+.container-card-distancia app-card-evento {
+  width: 100%;
 }

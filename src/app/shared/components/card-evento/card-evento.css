@@ -5,14 +5,8 @@
 }
 
 /* ==========================================================================
-   1. REGRA BASE DOS CARROSSEIS (MOBILE)
+   1. ESTRUTURA GERAL DO CARD
    ========================================================================== */
-.carousel-container :host {
-  width: 220px;       /* Tamanho fixo e proporcional no mobile */
-  flex-shrink: 0;
-}
-
-/* ESTRUTURA DO CARD */
 .card-evento {
   display: flex;
   flex-direction: column;
@@ -25,10 +19,8 @@
   margin-bottom: 8px;
 }
 
-/* CONTAINER DA IMAGEM */
 .imagem-container {
   width: 100%;
-  aspect-ratio: 16 / 10; /* Mantém a imagem horizontal no mobile para não ficar gigante */
   overflow: hidden; 
   border-radius: 12px;
   background-color: #eee;
@@ -47,7 +39,7 @@ img {
   transform: scale(1.05); 
 }
 
-/* TIPOGRAFIA E TEXTOS PRÓXIMOS */
+/* TIPOGRAFIA */
 .info {
   padding-top: 8px;
   display: flex;
@@ -85,11 +77,29 @@ h3 {
 }
 
 /* ==========================================================================
-   2. DESKTOP (>= 769px): Exibe 3.5 cards na tela
+   2. REGRAS DE MEDIA QUERY (MOBILE VS DESKTOP)
    ========================================================================== */
+
+/* MOBILE (< 769px): Card proporcional (180px) com Imagem VERTICAL (3/4) */
+@media (max-width: 768px) {
+  .carousel-container :host {
+    width: 180px !important;
+    flex-shrink: 0;
+  }
+
+  .imagem-container {
+    aspect-ratio: 3 / 4 !important; /* Força a imagem a ficar vertical */
+  }
+}
+
+/* DESKTOP (>= 769px): 3.5 Cards na tela com Imagem HORIZONTAL (16/10) */
 @media (min-width: 769px) {
   .carousel-container :host {
     width: calc((100% - (3 * 28px)) / 3.5);
+  }
+
+  .imagem-container {
+    aspect-ratio: 16 / 10 !important; /* Força a imagem a ficar horizontal */
   }
 
   h1 { 
