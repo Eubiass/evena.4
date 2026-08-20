@@ -1,26 +1,38 @@
 :host {
-  display: block;
+  display: flex;
   width: 100%;
+  box-sizing: border-box;
 }
 
+/* ==========================================================================
+   1. REGRA BASE DOS CARROSSEIS (MOBILE)
+   ========================================================================== */
+.carousel-container :host {
+  width: 220px;       /* Tamanho fixo e proporcional no mobile */
+  flex-shrink: 0;
+}
+
+/* ESTRUTURA DO CARD */
 .card-evento {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   box-sizing: border-box;
   font-family: var(--fonte-secundaria);
   color: var(--cor-principal);
   transition: transform 0.3s ease;
   cursor: pointer;
-  margin-bottom: 20px;
+  margin-bottom: 8px;
 }
 
+/* CONTAINER DA IMAGEM */
 .imagem-container {
   width: 100%;
+  aspect-ratio: 16 / 10; /* Mantém a imagem horizontal no mobile para não ficar gigante */
   overflow: hidden; 
   border-radius: 12px;
   background-color: #eee;
-  
-  /* PADRÃO MOBILE (< 768px): Formato Vertical (Portrait) */
-  aspect-ratio: 3 / 4; 
+  flex-shrink: 0;
 }
 
 img {
@@ -32,45 +44,55 @@ img {
 }
 
 .card-evento:hover img {
-  transform: scale(1.08); 
+  transform: scale(1.05); 
 }
 
-/* Tipografia */
+/* TIPOGRAFIA E TEXTOS PRÓXIMOS */
 .info {
-  padding-top: 10px;
+  padding-top: 8px;
+  display: flex;
+  flex-direction: column;
 }
 
 h1 {
-  font-size: 1.5rem;
+  font-size: 0.95rem; 
   font-weight: 700;
-  margin: 0 0 4px 0;
-  line-height: 1.3;
+  margin: 0 0 2px 0;
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: auto;
 }
 
 h2 {
-  font-size: 1rem;
-  font-weight: 500;
-  margin: 0 0 4px 0;
-  opacity: 0.85;
+  font-size: 0.82rem; 
+  font-weight: 600;
+  margin: 0 0 2px 0;
+  opacity: 0.9;
 }
 
 h3 {
-  font-size: 0.85rem;
+  font-size: 0.78rem; 
   font-weight: 400;
   margin: 0;
-  opacity: 0.7;
+  opacity: 0.75;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ==========================================================================
-   PONTO DE TRANSIÇÃO (BREAKPOINT) - TABLETS E DESKTOPS (>= 768px)
+   2. DESKTOP (>= 769px): Exibe 3.5 cards na tela
    ========================================================================== */
-@media (min-width: 768px) {
-  .imagem-container {
-    /* Muda a imagem para o formato Widescreen Horizontal */
-    aspect-ratio: 16 / 10;
+@media (min-width: 769px) {
+  .carousel-container :host {
+    width: calc((100% - (3 * 28px)) / 3.5);
   }
 
-  h1 { font-size: 1.15rem; }
-  h2 { font-size: 0.9rem; }
-  h3 { font-size: 0.85rem; }
+  h1 { 
+    font-size: 1.1rem;
+  }
 }

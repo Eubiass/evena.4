@@ -166,24 +166,25 @@ export class EventosPerto implements OnInit {
     this.cdr.detectChanges();
   }
 
-  scrollDireita(tipo: 'ip' | 'gps') {
-    const element = tipo === 'ip' ? this.carouselIp?.nativeElement : this.carouselGps?.nativeElement;
-    if (!element || !element.firstElementChild) return;
+ scrollDireita(tipo: 'ip' | 'gps') {
+  const element = tipo === 'ip' ? this.carouselIp?.nativeElement : this.carouselGps?.nativeElement;
+  if (!element || !element.firstElementChild) return;
 
-    // Mede milimetricamente a largura real do card renderizado na tela no exato momento do clique
-    const cardWidth = element.firstElementChild.getBoundingClientRect().width;
-    const gapWidth = parseFloat(window.getComputedStyle(element).gap) || 28;
+  // Mede o tamanho dinâmico do card renderizado e o gap atual
+  const cardWidth = element.firstElementChild.getBoundingClientRect().width;
+  const gapWidth = parseFloat(window.getComputedStyle(element).gap) || 28;
 
-    element.scrollLeft += (cardWidth + gapWidth);
-  }
+  // Avance 1 card + gap por clique para manter o alinhamento
+  element.scrollBy({ left: (cardWidth + gapWidth), behavior: 'smooth' });
+}
 
-  scrollEsquerda(tipo: 'ip' | 'gps') {
-    const element = tipo === 'ip' ? this.carouselIp?.nativeElement : this.carouselGps?.nativeElement;
-    if (!element || !element.firstElementChild) return;
+scrollEsquerda(tipo: 'ip' | 'gps') {
+  const element = tipo === 'ip' ? this.carouselIp?.nativeElement : this.carouselGps?.nativeElement;
+  if (!element || !element.firstElementChild) return;
 
-    const cardWidth = element.firstElementChild.getBoundingClientRect().width;
-    const gapWidth = parseFloat(window.getComputedStyle(element).gap) || 28;
+  const cardWidth = element.firstElementChild.getBoundingClientRect().width;
+  const gapWidth = parseFloat(window.getComputedStyle(element).gap) || 28;
 
-    element.scrollLeft -= (cardWidth + gapWidth);
-  }
+  element.scrollBy({ left: -(cardWidth + gapWidth), behavior: 'smooth' });
+}
 }
