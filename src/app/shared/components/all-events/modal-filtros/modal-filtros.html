@@ -1,0 +1,65 @@
+@if (aberto) {
+  <div class="modal-overlay" (click)="onFechar()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      
+      <header class="modal-header">
+        <h3>Filtros Avançados</h3>
+        <button type="button" class="btn-fechar" (click)="onFechar()">&times;</button>
+      </header>
+
+      <div class="modal-body">
+        
+        <!-- Cidade -->
+        <div class="campo-filtro">
+          <label for="cidade">Cidade</label>
+          <input 
+            id="cidade"
+            type="text" 
+            placeholder="Ex: São Paulo" 
+            [(ngModel)]="filtrosLocal.cidade" />
+        </div>
+
+        <!-- Estado (UF) -->
+        <div class="campo-filtro">
+          <label for="estado">Estado (UF)</label>
+          <select id="estado" [(ngModel)]="filtrosLocal.estado">
+            <option value="">Todos os Estados</option>
+            <option value="SP">São Paulo (SP)</option>
+            <option value="RJ">Rio de Janeiro (RJ)</option>
+            <option value="MG">Minas Gerais (MG)</option>
+            <option value="PR">Paraná (PR)</option>
+            <option value="RS">Rio Grande do Sul (RS)</option>
+          </select>
+        </div>
+
+        <!-- Preço -->
+        <div class="campo-filtro">
+          <label for="preco">Faixa de Preço</label>
+          <select id="preco" [(ngModel)]="filtrosLocal.preco">
+            <option value="todos">Qualquer preço</option>
+            <option value="gratis">Gratuito</option>
+            <option value="ate50">Até R$ 50,00</option>
+            <option value="50-150">R$ 50,00 a R$ 150,00</option>
+            <option value="mais150">Acima de R$ 150,00</option>
+          </select>
+        </div>
+
+        <!-- Data -->
+        <div class="campo-filtro">
+          <label for="data">Data do Evento</label>
+          <input 
+            id="data"
+            type="date" 
+            [(ngModel)]="filtrosLocal.data" />
+        </div>
+
+      </div>
+
+      <footer class="modal-footer">
+        <button type="button" class="btn-limpar" (click)="onLimpar()">Limpar Tudo</button>
+        <button type="button" class="btn-aplicar" (click)="onAplicar()">Aplicar Filtros</button>
+      </footer>
+
+    </div>
+  </div>
+}

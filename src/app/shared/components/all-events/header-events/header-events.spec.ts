@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { HeaderFiltro } from "./header-filtro";
+import { HeaderEvents } from "./header-events";
 
-describe("HeaderFiltro", () => {
-  let component: HeaderFiltro;
-  let fixture: ComponentFixture<HeaderFiltro>;
+describe("HeaderEvents", () => {
+  let component: HeaderEvents;
+  let fixture: ComponentFixture<HeaderEvents>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HeaderFiltro],
+      imports: [HeaderEvents],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(HeaderFiltro);
+    fixture = TestBed.createComponent(HeaderEvents);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

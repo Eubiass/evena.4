@@ -1,0 +1,21 @@
+<header class="header-container">
+  <div class="header-texto">
+    <h1 class="titulo-principal">{{ titulo }}</h1>
+    <p class="subtitulo">{{ subtitulo }}</p>
+  </div>
+
+  <div class="header-acoes">
+    <button type="button" class="btn-filtro" (click)="onAbrirFiltros()">
+      <i class="fa-solid fa-sliders" aria-hidden="true"></i>
+      <span>Filtros</span>
+    </button>
+
+    <button *ngIf="temFiltroAtivo" 
+            type="button" 
+            class="btn-limpar" 
+            (click)="onLimparFiltros()">
+      <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      <span>Limpar filtros</span>
+    </button>
+  </div>
+</header>

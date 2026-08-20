@@ -1,19 +1,39 @@
 @if (dias && dias.length > 0) {
-  <div class="selecao-dias-container" role="tablist" aria-label="Dias do evento">
-    @for (dia of dias; track dia; let i = $index) {
-      <button 
-        type="button"
-        class="botao-dia" 
-        [class.ativo]="diaAtivoIndex === i"
-        [attr.aria-selected]="diaAtivoIndex === i ? 'true' : 'false'"
-        [attr.aria-label]="'Selecionar ' + dia.nomeSemana + ' dia ' + dia.numeroDia"
-        role="tab"
-        (click)="selecionarDia(i)">
-        
-        <span class="semana" aria-hidden="true">{{ dia.nomeSemana }}</span>
-        <span class="numero" aria-hidden="true">{{ dia.numeroDia }}</span>
-        
-      </button>
-    }
+  <div class="carrossel-dias-wrapper">
+    <!-- Seta Esquerda -->
+    <button 
+      type="button" 
+      class="btn-seta btn-seta-esquerda" 
+      aria-label="Rolar dias para esquerda"
+      (click)="rolarDias('esquerda')">
+      <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+    </button>
+
+    <!-- Container dos Dias -->
+    <div #diasContainer class="selecao-dias-container" role="tablist" aria-label="Dias do evento">
+      @for (dia of dias; track dia; let i = $index) {
+        <button
+          type="button"
+          class="botao-dia"
+          [class.ativo]="diaAtivoIndex === i"
+          [attr.aria-selected]="diaAtivoIndex === i ? 'true' : 'false'"
+          [attr.aria-label]="'Selecionar ' + dia.nomeSemana + ' dia ' + dia.numeroDia"
+          role="tab"
+          (click)="selecionarDia(i)">
+          
+          <span class="semana" aria-hidden="true">{{ dia.nomeSemana }}</span>
+          <span class="numero" aria-hidden="true">{{ dia.numeroDia }}</span>
+        </button>
+      }
+    </div>
+
+    <!-- Seta Direita -->
+    <button 
+      type="button" 
+      class="btn-seta btn-seta-direita" 
+      aria-label="Rolar dias para direita"
+      (click)="rolarDias('direita')">
+      <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+    </button>
   </div>
 }

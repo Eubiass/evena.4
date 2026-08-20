@@ -1,15 +1,38 @@
 <section class="lista-eventos-container">
-  @if (eventos$ | async; as eventos) {
+  @if (eventos$ | async; as totalEventos) {
     
-    @if (eventos.length > 0) {
+    @if (totalEventos.length > 0) {
+      <!-- Exibe os eventos (até 6 por página) -->
       <div class="grid-eventos" role="region" aria-label="Resultados da busca de eventos">
-        @for (item of eventos; track item.id) {
+        @for (item of (eventosPaginados$ | async); track item.id) {
           <app-card-evento [dadosEvento]="item" class="card-item-fluid"></app-card-evento>
         }
+      </div>
+
+      <!-- Controles de Paginação -->
+      <div class="paginacao-container">
+        <button 
+          class="btn-paginacao" 
+          [disabled]="paginaAtual === 1" 
+          (click)="paginaAnterior()">
+          < Anterior
+        </button>
+
+        <span class="texto-paginacao">
+          Página <strong>{{ paginaAtual }}</strong> de <strong>{{ totalPaginas }}</strong>
+        </span>
+
+        <button 
+          class="btn-paginacao" 
+          [disabled]="paginaAtual >= totalPaginas" 
+          (click)="proximaPagina()">
+          Próxima >
+        </button>
       </div>
     } 
     
     @else {
+      <!-- MENSAGEM DE ERRO (MANTIDA ORIGINAL) -->
       <div class="empty-state-hero" role="alert">
         <div class="empty-icon-wrapper">
           <i class="fa-solid fa-calendar-xmark" aria-hidden="true"></i>

@@ -1,18 +1,33 @@
-<section id="sessao-todos-eventos">
-  <div class="container-todos-eventos">
-    
-    <app-categorias-nav></app-categorias-nav>
+<section class="pagina-eventos">
+  <div class="layout-container">
 
-    <app-header-filtro></app-header-filtro>
+    <app-header-events
+      [titulo]="'Explorar Eventos'"
+      [subtitulo]="'Descubra os melhores eventos perto de você'"
+      [temFiltroAtivo]="(temFiltroAtivo$ | async) ?? false"
+      (abrirFiltros)="abrirModalFiltros()"
+      (limparFiltros)="limparTudo()">
+    </app-header-events>
 
-    <app-busca-eventos></app-busca-eventos>
+    <app-categorias-nav
+      (categoriaSelecionada)="aoSelecionarCategoria($event)">
+    </app-categorias-nav>
 
     <main role="main">
-      <app-lista-eventos 
-        [eventos$]="eventosFiltrados$" 
+      <app-grid-events 
+        [eventos$]="eventosFiltrados$"
         (resetar)="limparTudo()">
-      </app-lista-eventos>
+      </app-grid-events>
     </main>
 
   </div>
 </section>
+
+<!-- Novo Componente de Modal -->
+<app-modal-filtros
+  [aberto]="modalFiltroAberto"
+  [filtrosIniciais]="filtrosAtuais"
+  (fechar)="fecharModalFiltros()"
+  (aplicar)="aplicarFiltrosDoModal($event)"
+  (resetar)="limparTudo(); fecharModalFiltros()">
+</app-modal-filtros>

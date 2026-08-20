@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FiltroEventosService } from '../../../../services/filtros/filtro-eventos-service';
 
@@ -9,8 +9,11 @@ import { FiltroEventosService } from '../../../../services/filtros/filtro-evento
   templateUrl: './categorias-nav.html',
   styleUrl: './categorias-nav.css'
 })
-export class CategoriasNavComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CategoriasNav implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLElement>;
+
+  // Emissor de evento para avisar ao AllEvents qual categoria foi clicada
+  @Output() categoriaSelecionada = new EventEmitter<string>();
 
   public categorias: string[] = ['Todos', 'Música', 'Teatro', 'Educação', 'Infantil', 'Tecnologia', 'Gastronomia', 'Esportes', 'Festival', 'Workshop', 'Stand-up', 'Networking'];
   public categoriaAtiva: string = 'Todos';
@@ -55,15 +58,16 @@ export class CategoriasNavComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   public selecionar(cat: string): void {
+    // 1. Atualiza o Service interno
     this.filtroService.atualizarFiltros({ categoria: cat });
+    
+    // 2. Emite a string da categoria para resolver o erro no componente pai
+    this.categoriaSelecionada.emit(cat);
   }
 
-  /**
-   * REQUISITO WCAG: Permite que usuários de teclado naveguem entre os chips usando as setas horizontais.
-   */
-   public moverFocoTeclado(event: any, direcao: number): void {
+  public moverFocoTeclado(event: Event, direcao: number): void {
     const target = event.target as HTMLElement;
-    const li = target.parentElement;
+    const li = target?.parentElement;
     if (!li) return;
 
     const proximoLi = direcao === 1 ? li.nextElementSibling : li.previousElementSibling;
@@ -71,7 +75,7 @@ export class CategoriasNavComponent implements OnInit, AfterViewInit, OnDestroy 
 
     if (proximoBotao) {
       proximoBotao.focus();
-      event.preventDefault(); // Evita o scroll padrão das setas do teclado
+      event.preventDefault(); // Funciona perfeitamente em instâncias de KeyboardEvent
     }
   }
 }

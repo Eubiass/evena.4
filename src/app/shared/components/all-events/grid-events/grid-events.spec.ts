@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { BuscaEventos } from "./busca-eventos";
+import { GridEvents } from "./grid-events";
 
-describe("BuscaEventos", () => {
-  let component: BuscaEventos;
-  let fixture: ComponentFixture<BuscaEventos>;
+describe("GridEvents", () => {
+  let component: GridEvents;
+  let fixture: ComponentFixture<GridEvents>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BuscaEventos],
+      imports: [GridEvents],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(BuscaEventos);
+    fixture = TestBed.createComponent(GridEvents);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

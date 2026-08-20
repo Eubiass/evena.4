@@ -1,6 +1,5 @@
-/* CONTÊINER GLOBAL */
+/* CONTEINER GLOBAL */
 .detalhes-wrapper {
-  /* Mantém o degradê institucional de fundo, preparando para receber os blocos escuros */
   background: linear-gradient(
     180deg, 
     var(--cor-principal) 0%, 
@@ -10,9 +9,9 @@
     #ffffff 100%
   );
   color: #ffffff;            
-  min-height: 100vh;
-  overflow-x: hidden;
   font-family: var(--fonte-secundaria);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .main-grid {
@@ -20,19 +19,27 @@
   grid-template-columns: 1fr 380px;
   gap: 40px;
   max-width: 1200px;
-  margin-top: 110px;
+  margin: 110px auto 0 auto; /* Centraliza horizontalmente de forma automática */
+  padding: 0 20px; /* Garante margem de segurança nas bordas sem quebrar a largura */
   position: relative;
   z-index: 5;
   width: 100%;
   box-sizing: border-box;
 }
 
+/* Impede o estouro de largura das colunas internas */
+.content-column,
+.coluna-direita {
+  min-width: 0;
+  width: 100%;
+}
+
 @media (max-width: 992px) {
   .main-grid {
     grid-template-columns: 1fr;
-    gap: 30px;
-    padding: 0 15px 40px;
+    gap: 20px;
     margin-top: 20px;
+    padding: 0 15px; /* Substitui o margin-left por padding de tela */
   }
   
   .content-column {

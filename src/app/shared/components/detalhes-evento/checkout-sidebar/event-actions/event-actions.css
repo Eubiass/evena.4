@@ -8,12 +8,14 @@
   flex-direction: column; 
   gap: 10px; 
   width: 100%;
+  box-sizing: border-box;
 }
 
 .secondary-actions-row { 
   display: flex; 
   gap: 10px; 
   width: 100%;
+  box-sizing: border-box;
 }
 
 /* --- BOTÕES POLIGONAIS --- */
@@ -28,8 +30,16 @@
   transition: all 0.2s ease;
   padding: 18px;
   width: 100%;
+  max-width: 100%;
+  min-width: 0; /* Impede estouro de layout no flexbox */
   box-sizing: border-box;
   font-family: inherit;
+  white-space: nowrap; /* Impede que o texto dobre de linha dentro do corte */
+}
+
+.btn-poly span {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .btn-poly:hover { 
@@ -68,12 +78,15 @@
 
 .btn-agenda { 
   flex: 1; 
+  min-width: 0;
   clip-path: polygon(8% 0, 100% 0, 92% 100%, 0% 100%); 
 }
 
 .btn-share { 
   width: 75px; 
   flex-shrink: 0; 
+  padding-left: 0;
+  padding-right: 0;
   clip-path: polygon(20% 0, 100% 0, 80% 100%, 0% 100%); 
 }
 
@@ -83,6 +96,7 @@
   display: inline-flex; 
   align-items: center; 
   justify-content: center; 
+  flex-shrink: 0;
 }
 
 .heart-wrapper i { 
@@ -114,14 +128,22 @@
 @keyframes ray-bottom-left { 0% { transform: translate(0,0) scale(1); opacity: 1; } 100% { transform: translate(-16px,16px) scale(0); opacity: 0; } }
 @keyframes ray-bottom-right { 0% { transform: translate(0,0) scale(1); opacity: 1; } 100% { transform: translate(16px,16px) scale(0); opacity: 0; } }
 
-/* --- RESPONSIVIDADE PARA DISPOSITIVOS MUITO PEQUENOS --- */
+/* --- RESPONSIVIDADE APENAS DE FLUXO PARA DISPOSITIVOS PEQUENOS --- */
 @media (max-width: 380px) {
   .btn-poly {
-    padding: 14px 8px !important;
-    font-size: 0.85rem !important;
+    padding: 14px 6px;
+    font-size: 0.85rem;
+  }
+
+  .btn-main {
+    font-size: 1rem;
+  }
+
+  .btn-fav {
+    font-size: 0.95rem;
   }
 
   .btn-share {
-    width: 55px !important;
+    width: 60px;
   }
 }

@@ -1,15 +1,113 @@
-#sessao-todos-eventos {
-  width: 100vw;
+.pagina-eventos {
+  width: 100%;
+  min-height: 100vh;
+  padding-top: 100px; /* Corrige o título cortado no topo */
+  padding-bottom: 40px;
   display: flex;
   justify-content: center;
-  align-items: center;
-  margin-top: 50px; /* Reduzido levemente para aproximar do header global */
-  margin-bottom: 50px;
+  box-sizing: border-box;
 }
 
-.container-todos-eventos {
-  width: 95%; 
-  max-width: 1650px;
-  padding: 0 20px;
-  box-sizing: border-box;  
+.layout-container {
+  width: 90%;
+  max-width: 1600px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  background-color: #1a162b;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  width: 90%;
+  max-width: 500px;
+  padding: 24px;
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.btn-fechar {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.btn-aplicar {
+  background-color: #8257e5;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-limpar {
+  background: transparent;
+  color: #a8a8b3;
+  border: 1px solid #a8a8b3;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.campo-filtro {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.campo-filtro label {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.campo-filtro input,
+.campo-filtro select {
+  width: 100%;
+  padding: 10px 12px;
+  background-color: #26213d;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+}
+
+.campo-filtro input:focus,
+.campo-filtro select:focus {
+  outline: none;
+  border-color: #8257e5;
 }

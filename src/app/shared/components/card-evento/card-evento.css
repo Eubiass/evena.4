@@ -1,76 +1,76 @@
-.card-evento{
-    width: 340px;
-    padding: 0 5px;
-    font-family: var(--fonte-secundaria);
-    color: var(--cor-principal);
-    transition: transform 0.3s ease;
-    cursor: pointer;
+:host {
+  display: block;
+  width: 100%;
 }
 
-img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 10px;
-    transition: transform 0.5s ease;
-}
-
-h1{
-    font-size: 22px;
-}
-
-h2{
-    font-size: 18px;
-    font-weight: 500;
-}
-
-h3{
-    font-size: 15px;
-    font-weight: 300;
+.card-evento {
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--fonte-secundaria);
+  color: var(--cor-principal);
+  transition: transform 0.3s ease;
+  cursor: pointer;
+  margin-bottom: 20px;
 }
 
 .imagem-container {
-    width: 100%;
-    height: 200px;
-    overflow: hidden; 
-    border-radius: 10px;
-    background-color: #eee;
+  width: 100%;
+  overflow: hidden; 
+  border-radius: 12px;
+  background-color: #eee;
+  
+  /* PADRÃO MOBILE (< 768px): Formato Vertical (Portrait) */
+  aspect-ratio: 3 / 4; 
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  transition: transform 0.5s ease;
 }
 
 .card-evento:hover img {
-    transform: scale(1.1); 
-    transition: transform 0.5s ease;
+  transform: scale(1.08); 
 }
 
-/* Responsividade do Card */
-@media (max-width: 768px) {
-    .card-evento {
-        width: 180px;
-    }
-    .imagem-container {
-        height: 280px;
-    }
-    h1 { 
-        font-size: 18px; 
-    }
-    h2 { 
-        font-size: 13px; 
-    }
-    h3 { font-size: 14px; }
+/* Tipografia */
+.info {
+  padding-top: 10px;
 }
 
-@media (min-width: 769px) and (max-width: 1024px) {
-    .card-evento {
-        width: 380px;
-    }
-    .imagem-container {
-        height: 250px;
-    }
-    h1 { 
-        font-size: 18px; 
-    }
-    h2 { 
-        font-size: 13px; 
-    }
-    h3 { font-size: 14px; }
+h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+  line-height: 1.3;
+}
+
+h2 {
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0 0 4px 0;
+  opacity: 0.85;
+}
+
+h3 {
+  font-size: 0.85rem;
+  font-weight: 400;
+  margin: 0;
+  opacity: 0.7;
+}
+
+/* ==========================================================================
+   PONTO DE TRANSIÇÃO (BREAKPOINT) - TABLETS E DESKTOPS (>= 768px)
+   ========================================================================== */
+@media (min-width: 768px) {
+  .imagem-container {
+    /* Muda a imagem para o formato Widescreen Horizontal */
+    aspect-ratio: 16 / 10;
+  }
+
+  h1 { font-size: 1.15rem; }
+  h2 { font-size: 0.9rem; }
+  h3 { font-size: 0.85rem; }
 }
