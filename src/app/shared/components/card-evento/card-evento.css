@@ -1,108 +1,98 @@
 :host {
-  display: flex;
+  display: block;
   width: 100%;
+  min-width: 0;
   box-sizing: border-box;
 }
 
-/* ==========================================================================
-   1. ESTRUTURA GERAL DO CARD
-   ========================================================================== */
 .card-evento {
-  display: flex;
-  flex-direction: column;
   width: 100%;
+  min-width: 0;
   box-sizing: border-box;
   font-family: var(--fonte-secundaria);
   color: var(--cor-principal);
-  transition: transform 0.3s ease;
   cursor: pointer;
-  margin-bottom: 8px;
 }
 
 .imagem-container {
   width: 100%;
-  overflow: hidden; 
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
   border-radius: 12px;
-  background-color: #eee;
-  flex-shrink: 0;
+  background: #eee;
 }
 
-img {
+.imagem-container img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 12px;
-  transition: transform 0.5s ease;
+  transition: transform 0.4s ease;
 }
 
-.card-evento:hover img {
-  transform: scale(1.05); 
+.card-evento:hover .imagem-container img {
+  transform: scale(1.04);
 }
 
-/* TIPOGRAFIA */
 .info {
+  min-width: 0;
   padding-top: 8px;
-  display: flex;
-  flex-direction: column;
 }
 
-h1 {
-  font-size: 0.95rem; 
+.info h1,
+.info h2,
+.info h3 {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.info h1 {
+  margin: 0 0 3px;
+  font-size: 1.05rem;
+  line-height: 1.25;
   font-weight: 700;
-  margin: 0 0 2px 0;
-  line-height: 1.2;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  min-height: auto;
 }
 
-h2 {
-  font-size: 0.82rem; 
+.info h2 {
+  margin: 0 0 3px;
+  font-size: 0.9rem;
+  line-height: 1.3;
   font-weight: 600;
-  margin: 0 0 2px 0;
-  opacity: 0.9;
+  white-space: nowrap;
 }
 
-h3 {
-  font-size: 0.78rem; 
-  font-weight: 400;
+.info h3 {
   margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.3;
+  font-weight: 400;
   opacity: 0.75;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
-/* ==========================================================================
-   2. REGRAS DE MEDIA QUERY (MOBILE VS DESKTOP)
-   ========================================================================== */
-
-/* MOBILE (< 769px): Card proporcional (180px) com Imagem VERTICAL (3/4) */
 @media (max-width: 768px) {
-  .carousel-container :host {
-    width: 180px !important;
-    flex-shrink: 0;
-  }
-
   .imagem-container {
-    aspect-ratio: 3 / 4 !important; /* Força a imagem a ficar vertical */
-  }
-}
-
-/* DESKTOP (>= 769px): 3.5 Cards na tela com Imagem HORIZONTAL (16/10) */
-@media (min-width: 769px) {
-  .carousel-container :host {
-    width: calc((100% - (3 * 28px)) / 3.5);
+    aspect-ratio: 3 / 4;
   }
 
-  .imagem-container {
-    aspect-ratio: 16 / 10 !important; /* Força a imagem a ficar horizontal */
+  .info {
+    padding-top: 6px;
   }
 
-  h1 { 
-    font-size: 1.1rem;
+  .info h1 {
+    font-size: 0.9rem;
+  }
+
+  .info h2 {
+    font-size: 0.78rem;
+  }
+
+  .info h3 {
+    font-size: 0.72rem;
   }
 }

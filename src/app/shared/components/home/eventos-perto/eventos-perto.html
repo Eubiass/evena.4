@@ -1,39 +1,69 @@
 <section id="sessao-eventos-perto-ip" [attr.aria-labelledby]="cidadeDetectada ? 'titulo-regiao-detectada' : 'titulo-regiao-padrao'">
     <div class="container-eventos">
+
         <div class="titulo-sessao">
             @if (cidadeDetectada && cidadeDetectada !== 'sua região') {
-                <h1 id="titulo-regiao-detectada">Eventos em <span class="destaque-cidade">{{ cidadeDetectada }}</span></h1>
+                <h1 id="titulo-regiao-detectada">
+                    Eventos em <span class="destaque-cidade">{{ cidadeDetectada }}</span>
+                </h1>
             } @else {
                 <h1 id="titulo-regiao-padrao">Eventos em sua região</h1>
             }
-            <a routerLink="/eventos" class="ver-mais" aria-label="Ver mais eventos na sua região">Ver mais</a>
+
+            <a routerLink="/eventos" class="ver-mais">
+                Ver mais
+            </a>
         </div>
-        
+
         <div class="carousel-container" role="region" aria-label="Carrossel de eventos regionais">
-            <button type="button" 
-                    class="seta-carousel left" 
-                    (click)="scrollEsquerda('ip')" 
-                    aria-label="Rolar carrossel de eventos para a esquerda">❮</button>
-            
-            <div class="grid-eventos" #carouselIp tabindex="0" role="group" aria-label="Lista de eventos">
-                
+
+            @if (podeVoltarIp) {
+                <button
+                    type="button"
+                    class="seta-carousel left"
+                    (click)="scrollEsquerda('ip')"
+                    aria-label="Rolar carrossel para a esquerda">
+                    ❮
+                </button>
+            }
+
+            <div
+                class="grid-eventos carousel-ip"
+                #carouselIp
+                tabindex="0"
+                role="group"
+                aria-label="Lista de eventos"
+                (scroll)="atualizarSetas('ip')">
+
                 @if (!localizacaoAtiva) {
-                    <button type="button" 
-                            class="card-localizacao" 
-                            (click)="solicitarLocalizacao()" 
-                            [disabled]="carregandoGps"
-                            aria-describedby="desc-localizacao">
-                        <div class="icon-pulse" [class.carregando]="carregandoGps" aria-hidden="true">
+                    <button
+                        type="button"
+                        class="card-localizacao"
+                        (click)="solicitarLocalizacao()"
+                        [disabled]="carregandoGps">
+
+                        <div class="icon-pulse" [class.carregando]="carregandoGps">
                             <img src="icons/location.png" class="icon-localizacao" alt="">
                         </div>
+
                         <div class="textos">
                             <span class="titulo-card-btn">Onde você está?</span>
-                            <p id="desc-localizacao">
-                                @if (carregandoGps) { Aguardando autorização do navegador... } @else { Ative a localização para encontrarmos os melhores eventos ao seu redor. }
+
+                            <p>
+                                @if (carregandoGps) {
+                                    Aguardando autorização do navegador...
+                                } @else {
+                                    Ative a localização para encontrarmos os melhores eventos ao seu redor.
+                                }
                             </p>
                         </div>
-                        <span class="btn-ativar-fake" aria-hidden="true">
-                            @if (carregandoGps) { Validando... } @else { Ativar Localização }
+
+                        <span class="btn-ativar-fake">
+                            @if (carregandoGps) {
+                                Validando...
+                            } @else {
+                                Ativar Localização
+                            }
                         </span>
                     </button>
                 }
@@ -41,12 +71,19 @@
                 @for (item of eventosCidadeIP; track item.id) {
                     <app-card-evento [dadosEvento]="item"></app-card-evento>
                 }
+
             </div>
-            
-            <button type="button" 
-                    class="seta-carousel right" 
-                    (click)="scrollDireita('ip')" 
-                    aria-label="Rolar carrossel de eventos para a direita">❯</button>
+
+            @if (podeAvancarIp) {
+                <button
+                    type="button"
+                    class="seta-carousel right"
+                    (click)="scrollDireita('ip')"
+                    aria-label="Rolar carrossel para a direita">
+                    ❯
+                </button>
+            }
+
         </div>
     </div>
 </section>
@@ -54,28 +91,50 @@
 @if (localizacaoAtiva && eventosProximosGps.length > 0) {
     <section id="sessao-eventos-perto-gps" aria-labelledby="titulo-gps">
         <div class="container-eventos">
+
             <div class="titulo-sessao">
                 <h1 id="titulo-gps">A até 15 km de você</h1>
             </div>
-            <div class="carousel-container" role="region" aria-label="Carrossel de eventos próximos por GPS">
-                <button type="button" 
-                        class="seta-carousel left" 
-                        (click)="scrollEsquerda('gps')" 
-                        aria-label="Rolar carrossel para a esquerda">❮</button>
 
-                <div class="grid-eventos" #carouselGps tabindex="0" role="group" aria-label="Lista de eventos ordenados por distância">
+            <div class="carousel-container" role="region" aria-label="Carrossel de eventos próximos por GPS">
+
+                @if (podeVoltarGps) {
+                    <button
+                        type="button"
+                        class="seta-carousel left"
+                        (click)="scrollEsquerda('gps')"
+                        aria-label="Rolar carrossel para a esquerda">
+                        ❮
+                    </button>
+                }
+
+                <div
+                    class="grid-eventos carousel-gps"
+                    #carouselGps
+                    tabindex="0"
+                    role="group"
+                    aria-label="Lista de eventos ordenados por distância"
+                    (scroll)="atualizarSetas('gps')">
+
                     @for (item of eventosProximosGps; track item.id) {
                         <div class="container-card-distancia">
                             <app-card-evento [dadosEvento]="item"></app-card-evento>
                             <span class="distancia">{{ item.distancia }} km de você</span>
                         </div>
                     }
+
                 </div>
 
-                <button type="button" 
-                        class="seta-carousel right" 
-                        (click)="scrollDireita('gps')" 
-                        aria-label="Rolar carrossel para a direita">❯</button>
+                @if (podeAvancarGps) {
+                    <button
+                        type="button"
+                        class="seta-carousel right"
+                        (click)="scrollDireita('gps')"
+                        aria-label="Rolar carrossel para a direita">
+                        ❯
+                    </button>
+                }
+
             </div>
         </div>
     </section>

@@ -1,34 +1,77 @@
 <section id="sessao-categorias" aria-labelledby="titulo-categorias">
     <div class="container-categorias">
+
         <div class="titulo-sessao">
             <h1 id="titulo-categorias">Categorias</h1>
-            <a routerLink="/eventos" class="ver-mais" aria-label="Ver todas as categorias e eventos">Ver mais</a>
+
+            <a
+                routerLink="/eventos"
+                class="ver-mais"
+                aria-label="Ver todas as categorias e eventos">
+                Ver mais
+            </a>
         </div>
 
-        <div class="carousel-container" role="region" aria-label="Carrossel de categorias">
-            <button type="button" 
-                    class="seta-carousel left" 
-                    (click)="scrollEsquerda()" 
-                    aria-label="Rolar carrossel de categorias para a esquerda">❮</button>
+        <div
+            class="carousel-container"
+            role="region"
+            aria-label="Carrossel de categorias">
 
-            <ul class="lista-circulos" #carousel role="list">
+            @if (podeVoltar) {
+                <button
+                    type="button"
+                    class="seta-carousel left"
+                    (click)="scrollEsquerda()"
+                    aria-label="Rolar carrossel de categorias para a esquerda">
+                    ❮
+                </button>
+            }
+
+            <ul
+                class="lista-circulos"
+                #carousel
+                (scroll)="atualizarSetas()"
+                role="list">
+
                 @for (cat of categorias; track cat.id) {
                     <li class="item-wrapper">
-                        <button type="button" 
-                                class="circulo-item" 
-                                (click)="selecionarCategoria(cat.nome)"
-                                [attr.aria-label]="'Filtrar eventos por ' + cat.nome">
-                            <img [src]="cat.icone" alt="" class="icon-verde" aria-hidden="true">
+
+                        <button
+                            type="button"
+                            class="circulo-item"
+                            (click)="selecionarCategoria(cat.nome)"
+                            [attr.aria-label]="'Filtrar eventos por ' + cat.nome">
+
+                            <img
+                                [src]="cat.icone"
+                                alt=""
+                                class="icon-verde"
+                                aria-hidden="true">
+
                         </button>
-                        <span class="categoria-nome" aria-hidden="true">{{ cat.nome }}</span>
+
+                        <span
+                            class="categoria-nome"
+                            aria-hidden="true">
+                            {{ cat.nome }}
+                        </span>
+
                     </li>
                 }
-                </ul>
 
-            <button type="button" 
-                    class="seta-carousel right" 
-                    (click)="scrollDireita()" 
-                    aria-label="Rolar carrossel de categorias para a direita">❯</button>
+            </ul>
+
+            @if (podeAvancar) {
+                <button
+                    type="button"
+                    class="seta-carousel right"
+                    (click)="scrollDireita()"
+                    aria-label="Rolar carrossel de categorias para a direita">
+                    ❯
+                </button>
+            }
+
         </div>
+
     </div>
 </section>

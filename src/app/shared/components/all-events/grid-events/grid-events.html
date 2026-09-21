@@ -1,52 +1,52 @@
 <section class="lista-eventos-container">
   @if (eventos$ | async; as totalEventos) {
-    
     @if (totalEventos.length > 0) {
-      <!-- Exibe os eventos (até 6 por página) -->
       <div class="grid-eventos" role="region" aria-label="Resultados da busca de eventos">
         @for (item of (eventosPaginados$ | async); track item.id) {
-          <app-card-evento [dadosEvento]="item" class="card-item-fluid"></app-card-evento>
+          <app-card-evento
+            [dadosEvento]="item"
+            class="card-item-fluid">
+          </app-card-evento>
         }
       </div>
 
-      <!-- Controles de Paginação -->
       <div class="paginacao-container">
-        <button 
-          class="btn-paginacao" 
-          [disabled]="paginaAtual === 1" 
+        <button
+          class="btn-paginacao"
+          [disabled]="paginaAtual === 1"
           (click)="paginaAnterior()">
-          < Anterior
+          &lt; Anterior
         </button>
 
         <span class="texto-paginacao">
           Página <strong>{{ paginaAtual }}</strong> de <strong>{{ totalPaginas }}</strong>
         </span>
 
-        <button 
-          class="btn-paginacao" 
-          [disabled]="paginaAtual >= totalPaginas" 
+        <button
+          class="btn-paginacao"
+          [disabled]="paginaAtual >= totalPaginas"
           (click)="proximaPagina()">
-          Próxima >
+          Próxima &gt;
         </button>
       </div>
-    } 
-    
-    @else {
-      <!-- MENSAGEM DE ERRO (MANTIDA ORIGINAL) -->
+    } @else {
       <div class="empty-state-hero" role="alert">
         <div class="empty-icon-wrapper">
           <i class="fa-solid fa-calendar-xmark" aria-hidden="true"></i>
         </div>
+
         <h2 class="ops-titulo">Ops! Nenhum evento encontrado.</h2>
+
         <p class="ops-subtitulo">
-          Não encontramos eventos cadastrados para os critérios selecionados no momento. Tente alterar a cidade ou limpar os filtros de busca.
+          Não encontramos eventos cadastrados para os critérios selecionados no momento.
+          Tente alterar a cidade ou limpar os filtros de busca.
         </p>
+
         <button class="btn-ver-todos" (click)="onResetarClique()">
           Ver todos os eventos
         </button>
       </div>
     }
-
   } @else {
     <div class="loading-container" aria-live="polite">
       <div class="spinner-loader" aria-hidden="true"></div>

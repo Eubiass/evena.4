@@ -1,10 +1,10 @@
-/* --- CONTAINER E ESTRUTURA --- */
 #sessao-categorias {
     width: 100vw;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 .container-categorias {
     width: 95%;
     max-width: 1650px;
@@ -12,7 +12,6 @@
     box-sizing: border-box;
 }
 
-/* Textos */
 .titulo-sessao {
     display: flex;
     justify-content: space-between;
@@ -21,11 +20,14 @@
     width: 100%;
     margin-top: 15px;
 }
+
 .titulo-sessao h1 {
+    margin: 0;
     font-size: 30px;
     font-family: var(--fonte-principal);
     font-weight: 700;
 }
+
 .ver-mais {
     font-size: 14px;
     font-family: var(--fonte-secundaria);
@@ -35,43 +37,48 @@
     cursor: pointer;
     transition: 0.3s;
 }
+
 .ver-mais:hover {
     color: #6b20b1;
     text-decoration: underline;
 }
 
-/* --- CARROSSEL --- */
 .carousel-container {
     position: relative;
+    width: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
-    width: 100%;
+    box-sizing: border-box;
 }
+
 .lista-circulos {
+    width: 100%;
+    min-width: 0;
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap; 
+    flex-wrap: nowrap;
     gap: 26px;
     overflow-x: hidden;
     scroll-behavior: smooth;
-    width: 93.7%;
-    padding: 10px 5px; /* Aumentado padding para não cortar a linha de foco do teclado */
-    list-style: none; /* Reseta o estilo de lista nativo */
+    padding: 10px 55px 10px 0;
     margin: 0;
+    list-style: none;
+    box-sizing: border-box;
 }
 
-/* Wrapper para alinhar círculo + texto */
 .item-wrapper {
+    flex: 0 0 120px;
+    width: 120px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
+    box-sizing: border-box;
 }
 
 .circulo-item {
-    width: 115px;
-    height: 115px;
+    width: 120px;
+    height: 120px;
     background-color: var(--cor-principal);
     border-radius: 50%;
     display: flex;
@@ -79,25 +86,24 @@
     justify-content: center;
     cursor: pointer;
     transition: transform 0.3s ease, background-color 0.3s ease;
-    
-    /* Resets nativos de Tag Button */
     border: none;
     padding: 0;
 }
+
 .circulo-item:hover {
     background-color: #3d2285;
     transform: scale(1.05);
 }
 
-/* REQUISITO WCAG: Linha de foco nítida e visível para navegação por teclado */
 .circulo-item:focus-visible,
 .seta-carousel:focus-visible {
     outline: 3px solid var(--cor-secundaria, #5cae45);
     outline-offset: 4px;
 }
+
 .circulo-item:focus,
 .seta-carousel:focus {
-    outline: none; /* Oculta apenas se o navegador suportar o focus-visible */
+    outline: none;
 }
 
 .categoria-nome {
@@ -107,96 +113,61 @@
     font-weight: 600;
     text-align: center;
 }
+
 .icon-verde {
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
     object-fit: contain;
 }
 
-/* --- SETAS --- */
 .seta-carousel {
     position: absolute;
-    z-index: 10;  
-    top: 40%; 
-    transform: translateY(-50%); 
-
-    color: var(--cor-principal);
-    border: none;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-
-    border-radius: 50%;
+    z-index: 10;
+    top: 50%;
     width: 40px;
     height: 40px;
-    font-size: 16px;
-
-    cursor: pointer;
     display: flex;
-    align-items: center; 
-    justify-content: center; 
-    background: var(--cor-branco, #fff); /* Corrigido background: none para aceitar a variável branca */
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 50%;
+    background: var(--cor-branco, #fff);
+    color: var(--cor-principal);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    font-size: 16px;
     font-weight: bold;
-    transition: all 0.3s ease;
+    cursor: pointer;
+    transform: translateY(-50%);
+    transition: 0.3s ease;
 }
+
 .seta-carousel:hover {
     background-color: var(--cor-principal);
     color: var(--cor-secundaria);
-    transform: translateY(-50%) scale(1.1);
-}
-.seta-carousel.left { 
-    left: -10px; 
-}
-.seta-carousel.right { 
-    right: -10px; 
+    transform: translateY(-50%) scale(1.08);
 }
 
-/* --- MEDIA QUERIES --- */
-@media (max-width: 768px) {
-    .titulo-sessao {
-        padding-left: 0;
-    }
-    .titulo-sessao h1 {
-        font-size: 24px;
-    }
-    .ver-mais {
-        padding-right: 0;
-    }
-    
-    .container-categorias {
-        width: 100%;
-    }
+.seta-carousel.left {
+    left: -20px;
+}
 
-    .seta-carousel {
-        display: none;
-    }
-
-    .lista-circulos {
-        overflow-x: auto;
-        scrollbar-width: none; 
-        width: 100%;
-        padding: 5px;
-        gap: 24px;
-    }
-    .lista-circulos::-webkit-scrollbar {
-        display: none;
-    }
-
-    .circulo-item {
-        width: 80px; 
-        height: 80px;
-    }
+.seta-carousel.right {
+    right: -20px;
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
     .titulo-sessao {
         padding-left: 0;
     }
+
     .titulo-sessao h1 {
         font-size: 24px;
     }
+
     .ver-mais {
         padding-right: 0;
     }
-    
+
     .container-categorias {
         width: 95%;
     }
@@ -206,17 +177,68 @@
     }
 
     .lista-circulos {
-        overflow-x: auto;
-        scrollbar-width: none; 
         width: 100%;
         gap: 30px;
+        overflow-x: auto;
+        scrollbar-width: none;
+        padding: 10px 5px;
     }
+
     .lista-circulos::-webkit-scrollbar {
         display: none;
     }
 
+    .item-wrapper {
+        flex: 0 0 105px;
+        width: 105px;
+    }
+
     .circulo-item {
-        width: 105px; 
+        width: 105px;
         height: 105px;
+    }
+}
+
+@media (max-width: 768px) {
+    .titulo-sessao {
+        padding-left: 0;
+    }
+
+    .titulo-sessao h1 {
+        font-size: 24px;
+    }
+
+    .ver-mais {
+        padding-right: 0;
+    }
+
+    .container-categorias {
+        width: 100%;
+    }
+
+    .seta-carousel {
+        display: none;
+    }
+
+    .lista-circulos {
+        width: 100%;
+        gap: 24px;
+        overflow-x: auto;
+        scrollbar-width: none;
+        padding: 5px;
+    }
+
+    .lista-circulos::-webkit-scrollbar {
+        display: none;
+    }
+
+    .item-wrapper {
+        flex: 0 0 80px;
+        width: 80px;
+    }
+
+    .circulo-item {
+        width: 80px;
+        height: 80px;
     }
 }

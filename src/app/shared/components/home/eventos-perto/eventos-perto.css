@@ -1,66 +1,51 @@
-#sessao-eventos-perto-ip, #sessao-eventos-perto-gps {
+#sessao-eventos-perto-ip,
+#sessao-eventos-perto-gps {
     width: 100vw;
     display: flex;
     justify-content: center;
-    align-items: center;
     box-sizing: border-box;
-    margin-top:  50px;
+}
+
+#sessao-eventos-perto-ip {
+    margin-top: 50px;
 }
 
 #sessao-eventos-perto-gps {
-    margin-top: 55px; 
+    margin-top: 55px;
     padding-bottom: 25px;
-    animation: surgimentoFadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .container-eventos {
-    width: 95%; 
+    width: 95%;
     max-width: 1650px;
     padding: 0 20px;
     box-sizing: border-box;
 }
 
-.container-card-distancia {
-    display: flex;
-    flex-direction: column;
-    gap: 8px; 
-}
-
-.distancia {
-    font-size: 14px;
-    font-family: var(--fonte-principal);
-    font-weight: 600;
-    color: var(--cor-principal);
-    padding-left: 6px;
-}
-
-/* Textos */
 .titulo-sessao {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: var(--cor-principal);
     width: 100%;
-    margin-top: 15px;
+    margin: 15px 0 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
 }
 
 .titulo-sessao h1 {
-    font-size: 30px;
-    font-family: var(--fonte-principal);
-    font-weight: 700;
-    color: var(--cor-principal);
-    display: inline-block;
     margin: 0;
+    color: var(--cor-principal);
+    font-family: var(--fonte-principal);
+    font-size: 30px;
+    font-weight: 700;
 }
 
 .ver-mais {
-    font-size: 14px;
-    font-family: var(--fonte-secundaria);
-    font-weight: 700;
+    flex-shrink: 0;
     color: var(--cor-principal);
+    font-family: var(--fonte-secundaria);
+    font-size: 14px;
+    font-weight: 700;
     text-decoration: none;
-    cursor: pointer;
-    transition: color 0.3s ease;
 }
 
 .ver-mais:hover {
@@ -68,28 +53,94 @@
     text-decoration: underline;
 }
 
-/* --- CARROSSEL --- */
 .carousel-container {
     position: relative;
+    width: 100%;
+    min-width: 0;
     display: flex;
     align-items: center;
-    justify-content: center;
-    width: 100%;
+    overflow: visible;
+    box-sizing: border-box;
 }
 
 .grid-eventos {
+    width: 100%;
+    min-width: 0;
     display: flex;
-    flex-direction: row; 
-    flex-wrap: nowrap; 
-    gap: 28px; 
-    overflow-x: hidden; 
+    flex-wrap: nowrap;
+    gap: 28px;
+    padding: 10px 55px 15px 0;
+    margin: 0;
+    overflow-x: hidden;
+    box-sizing: border-box;
     scroll-behavior: smooth;
-    width: 94.3%;
-    padding: 10px 5px;
+}
+
+.grid-eventos > app-card-evento,
+.container-card-distancia {
+    flex: 0 0 calc((100% - 84px) / 3.5);
+    width: calc((100% - 84px) / 3.5);
+    min-width: 0;
+    max-width: calc((100% - 84px) / 3.5);
+    box-sizing: border-box;
+}
+
+.container-card-distancia {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.container-card-distancia app-card-evento {
+    width: 100%;
+    min-width: 0;
+}
+
+.distancia {
+    padding-left: 5px;
+    color: var(--cor-principal);
+    font-family: var(--fonte-principal);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.seta-carousel {
+    position: absolute;
+    top: 50%;
+    z-index: 10;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 50%;
+    background: var(--cor-branco, #fff);
+    color: var(--cor-principal);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transform: translateY(-50%);
+    transition: 0.3s ease;
+}
+
+.seta-carousel:hover {
+    background: var(--cor-principal);
+    color: var(--cor-secundaria);
+    transform: translateY(-50%) scale(1.08);
+}
+
+.seta-carousel.left {
+    left: -20px;
+}
+
+.seta-carousel.right {
+    right: -20px;
 }
 
 .grid-eventos:focus-visible {
-    outline: 3px solid var(--cor-secundaria, #6de24c);
+    outline: 3px solid var(--cor-secundaria);
     outline-offset: 4px;
     border-radius: 8px;
 }
@@ -98,98 +149,50 @@
     outline: none;
 }
 
-/* --- SETAS --- */
-.seta-carousel {
-    position: absolute;
-    z-index: 10;  
-    top: 50%; 
-    transform: translateY(-50%); 
-
-    color: var(--cor-principal);
-    border: none;
-    background-color: var(--cor-branco, #fff);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    font-size: 16px;
-
-    cursor: pointer;
-    display: flex;
-    align-items: center; 
-    justify-content: center; 
-    font-weight: bold;
-    transition: all 0.3s ease;
-}
-
-.seta-carousel:hover {
-    background-color: var(--cor-principal);
-    color: var(--cor-secundaria);
-    transform: translateY(-50%) scale(1.1);
-}
-
-.seta-carousel.left { left: -10px; }
-.seta-carousel.right { right: -10px; }
-
-/* --- CARD DE LOCALIZAÇÃO TOTALMENTE RESPONSIVO --- */
-button.card-localizacao {
-    flex-shrink: 0;
-    width: calc((100% - 16px) / 1.3) !important;
-    min-width: unset !important; /* Garante que ele preserva a proporção exata no flexbox */
-    max-width: 100%;
-    
-    background: linear-gradient(135deg, var(--cor-principal) 0%, #2a1b52 100%);
+.card-localizacao {
+    flex: 0 0 calc((100% - 84px) / 3.5);
+    width: calc((100% - 84px) / 3.5);
+    min-width: 0;
+    min-height: 230px;
+    padding: 24px 20px;
+    box-sizing: border-box;
+    border: 4px solid var(--cor-principal);
     border-radius: 12px;
+    background: linear-gradient(135deg, var(--cor-principal), #2a1b52);
+    color: #fff;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between; 
-    padding: 24px 20px;
+    justify-content: space-between;
     text-align: center;
-    color: #ffffff;
-    cursor: pointer;
-    transition: transform 0.3s ease, border-color 0.3s ease, opacity 0.2s ease;
-    border: 4px solid var(--cor-principal);
     font-family: var(--fonte-secundaria);
-    box-sizing: border-box;
-    appearance: none;
-    -webkit-appearance: none;
+    cursor: pointer;
 }
 
-button.card-localizacao:disabled {
+.card-localizacao:disabled {
     opacity: 0.7;
     cursor: wait;
-    border-color: rgba(255, 255, 255, 0.2);
 }
 
-button.card-localizacao:hover:not(:disabled) {
+.card-localizacao:hover:not(:disabled) {
     border-color: var(--cor-secundaria);
 }
 
-button.card-localizacao:focus-visible {
-    outline: 3px solid var(--cor-secundaria, #6de24c);
-    outline-offset: 6px;
-}
-
 .icon-pulse {
-    font-size: 40px;
-    margin-bottom: 12px;
-    background: rgba(255, 255, 255, 0.1);
     width: 76px;
     height: 76px;
+    flex-shrink: 0;
+    margin-bottom: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
     animation: pulse-local 2s infinite;
-    flex-shrink: 0;
 }
 
-/* Animação rápida de loading se estiver a aguardar o navegador */
 .icon-pulse.carregando {
-    animation: pulse-local 0.6s infinite cubic-bezier(0.4, 0, 0.2, 1);
-    background: rgba(109, 226, 76, 0.2);
+    animation-duration: 0.6s;
 }
 
 .icon-localizacao {
@@ -199,10 +202,10 @@ button.card-localizacao:focus-visible {
 
 .titulo-card-btn {
     display: block;
-    font-size: 1.3em;
-    font-weight: bold;
     margin-bottom: 8px;
     font-family: var(--fonte-principal);
+    font-size: 1.3em;
+    font-weight: 700;
 }
 
 .textos {
@@ -210,150 +213,139 @@ button.card-localizacao:focus-visible {
 }
 
 .textos p {
+    margin: 0;
     font-family: var(--fonte-principal);
     font-size: 13px;
     line-height: 1.4;
-    margin: 0;
     opacity: 0.85;
 }
 
 .btn-ativar-fake {
-    width: 100%; 
+    width: 100%;
     max-width: 200px;
-    box-sizing: border-box;
-    background-color: var(--cor-secundaria);
-    color: var(--cor-principal);
-    border: 2px solid var(--cor-secundaria);
     padding: 10px 16px;
+    box-sizing: border-box;
+    border: 2px solid var(--cor-secundaria);
     border-radius: 25px;
-    font-weight: 700;
+    background: var(--cor-secundaria);
+    color: var(--cor-principal);
     font-size: 13px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    display: inline-block;
+    font-weight: 700;
 }
 
-button.card-localizacao:hover:not(:disabled) .btn-ativar-fake {
-    background-color: var(--cor-principal);
-    color: var(--cor-secundaria);
-}
-
-/* Keyframes */
 @keyframes pulse-local {
-    0% { box-shadow: 0 0 0 0 rgba(109, 226, 76, 0.4); }
-    70% { box-shadow: 0 0 0 15px rgba(109, 226, 76, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(109, 226, 76, 0); }
-}
-
-@keyframes surgimentoFadeUp {
-    from {
-        opacity: 0;
-        transform: translateY(15px);
+    0% {
+        box-shadow: 0 0 0 0 rgba(109, 226, 76, 0.4);
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+
+    70% {
+        box-shadow: 0 0 0 15px rgba(109, 226, 76, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(109, 226, 76, 0);
     }
 }
 
-/* --- MEDIA QUERIES --- */
-@media (min-width: 769px) {
-  button.card-localizacao {
-    width: calc((100% - (3 * 28px)) / 3.5) !important;
-  }
+@media (max-width: 1024px) {
+    .container-eventos {
+        width: 95%;
+    }
+
+    .seta-carousel {
+        display: none;
+    }
+
+    .grid-eventos {
+        width: 100%;
+        margin: 0;
+        overflow-x: auto;
+        scrollbar-width: none;
+        gap: 20px;
+        padding-right: 0;
+    }
+
+    .grid-eventos::-webkit-scrollbar {
+        display: none;
+    }
+
+    .grid-eventos > app-card-evento,
+    .container-card-distancia,
+    .card-localizacao {
+        flex: 0 0 260px;
+        width: 260px;
+        max-width: 260px;
+    }
 }
 
 @media (max-width: 768px) {
-    .titulo-sessao { padding-left: 0; }
-    .titulo-sessao h1 { font-size: 24px; }
-    .ver-mais { padding-right: 0; }
-    .container-eventos { width: 100%; }
-    .seta-carousel { display: none; }
-    
+    #sessao-eventos-perto-ip,
+    #sessao-eventos-perto-gps {
+        margin-top: 35px;
+    }
+
+    .container-eventos {
+        width: 100%;
+        max-width: none;
+        padding: 0 16px;
+    }
+
+    .titulo-sessao {
+        margin-top: 10px;
+    }
+
+    .titulo-sessao h1 {
+        font-size: 24px;
+    }
+
+    .ver-mais {
+        font-size: 13px;
+    }
+
     .grid-eventos {
+        width: 100%;
+        margin: 0;
+        gap: 16px;
+        padding: 8px 0 15px;
         overflow-x: auto;
         scrollbar-width: none;
-        gap: 16px; 
     }
-    .grid-eventos::-webkit-scrollbar { display: none; }
-    
-    button.card-localizacao { 
-        width: 230px; 
-        min-width: 230px;
+
+    .grid-eventos::-webkit-scrollbar {
+        display: none;
+    }
+
+    .grid-eventos > app-card-evento,
+    .container-card-distancia,
+    .card-localizacao {
+        flex: 0 0 180px;
+        width: 180px;
+        max-width: 180px;
+    }
+
+    .card-localizacao {
+        min-height: 250px;
         padding: 20px 15px;
     }
+
     .icon-pulse {
         width: 66px;
         height: 66px;
     }
+
     .icon-localizacao {
         width: 32px;
     }
+
     .titulo-card-btn {
         font-size: 1.15em;
     }
-}
 
-@media (min-width: 769px) and (max-width: 1024px) {
-    .titulo-sessao { padding-left: 25px; }
-    .titulo-sessao h1 { font-size: 24px; }
-    .ver-mais { padding-right: 55px; }
-    .container-eventos { width: 100%; }
-    .seta-carousel { display: none; }
-    
-    .grid-eventos {
-        overflow-x: auto;
-        scrollbar-width: none;
-        gap: 20px;
+    .textos p {
+        font-size: 12px;
     }
-    .grid-eventos::-webkit-scrollbar { display: none; }
-    
-    button.card-localizacao { 
-        width: 260px; 
-        min-width: 260px;
+
+    .distancia {
+        font-size: 12px;
     }
-}
-
-
-/* Força a div wrapper do carrossel GPS a ter o mesmo tamanho do host */
-.container-card-distancia {
-  width: 220px;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.container-card-distancia app-card-evento {
-  width: 100%;
-}
-
-/* Botão de localização idêntico aos cards */
-button.card-localizacao {
-  width: 220px !important;
-  min-width: 220px !important;
-  flex-shrink: 0;
-}
-
-/* MOBILE (< 769px) */
-@media (max-width: 768px) {
-  .container-card-distancia,
-  button.card-localizacao {
-    width: 180px !important;
-    min-width: 180px !important;
-    flex-shrink: 0;
-  }
-}
-
-/* DESKTOP (>= 769px) */
-@media (min-width: 769px) {
-  .container-card-distancia,
-  button.card-localizacao {
-    width: calc((100% - (3 * 28px)) / 3.5) !important;
-    min-width: unset !important;
-    flex-shrink: 0;
-  }
-}
-
-.container-card-distancia app-card-evento {
-  width: 100%;
 }
