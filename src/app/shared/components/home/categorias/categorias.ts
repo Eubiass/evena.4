@@ -1,4 +1,12 @@
-import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  ViewChild,
+  AfterViewInit,
+  ChangeDetectorRef,
+  NgZone,
+  OnDestroy
+} from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FiltroEventosService } from '../../../../services/filtros/filtro-eventos-service';
 import { CommonModule } from '@angular/common';
@@ -10,7 +18,8 @@ import { CommonModule } from '@angular/common';
   templateUrl: './categorias.html',
   styleUrl: './categorias.css',
 })
-export class Categorias implements AfterViewInit {
+export class Categorias implements AfterViewInit, OnDestroy {
+
   categorias = [
     { id: 1, nome: "Networking", icone: 'categorias/negocios.png' },
     { id: 2, nome: "Música", icone: 'categorias/shows.png' },
@@ -29,21 +38,53 @@ export class Categorias implements AfterViewInit {
   podeVoltar = false;
   podeAvancar = false;
 
+  private resizeObserver?: ResizeObserver;
+
   constructor(
     private filtroService: FiltroEventosService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef,
+    private ngZone: NgZone
   ) {}
 
   ngAfterViewInit() {
+    this.ngZone.onStable
+      .pipe()
+      .subscribe(() => {
+        this.atualizarSetas();
+      });
+
     setTimeout(() => {
       this.atualizarSetas();
+    }, 0);
+
+    requestAnimationFrame(() => {
+      this.atualizarSetas();
+
+      requestAnimationFrame(() => {
+        this.atualizarSetas();
+      });
     });
+
+    this.resizeObserver = new ResizeObserver(() => {
+      this.atualizarSetas();
+    });
+
+    if (this.carousel?.nativeElement) {
+      this.resizeObserver.observe(this.carousel.nativeElement);
+    }
+  }
+
+  ngOnDestroy() {
+    this.resizeObserver?.disconnect();
   }
 
   atualizarSetas() {
     const element = this.carousel?.nativeElement;
 
-    if (!element) return;
+    if (!element) {
+      return;
+    }
 
     const tolerancia = 5;
 
@@ -55,16 +96,23 @@ export class Categorias implements AfterViewInit {
 
     this.podeVoltar = !noInicio;
     this.podeAvancar = !noFinal;
+
+    this.cdr.detectChanges();
   }
 
   scrollDireita() {
     const element = this.carousel?.nativeElement;
 
-    if (!element) return;
+    if (!element) {
+      return;
+    }
 
-    const primeiroItem = element.querySelector('.item-wrapper') as HTMLElement;
+    const primeiroItem =
+      element.querySelector('.item-wrapper') as HTMLElement;
 
-    if (!primeiroItem) return;
+    if (!primeiroItem) {
+      return;
+    }
 
     const larguraItem = primeiroItem.offsetWidth;
     const gap = 26;
@@ -82,11 +130,16 @@ export class Categorias implements AfterViewInit {
   scrollEsquerda() {
     const element = this.carousel?.nativeElement;
 
-    if (!element) return;
+    if (!element) {
+      return;
+    }
 
-    const primeiroItem = element.querySelector('.item-wrapper') as HTMLElement;
+    const primeiroItem =
+      element.querySelector('.item-wrapper') as HTMLElement;
 
-    if (!primeiroItem) return;
+    if (!primeiroItem) {
+      return;
+    }
 
     const larguraItem = primeiroItem.offsetWidth;
     const gap = 26;
