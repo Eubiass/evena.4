@@ -1,5 +1,5 @@
 #exibicao-banner {
-    margin-top: clamp(70px, 5vh, 80px);
+    margin-top: clamp(62px, 5vh, 68px);
     width: 99vw;
     display: flex;
     justify-content: center;

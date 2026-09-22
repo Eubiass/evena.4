@@ -1,60 +1,69 @@
-/* --- ESTRUTURA GLOBAL DO HEADER --- */
 .app-header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
+    height: clamp(58px, 3.65vw, 70px);
     z-index: 1000;
-    height: 70px;
-    background-color: var(--cor-principal);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-sizing: border-box;
     padding-right: 15px;
+    box-sizing: border-box;
+    background-color: var(--cor-principal);
 }
 
 .header-section {
     display: flex;
     align-items: center;
-    flex: 1;
+}
+
+.header-section.left {
+    flex: 0 0 auto;
 }
 
 .header-section.center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
     justify-content: center;
-    margin-right: 100px;
+    margin: 0;
 }
 
 .header-section.right {
-    justify-content: flex-end;
+    margin-left: auto;
+    display: flex;
     align-items: center;
-    gap: 8px; /* Diminuído de 15px para 8px para aproximar os elementos */
+    justify-content: flex-end;
+    gap: 8px;
     flex: 0 0 auto;
 }
 
 /* --- LOGO --- */
 .logo {
-    width: 200px; 
-    height: 70px;
+    width: 190px;
+    height: 62px;
     display: block;
     object-fit: cover;
-    margin-top: 5px;
+    margin-top: 4px;
 }
 
 /* --- NAVEGAÇÃO DESKTOP --- */
 .btn_nav_bar {
-    background: none;
+    position: relative;
+    margin: 0 15px;
+    padding-bottom: 4px;
     border: none;
+    background: none;
     color: #5cae45;
+    font-family: var(--fonte-secundaria);
     font-size: 19px;
     font-weight: 600;
-    margin: 0 15px;
+    text-decoration: none;
     cursor: pointer;
-    font-family: var(--fonte-secundaria);
     transition: all 0.2s ease;
-    text-decoration: none; /* Garante que não haja sublinhado padrão de link */
-    position: relative;
-    padding-bottom: 4px;
 }
 
 .btn_nav_bar:hover {
@@ -62,7 +71,6 @@
     font-size: 20px;
 }
 
-/* CORREÇÃO CIRÚRGICA: O traço verde agora só aparece no link que o Angular marcar como ativo */
 .btn_nav_bar.ativo {
     color: var(--cor-secundaria);
     font-size: 20px;
@@ -79,57 +87,57 @@
     border-radius: 2px;
 }
 
-/* --- BARRA DE BUSCA (ESTADO PADRÃO) --- */
+/* --- BARRA DE BUSCA --- */
 .btn-search {
-    cursor: text;
     display: flex;
     align-items: center;
+    padding: 5px 10px;
     border: 1.5px solid #579247;
     border-radius: 10px;
-    padding: 5px 10px;
     background: var(--cor-principal);
+    cursor: text;
     transition: all 0.3s ease;
 }
 
 .search-trigger {
-    background: transparent; 
-    border: none;            
-    padding: 0;             
     display: flex;
     align-items: center;
+    padding: 0;
+    border: none;
+    background: transparent;
     cursor: pointer;
     outline: none;
 }
 
 .search {
-    height: 25px;
     width: 25px;
+    height: 25px;
     display: block;
 }
 
 #campo-busca {
+    width: 100%;
+    margin-left: 10px;
     border: none;
     outline: none;
     background: transparent;
     color: var(--cor-secundaria);
     font-size: 14px;
-    width: 100%;
-    margin-left: 10px;
 }
 
 input::placeholder {
     color: var(--cor-secundaria);
-    font-size: 15px;
-    opacity: 1; 
     font-family: var(--fonte-principal);
+    font-size: 15px;
+    opacity: 1;
 }
 
 .btn-fechar {
-    background: none;
+    padding-left: 10px;
     border: none;
+    background: none;
     color: var(--cor-secundaria);
     font-size: 20px;
-    padding-left: 10px;
     cursor: pointer;
 }
 
@@ -137,76 +145,78 @@ input::placeholder {
 .perfil {
     width: 40px;
     height: 40px;
+    border: 2px solid var(--cor-secundaria);
     border-radius: 50%;
     object-fit: cover;
     cursor: pointer;
-    border: 2px solid var(--cor-secundaria);
 }
 
-.btn-login{
+/* --- BOTÃO ENTRAR --- */
+.btn-login {
     width: 90px;
     height: 40px;
-    border: 1px var(--cor-secundaria) solid;
-    background: var(--cor-secundaria);
+    border: 1px solid var(--cor-secundaria);
     border-radius: 10px;
-    font-family: var(--fonte-principal);
-    font-weight: 700;
-    font-size: 16px;
+    background: var(--cor-secundaria);
     color: var(--cor-principal);
+    font-family: var(--fonte-principal);
+    font-size: 16px;
+    font-weight: 700;
     cursor: pointer;
 }
-.btn-login:hover{
+
+.btn-login:hover {
     background: none;
-    transform: translateY(-2px);
     color: var(--cor-secundaria);
+    transform: translateY(-2px);
 }
 
 /* --- BOTÃO MENU MOBILE --- */
 .menu-mobile-btn {
-    display: none; 
+    display: none;
     flex-direction: column;
     gap: 5px;
-    background: none;
     border: none;
+    background: none;
     cursor: pointer;
 }
 
 .menu-mobile-btn span {
     width: 25px;
     height: 3px;
-    background-color: var(--cor-secundaria);
     border-radius: 2px;
+    background-color: var(--cor-secundaria);
 }
 
-/* --- MENU GAVETA (OVERLAY MOBILE) --- */
+/* --- MENU GAVETA --- */
 .menu-overlay {
     position: fixed;
     top: 0;
-    right: -100%; 
+    right: -100%;
     width: 280px;
     height: 100vh;
-    background-color: var(--cor-principal);
     z-index: 2000;
-    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     flex-direction: column;
     padding: 40px 25px;
-    box-shadow: -5px 0 15px rgba(0,0,0,0.5);
     box-sizing: border-box;
+    background-color: var(--cor-principal);
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .menu-overlay.aberto {
-    right: 0; 
+    right: 0;
 }
 
 .btn_fechar_menu {
     align-self: flex-end;
-    background: none;
+    padding-left: 10px;
     border: none;
+    background: none;
     color: var(--cor-secundaria);
     font-size: 35px;
     cursor: pointer;
-    padding-left: 10px;
 }
 
 .mobile-nav {
@@ -217,31 +227,30 @@ input::placeholder {
 }
 
 .mobile-nav a {
-    color: var(--cor-secundaria);
-    text-decoration: none;
-    font-size: 22px;
-    font-weight: 700;
-    font-family: var(--fonte-secundaria);
     padding: 5px 0;
     border-left: 4px solid transparent;
+    color: var(--cor-secundaria);
+    font-family: var(--fonte-secundaria);
+    font-size: 22px;
+    font-weight: 700;
+    text-decoration: none;
     transition: all 0.2s ease;
 }
 
-/* Estilo para marcar a página ativa dentro do menu mobile */
 .mobile-nav a.ativo {
     padding-left: 10px;
     border-left-color: var(--cor-secundaria);
 }
 
 .divisor-menu {
+    width: 100%;
     border: 0;
     border-top: 1px solid rgba(109, 226, 76, 0.2);
-    width: 100%;
 }
 
-/* --- BARRA DE BUSCA ATIVA (EXPANDIDA) --- */
+/* --- BARRA DE BUSCA ATIVA --- */
 .app-header.busca-ativa {
-    justify-content: center; 
+    justify-content: center;
 }
 
 .header-section.right.expandida {
@@ -253,12 +262,12 @@ input::placeholder {
 
 .btn-search.active {
     width: 100%;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid var(--cor-secundaria); 
-    border-radius: 25px;
     display: flex;
     align-items: center;
     padding: 5px 15px;
+    border: 1px solid var(--cor-secundaria);
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .btn-search.active .search {
@@ -267,11 +276,48 @@ input::placeholder {
 }
 
 .btn-search.active #campo-busca {
-    font-size: 16px; 
+    font-size: 16px;
 }
 
-/* --- RESPONSIVIDADE (TABLET & MOBILE) --- */
+/* --- RESPONSIVIDADE --- */
+@media (max-width: 1366px) {
+    .app-header {
+        height: 62px;
+    }
+
+    .logo {
+        width: 185px;
+        height: 62px;
+        margin-top: 3px;
+    }
+
+    .btn_nav_bar {
+        margin: 0 12px;
+        font-size: 18px;
+    }
+
+    .btn_nav_bar:hover,
+    .btn_nav_bar.ativo {
+        font-size: 19px;
+    }
+
+    .btn-search {
+        padding: 4px 9px;
+    }
+
+    .btn-login {
+        width: 85px;
+        height: 38px;
+        font-size: 15px;
+    }
+}
+
 @media (max-width: 1024px) {
+    .app-header {
+        height: 58px;
+        padding: 0 15px;
+    }
+
     .desktop-only {
         display: none !important;
     }
@@ -284,80 +330,70 @@ input::placeholder {
         display: flex;
     }
 
+    .logo {
+        width: 155px;
+        height: 58px;
+        margin-top: 2px;
+    }
+
     .btn-search {
+        width: 40px;
+        margin: 0;
+        padding: 0;
         border-color: transparent;
         background: transparent;
-        width: 40px;
-        padding: 0;
     }
 
     #campo-busca {
-        display: none; /* Esconde o input no mobile quando não está em busca ativa */
+        display: none;
     }
 
-    .logo {
-        width: 160px;
-    }
-
-    .app-header {
-        padding: 0 15px;
-    }
-
-    /* Ajuste da caixa expandida de busca por cima do layout no mobile */
     .btn-search.active {
         position: absolute;
         left: 15px;
         right: 15px;
         width: auto;
-        background: var(--cor-principal);
+        z-index: 10;
+        padding: 8px 15px;
         border-color: var(--cor-secundaria);
         border-radius: 25px;
-        padding: 8px 15px;
-        z-index: 10;
+        background: var(--cor-principal);
     }
 
     .btn-search.active #campo-busca {
-        display: block; /* Força a aparição do campo de texto na busca ativa */
+        display: block;
         color: white;
     }
 
     .header-section.right {
-        gap: 8px; /* Mantém a distância curta entre a lupa e o menu hambúrguer no tablet/mobile */
-    }
-
-    /* Remove qualquer margem interna ou externa do container de busca no mobile */
-    .btn-search {
-        margin: 0;
+        gap: 8px;
     }
 }
 
-/* Ajustes finos para smartphones pequenos */
 @media (max-width: 480px) {
     .app-header {
+        height: 55px;
         padding-left: 0;
     }
-    
-    .header-section.right {
-        gap: 10px;
-    }
-    
+
     .logo {
-        width: 140px; 
-    }
-    
-    .btn_fechar_menu {
-        align-self: flex-end;
-        width: 50px;
-        height: 50px;
-        font-weight: 700;
-        font-size: 40px;
-        background: none;
-        border: none;
-        color: var(--cor-secundaria);
-        margin-right: 0; 
+        width: 140px;
+        max-height: 51px;
     }
 
     .header-section.right {
         gap: 6px;
+    }
+
+    .btn_fechar_menu {
+        align-self: flex-end;
+        width: 50px;
+        height: 50px;
+        margin-right: 0;
+        border: none;
+        background: none;
+        color: var(--cor-secundaria);
+        font-size: 40px;
+        font-weight: 700;
     }
 }
