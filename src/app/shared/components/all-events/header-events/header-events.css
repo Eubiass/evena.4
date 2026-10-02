@@ -11,7 +11,7 @@
   font-family: var(--fonte-principal, sans-serif);
   font-size: 2.2rem;
   font-weight: 800;
-  color: #ffffff;
+  color: var(--cor-secundaria);
   margin: 0;
   letter-spacing: -0.5px;
 }
