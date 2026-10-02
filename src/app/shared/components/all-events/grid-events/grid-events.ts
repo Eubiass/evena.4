@@ -41,13 +41,22 @@ export class GridEvents {
   proximaPagina(): void {
     if (this.paginaAtual < this.totalPaginas) {
       this.paginaAtual++;
+      this.voltarAoTopo();
     }
   }
-
+  
   paginaAnterior(): void {
     if (this.paginaAtual > 1) {
       this.paginaAtual--;
+      this.voltarAoTopo();
     }
+  }
+  
+  private voltarAoTopo(): void {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   }
 
   onResetarClique(): void {
