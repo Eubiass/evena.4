@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { Evento } from '../../../model/evento';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router'; // Mantemos o RouterLink que você já usava
+import { Evento } from '../../../models/evento';
 
 @Component({
   selector: 'app-card-evento',

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, HostListener, ChangeDetectorRef } from '@angular/core';
-import { Evento } from '../../../../model/evento';
 import { EventoService } from '../../../../services/evento-service';
-import { Router, RouterLink } from '@angular/router'; // CORREÇÃO: Importado o Router do Angular
+import { Router, RouterLink } from '@angular/router';
+import { Evento } from '../../../../models/evento';
 
 @Component({
   selector: 'app-banner-eventos',

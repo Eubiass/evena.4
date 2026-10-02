@@ -1,9 +1,9 @@
 import { Component, ElementRef, ViewChild, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CardEvento } from "../../card-evento/card-evento";
-import { Evento } from '../../../../model/evento';
 import { EventoService } from '../../../../services/evento-service';
 import { RouterLink } from "@angular/router";
 import { CommonModule } from "@angular/common";
+import { Evento } from '../../../../models/evento';
 
 @Component({
   selector: 'app-eventos-perto',

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { map, Observable } from 'rxjs';
-import { Evento } from '../../model/evento';
 import { EventoService } from '../../services/evento-service';
 import { FiltroEventosService, Filtros } from '../../services/filtros/filtro-eventos-service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,6 +10,9 @@ import { HeaderEvents } from '../../shared/components/all-events/header-events/h
 import { GridEvents } from '../../shared/components/all-events/grid-events/grid-events';
 import { CategoriasNav } from '../../shared/components/all-events/categorias-nav/categorias-nav';
 import { ModalFiltros } from '../../shared/components/all-events/modal-filtros/modal-filtros';
+import { Evento } from '../../models/evento';
+import { Header } from '../../shared/components/header/header';
+import { Footer } from '../../shared/components/footer/footer';
 
 @Component({
   selector: 'app-all-events',
@@ -20,7 +22,9 @@ import { ModalFiltros } from '../../shared/components/all-events/modal-filtros/m
     HeaderEvents, 
     GridEvents,
     CategoriasNav,
-    ModalFiltros
+    ModalFiltros,
+    Header,
+    Footer
   ],
   templateUrl: './all-events.html',
   styleUrl: './all-events.css'

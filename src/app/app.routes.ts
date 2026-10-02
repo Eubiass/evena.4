@@ -4,6 +4,7 @@ import { AllEvents } from './pages/all-events/all-events';
 import { DetalhesEvento } from './pages/detalhes-evento/detalhes-evento';
 import { Login } from './pages/login/login';
 import { Cadastro } from './pages/cadastro/cadastro';
+import { CriarEvento } from './pages/criar-evento/criar-evento';
 
 export const routes: Routes = [
   { path: '', 
@@ -18,4 +19,8 @@ export const routes: Routes = [
     component: Login},
   { path: 'cadastro',
     component: Cadastro},
+
+  {path: 'criar-evento',
+    component: CriarEvento
+  }
 ];

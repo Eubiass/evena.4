@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { Evento } from "../../../../model/evento";
 import { Observable } from "rxjs";
 import { map } from 'rxjs/operators';
 import { CardEvento } from "../../card-evento/card-evento";
 import { AsyncPipe, CommonModule } from "@angular/common";
+import { Evento } from "../../../../models/evento";
 
 @Component({
   selector: "app-grid-events",

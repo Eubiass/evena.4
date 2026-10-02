@@ -1,12 +1,12 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Evento, DiaFestival } from '../../../../model/evento';
 import { SobreBloco } from "./sobre-bloco/sobre-bloco";
 import { LineupBloco } from "./lineup-bloco/lineup-bloco";
 import { InfoGeraisBloco } from "./info-gerais-bloco/info-gerais-bloco";
 import { ComodidadesBloco } from "./comodidades-bloco/comodidades-bloco";
 import { LocalizacaoBloco } from "./localizacao-bloco/localizacao-bloco";
 import { SelecaoDiasBloco } from './selecao-dias-bloco/selecao-dias-bloco';
+import { DiaFestival, Evento } from '../../../../models/evento';
 
 @Component({
   selector: 'app-info-esquerda',

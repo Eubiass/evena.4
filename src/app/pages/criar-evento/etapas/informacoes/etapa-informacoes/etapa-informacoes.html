@@ -1,0 +1,112 @@
+<form class="etapa-informacoes" (ngSubmit)="enviarFormulario()">
+  <div class="formulario">
+    <div class="campo">
+      <label for="nome">Nome do evento <span>*</span></label>
+
+      <input
+        id="nome"
+        name="nome"
+        type="text"
+        placeholder="Ex: Festival Conexão"
+        [(ngModel)]="nome"
+      >
+    </div>
+
+    <div class="campo">
+      <label for="categoria">Categoria <span>*</span></label>
+
+      <select
+        id="categoria"
+        name="categoria"
+        [(ngModel)]="categoria"
+      >
+        <option value="">Selecione uma categoria</option>
+
+        @for (categoria of categorias; track categoria.valor) {
+          <option [value]="categoria.valor">
+            {{ categoria.nome }}
+          </option>
+        }
+      </select>
+    </div>
+
+    <div class="campo">
+      <label>Classificação etária <span>*</span></label>
+
+      <div class="classificacoes">
+        @for (idade of classificacoes; track idade) {
+          <button
+            type="button"
+            class="classificacao"
+            [class.ativa]="classificacao === idade"
+            (click)="selecionarClassificacao(idade)"
+          >
+            {{ idade }}
+          </button>
+        }
+      </div>
+    </div>
+
+    <div class="campo">
+      <label for="descricao">Descrição do evento <span>*</span></label>
+
+      <textarea
+        id="descricao"
+        name="descricao"
+        maxlength="500"
+        [(ngModel)]="descricao"
+        placeholder="Conte um pouco sobre o evento, atrações e o que o público pode esperar..."
+      ></textarea>
+
+      <div class="contador">{{ descricao.length }}/500</div>
+    </div>
+  </div>
+
+  <div class="capa">
+    <label>Imagem de capa <span>*</span></label>
+  
+    <div class="upload">
+      @if (imagemPreview) {
+        <img
+          class="preview"
+          [src]="imagemPreview"
+          alt="Prévia da imagem de capa"
+        >
+  
+        <strong class="nome-imagem">{{ nomeImagem }}</strong>
+      
+        <label class="botao-upload">
+          Alterar imagem
+        
+          <input
+            type="file"
+            accept="image/png,image/jpeg,image/gif"
+            (change)="selecionarImagem($event)"
+          >
+        </label>
+      } @else {
+        <span class="icone">↑</span>
+      
+        <strong>Arraste uma imagem aqui</strong>
+        <span>ou escolha um arquivo</span>
+        <small>JPG, PNG ou GIF · até 5 MB</small>
+      
+        <label class="botao-upload">
+          Escolher arquivo
+        
+          <input
+            type="file"
+            accept="image/png,image/jpeg,image/gif"
+            (change)="selecionarImagem($event)"
+          >
+        </label>
+      }
+    </div>
+  </div>
+
+  <div class="acoes">
+    <button type="submit" class="botao-continuar">
+      Continuar →
+    </button>
+  </div>
+</form>

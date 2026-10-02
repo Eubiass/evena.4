@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Evento } from '../../../../../model/evento';
+import { Evento } from '../../../../../models/evento';
 
 @Component({
   selector: 'app-info-gerais-bloco',

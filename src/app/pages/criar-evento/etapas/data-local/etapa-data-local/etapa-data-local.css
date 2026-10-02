@@ -1,0 +1,394 @@
+:host {
+  display: block;
+}
+
+.etapa-data-local,
+.formulario,
+.campo,
+.datas,
+.endereco {
+  display: flex;
+  flex-direction: column;
+}
+
+.etapa-data-local {
+  gap: 24px;
+  font-family: var(--fonte-secundaria);
+}
+
+.formulario {
+  gap: 22px;
+}
+
+.campo {
+  gap: 7px;
+  min-width: 0;
+}
+
+.campo label {
+  color: var(--cor-principal);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.campo label span {
+  color: #d9534f;
+}
+
+.descricao-campo {
+  margin: -2px 0 4px;
+  color: #858b9b;
+  font-size: 12px;
+}
+
+input,
+select {
+  width: 100%;
+  height: 42px;
+  box-sizing: border-box;
+  padding: 0 12px;
+  border: 1px solid #dfe3eb;
+  border-radius: 7px;
+  background: #fff;
+  color: var(--cor-principal);
+  font-family: inherit;
+  font-size: 13px;
+  outline: none;
+}
+
+input:focus,
+select:focus {
+  border-color: var(--cor-secundaria);
+}
+
+input::placeholder {
+  color: #a5aab7;
+}
+
+/* DATAS */
+
+.datas {
+  gap: 12px;
+}
+
+.linha-data {
+  display: grid;
+  grid-template-columns: 1.4fr .8fr .8fr 38px;
+  gap: 14px;
+  align-items: end;
+  padding: 18px;
+  box-sizing: border-box;
+  border: 1px solid #e4e8f1;
+  border-radius: 8px;
+  background: #fafbfc;
+}
+
+.linha-data.com-erro {
+  border-color: #e7b5b5;
+  background: #fffafa;
+}
+
+.botao-remover-data {
+  width: 38px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid #dfe3eb;
+  border-radius: 6px;
+  background: #fff;
+  color: #777b8d;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.botao-remover-data:hover:not(:disabled) {
+  border-color: #d9534f;
+  color: #d9534f;
+}
+
+.botao-remover-data:disabled {
+  opacity: .35;
+  cursor: not-allowed;
+}
+
+.dia-seguinte {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #6f7280;
+  font-size: 12px;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.dia-seguinte input {
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  accent-color: var(--cor-secundaria);
+}
+
+.linha-data .dia-seguinte {
+  grid-column: 1 / -1;
+}
+
+.erro-horario,
+.erro-campo,
+.erro-gerador {
+  color: #d9534f;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.acoes-datas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 2px;
+}
+
+.botao-adicionar-data,
+.botao-adicionar-datas {
+  height: 42px;
+  padding: 0 16px;
+  border-radius: 7px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.botao-adicionar-data {
+  border: 1px solid var(--cor-secundaria);
+  background: #fff;
+  color: var(--cor-principal);
+}
+
+.botao-adicionar-datas {
+  border: 1px solid #dfe3eb;
+  background: #fff;
+  color: var(--cor-principal);
+}
+
+.botao-adicionar-data:hover,
+.botao-adicionar-datas:hover {
+  border-color: var(--cor-secundaria);
+  background: #f7f8ff;
+}
+
+/* GERADOR */
+
+.gerador-datas {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 18px;
+  border: 1px solid #e4e8f1;
+  border-radius: 8px;
+  background: #fafbfc;
+}
+
+.gerador-cabecalho {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.gerador-cabecalho h3 {
+  margin: 0;
+  color: var(--cor-principal);
+  font-family: var(--fonte-principal);
+  font-size: 15px;
+}
+
+.gerador-cabecalho p {
+  margin: 0;
+  color: #858b9b;
+  font-size: 11px;
+}
+
+.linha-gerador {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.acoes-gerador {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.botao-cancelar,
+.botao-gerar {
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.botao-cancelar {
+  border: 1px solid #dfe3eb;
+  background: #fff;
+  color: var(--cor-principal);
+}
+
+.botao-gerar {
+  border: 1px solid var(--cor-principal);
+  background: var(--cor-principal);
+  color: #fff;
+}
+
+.botao-cancelar:hover {
+  background: #f7f8fa;
+}
+
+.botao-gerar:hover {
+  opacity: .9;
+}
+
+/* TIPO DO EVENTO */
+
+.tipos-local {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.tipo-local {
+  min-height: 82px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px;
+  box-sizing: border-box;
+  border: 1px solid #dfe3eb;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--cor-principal);
+  cursor: pointer;
+}
+
+.tipo-local strong {
+  font-size: 13px;
+}
+
+.tipo-local span {
+  color: #85899a;
+  font-size: 11px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.tipo-local:hover,
+.tipo-local.ativo {
+  border-color: var(--cor-secundaria);
+  background: #f8f4ff;
+}
+
+/* ENDEREÇO */
+
+.endereco {
+  gap: 18px;
+}
+
+.linha-endereco {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* AÇÕES */
+
+.acoes {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.botao-voltar,
+.botao-continuar {
+  height: 42px;
+  padding: 0 20px;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.botao-voltar {
+  border: 1px solid #dfe3eb;
+  background: #fff;
+  color: var(--cor-principal);
+}
+
+.botao-continuar {
+  border: 1px solid var(--cor-principal);
+  background: var(--cor-principal);
+  color: #fff;
+}
+
+.botao-voltar:hover {
+  background: #f7f8fa;
+}
+
+.botao-continuar:hover {
+  opacity: .9;
+}
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 760px) {
+  .linha-data {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .linha-data .campo:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .botao-remover-data {
+    grid-column: 2;
+  }
+
+  .tipos-local,
+  .linha-gerador {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .linha-data,
+  .linha-endereco {
+    grid-template-columns: 1fr;
+  }
+
+  .linha-data .campo:first-child,
+  .botao-remover-data {
+    grid-column: auto;
+  }
+
+  .linha-data .dia-seguinte {
+    grid-column: auto;
+  }
+
+  .acoes-datas,
+  .acoes-gerador {
+    flex-direction: column;
+  }
+
+  .botao-adicionar-data,
+  .botao-adicionar-datas,
+  .botao-cancelar,
+  .botao-gerar {
+    width: 100%;
+  }
+}

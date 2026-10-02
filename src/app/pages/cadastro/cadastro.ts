@@ -5,11 +5,13 @@ import { BrandSideAuth } from '../../shared/components/cadastroLogin/brand-side-
 import { ProfileToggle } from '../../shared/components/cadastroLogin/profile-toggle/profile-toggle';
 import { SocialLogin } from '../../shared/components/cadastroLogin/social-login/social-login';
 import { OrganizerForm } from '../../shared/components/cadastroLogin/organizer-form/organizer-form';
+import { Header } from '../../shared/components/header/header';
+import { Footer } from '../../shared/components/footer/footer';
 
 @Component({
   selector: 'app-cadastro',
   standalone: true,
-  imports: [FormsModule, RouterLink, BrandSideAuth, ProfileToggle, SocialLogin, OrganizerForm], 
+  imports: [FormsModule, RouterLink, BrandSideAuth, ProfileToggle, SocialLogin, OrganizerForm, Header, Footer], 
   templateUrl: './cadastro.html',
   styleUrl: './cadastro.css'
 })

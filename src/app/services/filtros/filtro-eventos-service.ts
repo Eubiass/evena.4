@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, combineLatest, map } from 'rxjs';
-import { Evento } from '../../model/evento'; // Ajuste o caminho
+import { Evento } from '../../models/evento';
 
 export interface Filtros {
   termo: string;

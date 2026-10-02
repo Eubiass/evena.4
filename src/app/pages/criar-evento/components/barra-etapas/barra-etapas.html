@@ -1,0 +1,22 @@
+<div class="barra-etapas">
+  @for (etapa of etapas; track $index) {
+    <div
+      class="etapa"
+      [class.ativa]="etapaAtual === $index + 1"
+      [class.concluida]="etapaAtual > $index + 1"
+    >
+      <span class="numero">
+        {{ etapaAtual > $index + 1 ? '✓' : $index + 1 }}
+      </span>
+
+      <span class="nome">{{ etapa }}</span>
+    </div>
+
+    @if (!$last) {
+      <span
+        class="linha"
+        [class.concluida]="etapaAtual > $index + 1"
+      ></span>
+    }
+  }
+</div>

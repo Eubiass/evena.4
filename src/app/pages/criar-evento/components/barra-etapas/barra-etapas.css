@@ -1,0 +1,94 @@
+:host {
+  display: block;
+}
+
+.barra-etapas {
+  display: flex;
+  align-items: center;
+}
+
+.etapa {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  color: #a1a5b5;
+  font-family: var(--fonte-secundaria);
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.etapa.ativa,
+.etapa.concluida {
+  color: var(--cor-principal);
+  font-weight: 700;
+}
+
+.numero {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #dce1eb;
+  border-radius: 50%;
+  background: #f4f6fa;
+  color: #8f94a5;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.etapa.ativa .numero,
+.etapa.concluida .numero {
+  border-color: var(--cor-secundaria);
+  background: var(--cor-secundaria);
+  color: var(--cor-principal);
+}
+
+.linha {
+  flex: 1;
+  height: 1px;
+  min-width: 30px;
+  margin: 0 12px;
+  background: #e1e5ed;
+}
+
+.linha.concluida {
+  background: var(--cor-secundaria);
+}
+
+@media (max-width: 700px) {
+  .barra-etapas {
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+
+  .barra-etapas::-webkit-scrollbar {
+    display: none;
+  }
+
+  .linha {
+    min-width: 20px;
+    margin: 0 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .etapa {
+    gap: 6px;
+    font-size: 10px;
+  }
+
+  .numero {
+    width: 21px;
+    height: 21px;
+    font-size: 9px;
+  }
+
+  .linha {
+    min-width: 16px;
+    margin: 0 6px;
+  }
+}

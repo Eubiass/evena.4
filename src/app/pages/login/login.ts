@@ -5,11 +5,13 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { BrandSideAuth } from '../../shared/components/cadastroLogin/brand-side-auth/brand-side-auth';
 import { ProfileToggle } from '../../shared/components/cadastroLogin/profile-toggle/profile-toggle';
 import { SocialLogin } from '../../shared/components/cadastroLogin/social-login/social-login';
+import { Header } from '../../shared/components/header/header';
+import { Footer } from '../../shared/components/footer/footer';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterLink, BrandSideAuth, ProfileToggle, SocialLogin],
+  imports: [FormsModule, CommonModule, RouterLink, BrandSideAuth, ProfileToggle, SocialLogin, Header, Footer],
   templateUrl: './login.html',
   styleUrl: './login.css'
 })

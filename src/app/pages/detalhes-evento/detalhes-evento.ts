@@ -1,16 +1,18 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { CommonModule } from "@angular/common";
-import { Evento } from "../../model/evento";
 import { EventoService } from "../../services/evento-service";
 import { HeaderDetalhe } from "../../shared/components/detalhes-evento/header-detalhe/header-detalhe";
 import { InfoEsquerda } from "../../shared/components/detalhes-evento/info-esquerda/info-esquerda";
 import { CheckoutSidebar } from "../../shared/components/detalhes-evento/checkout-sidebar/checkout-sidebar";
+import { Evento } from "../../models/evento";
+import { Header } from "../../shared/components/header/header";
+import { Footer } from "../../shared/components/footer/footer";
 
 @Component({
   selector: "app-detalhes-evento",
   standalone: true,
-  imports: [CommonModule, HeaderDetalhe, InfoEsquerda, CheckoutSidebar],
+  imports: [CommonModule, HeaderDetalhe, InfoEsquerda, CheckoutSidebar, Header, Footer ],
   templateUrl: "./detalhes-evento.html",
   styleUrl: "./detalhes-evento.css",
 })

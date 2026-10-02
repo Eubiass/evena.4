@@ -1,0 +1,215 @@
+<form class="etapa-detalhes" (ngSubmit)="enviarFormulario()">
+  <div class="formulario">
+
+    <section class="secao">
+      <div class="cabecalho-secao">
+        <h2>Ingressos</h2>
+        <p>Defina como será o acesso ao seu evento.</p>
+      </div>
+
+      <div class="campo">
+        <label>Tipo de ingresso <span>*</span></label>
+
+        <div class="opcoes">
+          <button type="button" class="opcao"
+            [class.ativa]="tipoIngresso === 'gratuito'"
+            (click)="selecionarTipoIngresso('gratuito')">
+            <strong>Gratuito</strong>
+            <span>Entrada livre</span>
+          </button>
+
+          <button type="button" class="opcao"
+            [class.ativa]="tipoIngresso === 'pago'"
+            (click)="selecionarTipoIngresso('pago')">
+            <strong>Pago</strong>
+            <span>Venda de ingressos</span>
+          </button>
+        </div>
+      </div>
+
+      @if (tipoIngresso === 'pago') {
+        <div class="linha">
+          <div class="campo">
+            <label for="precoMinimo">Preço mínimo <span>*</span></label>
+            <input id="precoMinimo" name="precoMinimo"
+              type="text" placeholder="R$ 0,00"
+              [(ngModel)]="precoMinimo">
+          </div>
+
+          <div class="campo">
+            <label for="precoMaximo">Preço máximo <span>*</span></label>
+            <input id="precoMaximo" name="precoMaximo"
+              type="text" placeholder="R$ 0,00"
+              [(ngModel)]="precoMaximo">
+          </div>
+        </div>
+
+        @if (erroPreco) {
+          <span class="mensagem-erro">{{ erroPreco }}</span>
+        }
+
+        <div class="campo">
+          <label for="linkIngresso">Link oficial para compra <span>*</span></label>
+          <input id="linkIngresso" name="linkIngresso"
+            type="url" placeholder="https://..."
+            [(ngModel)]="linkIngresso">
+        </div>
+      }
+    </section>
+
+    <section class="secao">
+      <div class="cabecalho-secao">
+        <h2>Atrações</h2>
+        <p>Adicione as principais atrações do evento.</p>
+      </div>
+
+      <div class="atracoes">
+        @for (atracao of atracoes; track $index) {
+          <div class="atracao">
+            <div class="cabecalho-atracao">
+              <strong>Atração {{ $index + 1 }}</strong>
+
+              @if (atracoes.length > 1) {
+                <button type="button" class="botao-remover"
+                  (click)="removerAtracao($index)">
+                  Remover
+                </button>
+              }
+            </div>
+
+            <div class="campo">
+              <label [for]="'nomeAtracao' + $index">
+                Nome da atração <span>*</span>
+              </label>
+              <input [id]="'nomeAtracao' + $index"
+                [name]="'nomeAtracao' + $index"
+                type="text"
+                placeholder="Ex: Banda, artista ou palestrante"
+                [(ngModel)]="atracao.nome">
+            </div>
+
+            <div class="campo">
+              <label [for]="'descricaoAtracao' + $index">
+                Descrição
+              </label>
+              <textarea [id]="'descricaoAtracao' + $index"
+                [name]="'descricaoAtracao' + $index"
+                placeholder="Descreva a atração..."
+                [(ngModel)]="atracao.descricao"></textarea>
+            </div>
+          </div>
+        }
+
+        <button type="button" class="botao-adicionar"
+          (click)="adicionarAtracao()">
+          + Adicionar atração
+        </button>
+      </div>
+    </section>
+
+    <section class="secao">
+      <div class="cabecalho-secao">
+        <h2>Informações para visitantes</h2>
+        <p>Informe recursos disponíveis no local.</p>
+      </div>
+
+      <div class="informacoes">
+        <label class="checkbox">
+          <input type="checkbox" name="estacionamento"
+            [(ngModel)]="estacionamento">
+          <span>Estacionamento</span>
+        </label>
+
+        <label class="checkbox">
+          <input type="checkbox" name="guardaVolumes"
+            [(ngModel)]="guardaVolumes">
+          <span>Guarda-volumes</span>
+        </label>
+
+        <label class="checkbox">
+          <input type="checkbox" name="acessibilidade"
+            [(ngModel)]="acessibilidade">
+          <span>Acessibilidade</span>
+        </label>
+
+        @for (recurso of recursos; track recurso.nome) {
+          <div class="recurso-personalizado">
+            <label class="checkbox">
+              <input type="checkbox"
+                [name]="'recurso' + $index"
+                [(ngModel)]="recurso.selecionado">
+              <span>{{ recurso.nome }}</span>
+            </label>
+
+            <button type="button" class="botao-remover-recurso"
+              (click)="removerRecurso($index)">
+              ×
+            </button>
+          </div>
+        }
+      </div>
+
+      @if (mostrarNovoRecurso) {
+        <div class="novo-recurso">
+          <input type="text" name="novoRecurso"
+            placeholder="Ex: Área para crianças"
+            [(ngModel)]="novoRecurso">
+
+          <button type="button" class="botao-salvar-recurso"
+            (click)="adicionarRecurso()">
+            Adicionar
+          </button>
+
+          <button type="button" class="botao-cancelar-recurso"
+            (click)="cancelarNovoRecurso()">
+            Cancelar
+          </button>
+        </div>
+      } @else {
+        <button type="button" class="botao-adicionar-recurso"
+          (click)="mostrarNovoRecurso = true">
+          + Adicionar recurso
+        </button>
+      }
+
+      <div class="campo">
+        <label for="informacoes">Informações adicionais</label>
+        <textarea id="informacoes" name="informacoes"
+          placeholder="Adicione outras informações importantes para os visitantes..."
+          [(ngModel)]="informacoes"></textarea>
+      </div>
+    </section>
+
+    <section class="secao">
+      <div class="cabecalho-secao">
+        <h2>Perguntas frequentes</h2>
+        <p>Adicione uma pergunta e resposta para os visitantes.</p>
+      </div>
+
+      <div class="campo">
+        <label for="pergunta">Pergunta</label>
+        <input id="pergunta" name="pergunta" type="text"
+          placeholder="Ex: O evento possui estacionamento?"
+          [(ngModel)]="pergunta">
+      </div>
+
+      <div class="campo">
+        <label for="resposta">Resposta</label>
+        <textarea id="resposta" name="resposta"
+          placeholder="Informe a resposta..."
+          [(ngModel)]="resposta"></textarea>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="acoes">
+    <button type="button" class="botao-voltar" (click)="voltarEtapa()">
+      ← Voltar
+    </button>
+
+    <button type="submit" class="botao-continuar">
+      Continuar →
+    </button>
+  </div>
+</form>
