@@ -49,7 +49,7 @@
         Crie seu evento
       </a>
 
-      <a routerLink="/cadastro-organizador" class="botao-secundario">
+      <a routerLink="/cadastro" [queryParams]="{ perfil: 'organizador' }" class="botao-secundario">
         Crie sua conta de organizador
       </a>
     </div>

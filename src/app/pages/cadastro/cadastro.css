@@ -192,6 +192,34 @@
     margin-top: 20px;
 }
 
+/* LINK PARA LOGIN */
+
+.container-login-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    margin-top: 18px;
+    font-family: var(--fonte-secundaria);
+    font-size: 14px;
+}
+
+.texto-chamada {
+    color: #79748f;
+}
+
+.link-login {
+    color: var(--cor-principal);
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.link-login:hover {
+    color: var(--cor-secundaria);
+    text-decoration: underline;
+}
+
 
 /* Responsividade Adaptativa */
 @media (max-width: 930px) {

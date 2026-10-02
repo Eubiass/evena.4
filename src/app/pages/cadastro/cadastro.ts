@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router'; 
+import { RouterLink, ActivatedRoute } from '@angular/router'; 
 import { BrandSideAuth } from '../../shared/components/cadastroLogin/brand-side-auth/brand-side-auth';
 import { ProfileToggle } from '../../shared/components/cadastroLogin/profile-toggle/profile-toggle';
 import { SocialLogin } from '../../shared/components/cadastroLogin/social-login/social-login';
@@ -19,9 +19,14 @@ export class Cadastro {
   tipoPerfil: 'usuario' | 'organizador' = 'usuario';
   passoOrganizador = 1;
 
+  constructor(private route: ActivatedRoute) {
+    if (this.route.snapshot.queryParamMap.get('perfil') === 'organizador') {
+      this.tipoPerfil = 'organizador';
+    }
+  }
+
   // --- DADOS DO USUÁRIO ---
   nome = '';
-  // dataNascimento = '';
   emailUsuario = '';
   nomeUsuario = '';
   senhaUsuario = '';
@@ -32,7 +37,6 @@ export class Cadastro {
   telefoneEmpresa = '';
   senhaOrganizador = '';
   confirmarSenhaOrganizador = '';
-  
   razaoSocial = '';
   nomeFantasia = '';
   cnpj = '';
