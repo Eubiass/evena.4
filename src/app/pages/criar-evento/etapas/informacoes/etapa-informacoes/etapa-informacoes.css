@@ -110,17 +110,19 @@ small {
 }
 
 .upload {
-  min-height: 250px;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 8px;
   padding: 20px;
   box-sizing: border-box;
-  border: 1px dashed #cfc8e9;
-  border-radius: 8px;
+  border: 1px dashed #cfc8e8;
+  border-radius: 7px;
   background: #faf9ff;
-  text-align: center;
 }
+
 
 .upload .icone {
   color: var(--cor-secundaria);
@@ -179,6 +181,14 @@ small {
 
 .botao-continuar:hover {
   opacity: .9;
+}
+
+.preview {
+  width: 100%;
+  height: 220px;
+  display: block;
+  object-fit: cover;
+  border-radius: 6px;
 }
 
 @media (max-width: 760px) {
