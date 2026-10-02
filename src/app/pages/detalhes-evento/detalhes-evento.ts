@@ -1,41 +1,77 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { CommonModule } from "@angular/common";
-import { EventoService } from "../../services/evento-service";
-import { HeaderDetalhe } from "../../shared/components/detalhes-evento/header-detalhe/header-detalhe";
-import { InfoEsquerda } from "../../shared/components/detalhes-evento/info-esquerda/info-esquerda";
-import { CheckoutSidebar } from "../../shared/components/detalhes-evento/checkout-sidebar/checkout-sidebar";
-import { Evento } from "../../models/evento";
-import { Header } from "../../shared/components/header/header";
-import { Footer } from "../../shared/components/footer/footer";
+import {
+  ChangeDetectorRef,
+  Component,
+  OnInit
+} from '@angular/core';
+
+import { ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { EventoService } from '../../services/evento-service';
+
+import { HeaderDetalhe } from
+  '../../shared/components/detalhes-evento/header-detalhe/header-detalhe';
+
+import { InfoEsquerda } from
+  '../../shared/components/detalhes-evento/info-esquerda/info-esquerda';
+
+import { CheckoutSidebar } from
+  '../../shared/components/detalhes-evento/checkout-sidebar/checkout-sidebar';
+import { Header } from '../../shared/components/header/header';
+import { Footer } from '../../shared/components/footer/footer';
+import { Evento } from '../../models/evento';
 
 @Component({
-  selector: "app-detalhes-evento",
+  selector: 'app-detalhes-evento',
   standalone: true,
-  imports: [CommonModule, HeaderDetalhe, InfoEsquerda, CheckoutSidebar, Header, Footer ],
-  templateUrl: "./detalhes-evento.html",
-  styleUrl: "./detalhes-evento.css",
+  imports: [
+    CommonModule,
+    HeaderDetalhe,
+    InfoEsquerda,
+    CheckoutSidebar,
+    Header,
+    Footer
+  ],
+  templateUrl: './detalhes-evento.html',
+  styleUrl: './detalhes-evento.css',
 })
 export class DetalhesEvento implements OnInit {
-  evento: Evento | undefined;
-  diaSelecionadoIndex: number = 0;
-  
-  mudarDia(index: number): void {
-    this.diaSelecionadoIndex = index;
-  }
+
+  evento?: Evento;
+
+  diaSelecionadoIndex = 0;
 
   constructor(
     private route: ActivatedRoute,
-    private eventoService: EventoService
-  ){}
+    private eventoService: EventoService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
-    // Captura o slug da URL (ex: 'show-patati-patata')
-    const slug = this.route.snapshot.paramMap.get('slug') || '';
-    
-    // Busca no serviço comparando dinamicamente com os títulos transformados
-    this.evento = this.eventoService.obterEventoPorSlug(slug);
-    
+
+    this.route.paramMap.subscribe(params => {
+
+      const slug = params.get('slug') || '';
+
+      this.evento =
+        this.eventoService.obterEventoPorSlug(slug);
+
+      if (!this.evento) {
+        console.error(
+          'Evento não encontrado para o slug:',
+          slug
+        );
+
+        return;
+      }
+
+      // Garante que o evento seja renderizado imediatamente
+      this.cdr.detectChanges();
+    });
+
     window.scrollTo(0, 0);
+  }
+
+  mudarDia(index: number): void {
+    this.diaSelecionadoIndex = index;
   }
 }
