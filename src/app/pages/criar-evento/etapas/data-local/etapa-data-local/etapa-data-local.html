@@ -3,15 +3,13 @@
   <section class="secao">
 
     <div class="cabecalho-secao">
-
       <h2>
-        Data e horário
+        Quando acontece?
       </h2>
 
       <p>
-        Informe quando o evento acontecerá.
+        Adicione uma ou mais datas para o seu evento.
       </p>
-
     </div>
 
 
@@ -28,12 +26,14 @@
 
             <label>
               Data
+              <span>*</span>
             </label>
 
             <input
               type="date"
               [(ngModel)]="item.data"
               [min]="dataMinima"
+              required
             >
 
           </div>
@@ -43,11 +43,13 @@
 
             <label>
               Início
+              <span>*</span>
             </label>
 
             <input
               type="time"
               [(ngModel)]="item.inicio"
+              required
             >
 
           </div>
@@ -57,14 +59,34 @@
 
             <label>
               Término
+              <span>*</span>
             </label>
 
             <input
               type="time"
               [(ngModel)]="item.fim"
+              required
             >
 
           </div>
+
+
+          @if (
+            datas.length > 1
+          ) {
+
+            <button
+              type="button"
+              class="botao-remover-data"
+              (click)="
+                removerData($index)
+              "
+              aria-label="Remover data"
+            >
+              ×
+            </button>
+
+          }
 
 
           <label class="dia-seguinte">
@@ -79,23 +101,6 @@
             Termina no dia seguinte
 
           </label>
-
-
-          @if (
-            datas.length > 1
-          ) {
-
-            <button
-              type="button"
-              class="botao-remover-data"
-              (click)="
-                removerData($index)
-              "
-            >
-              Remover
-            </button>
-
-          }
 
         </div>
 
@@ -124,11 +129,12 @@
     <div class="cabecalho-secao">
 
       <h2>
-        Formato do evento
+        Como o evento acontece?
+        <span class="obrigatorio">*</span>
       </h2>
 
       <p>
-        Escolha como o evento será realizado.
+        Escolha o formato do evento.
       </p>
 
     </div>
@@ -140,7 +146,8 @@
         type="button"
         class="tipo-local"
         [class.ativo]="
-          tipoLocal === 'presencial'
+          tipoLocal ===
+          'presencial'
         "
         (click)="
           selecionarTipoLocal(
@@ -148,7 +155,13 @@
           )
         "
       >
-        Presencial
+        <strong>
+          Presencial
+        </strong>
+
+        <span>
+          Em um endereço físico
+        </span>
       </button>
 
 
@@ -156,7 +169,8 @@
         type="button"
         class="tipo-local"
         [class.ativo]="
-          tipoLocal === 'online'
+          tipoLocal ===
+          'online'
         "
         (click)="
           selecionarTipoLocal(
@@ -164,7 +178,13 @@
           )
         "
       >
-        Online
+        <strong>
+          Online
+        </strong>
+
+        <span>
+          Acesso por link
+        </span>
       </button>
 
     </div>
@@ -182,7 +202,7 @@
       <div class="cabecalho-secao">
 
         <h2>
-          Endereço
+          Local do evento
         </h2>
 
         <p>
@@ -198,15 +218,34 @@
 
           <label for="estado">
             Estado
+            <span>*</span>
           </label>
 
-          <input
+          <select
             id="estado"
-            type="text"
             [(ngModel)]="estado"
-            maxlength="2"
-            placeholder="SP"
+            (ngModelChange)="estadoAlterado()"
+            required
           >
+            <option
+              value=""
+              disabled
+            >
+              Selecione um estado
+            </option>
+
+            @for (
+              item of estados;
+              track item.sigla
+            ) {
+              <option
+                [value]="item.sigla"
+              >
+                {{ item.nome }}
+              </option>
+            }
+
+          </select>
 
         </div>
 
@@ -215,14 +254,44 @@
 
           <label for="cidade">
             Cidade
+            <span>*</span>
           </label>
 
-          <input
+          <select
             id="cidade"
-            type="text"
             [(ngModel)]="cidade"
-            placeholder="São Paulo"
+            [disabled]="
+              !estado ||
+              carregandoCidades
+            "
+            required
           >
+
+            <option
+              value=""
+              disabled
+            >
+              @if (!estado) {
+                Selecione primeiro o estado
+              } @else if (carregandoCidades) {
+                Carregando cidades...
+              } @else {
+                Selecione uma cidade
+              }
+            </option>
+
+            @for (
+              item of cidades;
+              track item
+            ) {
+              <option
+                [value]="item"
+              >
+                {{ item }}
+              </option>
+            }
+
+          </select>
 
         </div>
 
@@ -235,6 +304,7 @@
 
           <label for="endereco">
             Endereço
+            <span>*</span>
           </label>
 
           <input
@@ -242,6 +312,7 @@
             type="text"
             [(ngModel)]="endereco"
             placeholder="Rua, avenida..."
+            required
           >
 
         </div>
@@ -251,6 +322,7 @@
 
           <label for="numero">
             Número
+            <span>*</span>
           </label>
 
           <input
@@ -258,6 +330,7 @@
             type="text"
             [(ngModel)]="numero"
             placeholder="100"
+            required
           >
 
         </div>
@@ -269,6 +342,9 @@
 
         <label for="complemento">
           Complemento
+          <small>
+            (opcional)
+          </small>
         </label>
 
         <input
@@ -299,7 +375,7 @@
         </h2>
 
         <p>
-          Informe o link de acesso ao evento.
+          Informe onde o público poderá acessar o evento.
         </p>
 
       </div>
@@ -309,6 +385,7 @@
 
         <label for="link">
           Link do evento
+          <span>*</span>
         </label>
 
         <input
@@ -316,6 +393,7 @@
           type="url"
           [(ngModel)]="link"
           placeholder="https://..."
+          required
         >
 
       </div>

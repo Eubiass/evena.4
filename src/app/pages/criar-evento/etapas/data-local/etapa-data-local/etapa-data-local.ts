@@ -6,11 +6,22 @@ import {
   Output
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 import {
   DataEvento,
   DadosEvento
 } from '../../../../../models/dados-evento';
+
+interface Estado {
+  sigla: string;
+  nome: string;
+}
+
+interface MunicipioIbge {
+  id: number;
+  nome: string;
+}
 
 @Component({
   selector: 'app-etapa-data-local',
@@ -21,9 +32,7 @@ import {
   templateUrl: './etapa-data-local.html',
   styleUrl: './etapa-data-local.css'
 })
-export class EtapaDataLocal
-  implements OnInit {
-
+export class EtapaDataLocal implements OnInit {
   @Input()
   dadosEvento!: DadosEvento;
 
@@ -45,16 +54,51 @@ export class EtapaDataLocal
 
   estado = '';
   cidade = '';
-
   endereco = '';
   numero = '';
   complemento = '';
-
   link = '';
 
-  dataMinima = '';
+  cidades: string[] = [];
 
+  carregandoCidades = false;
+
+  dataMinima = '';
   erro = '';
+
+  readonly estados: Estado[] = [
+    { sigla: 'AC', nome: 'Acre' },
+    { sigla: 'AL', nome: 'Alagoas' },
+    { sigla: 'AP', nome: 'Amapá' },
+    { sigla: 'AM', nome: 'Amazonas' },
+    { sigla: 'BA', nome: 'Bahia' },
+    { sigla: 'CE', nome: 'Ceará' },
+    { sigla: 'DF', nome: 'Distrito Federal' },
+    { sigla: 'ES', nome: 'Espírito Santo' },
+    { sigla: 'GO', nome: 'Goiás' },
+    { sigla: 'MA', nome: 'Maranhão' },
+    { sigla: 'MT', nome: 'Mato Grosso' },
+    { sigla: 'MS', nome: 'Mato Grosso do Sul' },
+    { sigla: 'MG', nome: 'Minas Gerais' },
+    { sigla: 'PA', nome: 'Pará' },
+    { sigla: 'PB', nome: 'Paraíba' },
+    { sigla: 'PR', nome: 'Paraná' },
+    { sigla: 'PE', nome: 'Pernambuco' },
+    { sigla: 'PI', nome: 'Piauí' },
+    { sigla: 'RJ', nome: 'Rio de Janeiro' },
+    { sigla: 'RN', nome: 'Rio Grande do Norte' },
+    { sigla: 'RS', nome: 'Rio Grande do Sul' },
+    { sigla: 'RO', nome: 'Rondônia' },
+    { sigla: 'RR', nome: 'Roraima' },
+    { sigla: 'SC', nome: 'Santa Catarina' },
+    { sigla: 'SP', nome: 'São Paulo' },
+    { sigla: 'SE', nome: 'Sergipe' },
+    { sigla: 'TO', nome: 'Tocantins' }
+  ];
+
+  constructor(
+    private http: HttpClient
+  ) {}
 
   ngOnInit(): void {
     this.definirDataMinima();
@@ -70,17 +114,33 @@ export class EtapaDataLocal
     this.erro = '';
 
     if (
-      tipo === 'presencial'
+      tipo === 'online'
     ) {
-      this.link = '';
+      this.estado = '';
+      this.cidade = '';
+      this.endereco = '';
+      this.numero = '';
+      this.complemento = '';
+      this.cidades = [];
+
       return;
     }
 
-    this.estado = '';
+    this.link = '';
+  }
+
+  estadoAlterado(): void {
     this.cidade = '';
-    this.endereco = '';
-    this.numero = '';
-    this.complemento = '';
+    this.cidades = [];
+    this.erro = '';
+
+    if (!this.estado) {
+      return;
+    }
+
+    this.carregarCidades(
+      this.estado
+    );
   }
 
   adicionarData(): void {
@@ -204,6 +264,76 @@ export class EtapaDataLocal
 
     this.link =
       dados.link;
+
+    if (
+      this.tipoLocal ===
+        'presencial' &&
+      this.estado
+    ) {
+      this.carregarCidades(
+        this.estado,
+        this.cidade
+      );
+    }
+  }
+
+  private carregarCidades(
+    uf: string,
+    cidadeSelecionada = ''
+  ): void {
+    this.carregandoCidades =
+      true;
+
+    this.http
+      .get<MunicipioIbge[]>(
+        `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios`
+      )
+      .subscribe({
+        next: municipios => {
+          this.cidades =
+            municipios
+              .map(
+                municipio =>
+                  municipio.nome
+              )
+              .sort(
+                (a, b) =>
+                  a.localeCompare(
+                    b,
+                    'pt-BR'
+                  )
+              );
+
+          if (
+            cidadeSelecionada &&
+            this.cidades.includes(
+              cidadeSelecionada
+            )
+          ) {
+            this.cidade =
+              cidadeSelecionada;
+          }
+
+          this.carregandoCidades =
+            false;
+        },
+
+        error: erro => {
+          console.error(
+            'Erro ao carregar cidades:',
+            erro
+          );
+
+          this.cidades = [];
+          this.cidade = '';
+
+          this.carregandoCidades =
+            false;
+
+          this.erro =
+            'Não foi possível carregar as cidades. Tente novamente.';
+        }
+      });
   }
 
   private validar(): boolean {
@@ -224,13 +354,23 @@ export class EtapaDataLocal
       const data =
         this.datas[i];
 
-      if (
-        !data.data ||
-        !data.inicio ||
-        !data.fim
-      ) {
+      if (!data.data) {
         this.erro =
-          `Preencha a data e os horários da data ${i + 1}.`;
+          `Informe a data do evento na opção ${i + 1}.`;
+
+        return false;
+      }
+
+      if (!data.inicio) {
+        this.erro =
+          `Informe o horário de início na opção ${i + 1}.`;
+
+        return false;
+      }
+
+      if (!data.fim) {
+        this.erro =
+          `Informe o horário de término na opção ${i + 1}.`;
 
         return false;
       }
@@ -240,7 +380,7 @@ export class EtapaDataLocal
         data.fim <= data.inicio
       ) {
         this.erro =
-          `O horário final da data ${i + 1} deve ser posterior ao horário inicial.`;
+          `O horário final da opção ${i + 1} deve ser posterior ao horário inicial.`;
 
         return false;
       }
@@ -250,23 +390,23 @@ export class EtapaDataLocal
       this.tipoLocal ===
       'presencial'
     ) {
-      if (!this.estado.trim()) {
+      if (!this.estado) {
         this.erro =
-          'Informe o estado.';
+          'Selecione o estado do evento.';
 
         return false;
       }
 
-      if (!this.cidade.trim()) {
+      if (!this.cidade) {
         this.erro =
-          'Informe a cidade.';
+          'Selecione a cidade do evento.';
 
         return false;
       }
 
       if (!this.endereco.trim()) {
         this.erro =
-          'Informe o endereço.';
+          'Informe o endereço do evento.';
 
         return false;
       }
@@ -285,7 +425,7 @@ export class EtapaDataLocal
       !this.link.trim()
     ) {
       this.erro =
-        'Informe o link do evento online.';
+        'Informe o link de acesso ao evento online.';
 
       return false;
     }
