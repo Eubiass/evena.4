@@ -1,12 +1,17 @@
 :host {
   display: block;
+
   width: 100%;
 }
 
 .area-inputs {
+  width: 100%;
+
   display: flex;
   flex-direction: column;
+
   gap: 16px;
+
   margin-top: 10px;
 }
 
@@ -16,6 +21,7 @@
 
 .linha-dupla-inputs {
   display: flex;
+
   gap: 12px;
 }
 
@@ -23,89 +29,50 @@
   flex: 1;
 }
 
-/* Estilização nativa dos campos */
-input, select {
+input,
+select {
   width: 100%;
-  padding: 14px 16px;
-  border-radius: 12px;
-  border: 1px solid transparent;
-  background-color: #f5f4f9;
-  font-family: var(--fonte-principal);
-  font-size: 14px;
-  color: #333;
-  outline: none;
+
   box-sizing: border-box;
-  transition: all 0.2s ease;
+
+  padding: 14px 16px;
+
+  border: 1px solid transparent;
+  border-radius: 12px;
+
+  background: #f5f4f9;
+
+  color: #333;
+
+  font: 400 14px var(--fonte-principal);
+
+  outline: none;
+
+  transition: 0.2s ease;
 }
 
-input:focus, select:focus {
+input:focus,
+select:focus {
   border-color: var(--cor-principal);
-  background-color: #ffffff;
-  box-shadow: 0 0 0 3px rgba(23, 13, 53, 0.1);
+
+  background: var(--cor-branco);
+
+  box-shadow:
+    0 0 0 3px rgba(23, 13, 53, 0.1);
 }
 
-/* Mostra borda vermelha APENAS quando o usuário já tocou no campo e ele for inválido */
 input.ng-invalid.ng-touched,
 select.ng-invalid.ng-touched {
-  border: 1.5px solid #e74c3c !important;
-  background-color: #fdf2f2;
-}
+  border-color: #e74c3c;
 
-/* Botões */
-.btn-navegacao {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-top: 10px;
-  width: 100%;
-}
-
-.btn-voltar-passo,
-.btn-entrar {
-  height: 52px;
-  margin: 0;
-  box-sizing: border-box;
-}
-
-.btn-voltar-passo {
-  width: 140px;
-  padding: 0;
-  border: 2px solid var(--cor-principal);
-  border-radius: 14px;
-  background-color: #ffffff;
-  color: var(--cor-principal);
-  font-family: var(--fonte-principal);
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.btn-entrar {
-  width: 100%;
-  height: 52px;
-  padding: 0 14px;
-  margin: 0;
-  border: none;
-  border-radius: 14px;
-  background-color: var(--cor-secundaria);
-  color: var(--cor-principal);
-  font-family: var(--fonte-principal);
-  font-weight: 700;
-  font-size: 15px;
-  cursor: pointer;
-  box-sizing: border-box;
-  transition: transform 0.1s ease, filter 0.2s ease;
-}
-
-.btn-navegacao .btn-entrar {
-  flex: 1;
-  width: auto;
+  background: #fdf2f2;
 }
 
 .grid-localizacao {
   display: grid;
+
   grid-template-columns: 1fr 1fr;
+
   gap: 12px;
 }
 
@@ -113,9 +80,74 @@ select.ng-invalid.ng-touched {
   grid-column: span 2;
 }
 
-.erro-texto {
-  color: #e74c3c;
-  font-size: 12px;
+.btn-navegacao {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+
+  gap: 16px;
+
+  margin-top: 10px;
+}
+
+.btn-voltar-passo,
+.btn-entrar {
+  height: 52px;
+
+  box-sizing: border-box;
+
   font-family: var(--fonte-principal);
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.btn-voltar-passo {
+  width: 140px;
+
+  border: 2px solid var(--cor-principal);
+  border-radius: 14px;
+
+  background: var(--cor-branco);
+  color: var(--cor-principal);
+
+  font-size: 15px;
+}
+
+.btn-entrar {
+  flex: 1;
+
+  padding: 0 14px;
+
+  border: 0;
+  border-radius: 14px;
+
+  background: var(--cor-secundaria);
+  color: var(--cor-principal);
+
+  font-size: 15px;
+}
+
+.btn-entrar:hover:not(:disabled),
+.btn-voltar-passo:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  opacity: 0.6;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+.erro-texto {
   margin-top: -8px;
+
+  color: #e74c3c;
+
+  font: 400 12px var(--fonte-principal);
 }

@@ -67,12 +67,10 @@ export class AuthService {
                   empresa
                 });
               }),
-              switchMap(empresa => [
-                {
+                map(empresa => ({
                   perfil,
                   empresa
-                }
-              ])
+                }))
             );
         })
       );

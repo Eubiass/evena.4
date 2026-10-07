@@ -1,84 +1,165 @@
 <app-header></app-header>
-<div class="tela-cadastro-background">
-  <div class="wrapper-cadastro">
-    
-    <!-- PAINEL LATERAL ESQUERDO: Marca e Identidade Visual -->
-    <app-brand-side-auth></app-brand-side-auth>
 
-    <!-- PAINEL PRINCIPAL DIREITO: Formulário Dinâmico -->
+<div class="tela-cadastro-background">
+
+  <div class="wrapper-cadastro">
+
+    <app-brand-side-auth>
+    </app-brand-side-auth>
+
     <section id="container-principal">
-      <form id="form-cadastro" (submit)="executarCadastro($event)">
-        
-        <!-- CABEÇALHO DINÂMICO -->
+
+      <div id="form-cadastro">
+
         <header class="header-form">
+
           <h1 class="titulo-cadastro">
+
             @if (tipoPerfil === 'usuario') {
-              <span>Criar nova conta</span>
+              Criar nova conta
             } @else {
-              <span>Cadastro Corporativo</span>
+              Cadastro Corporativo
             }
+
           </h1>
+
           <p class="subtitulo-cadastro">
+
             @if (tipoPerfil === 'usuario') {
-              <span>Preencha os dados essenciais de acesso</span>
+              Preencha os dados essenciais de acesso
             } @else {
-              <span>Preencha os dados para validação da empresa</span>
+              Preencha os dados para validação da empresa
             }
+
           </p>
+
         </header>
 
-        <!-- SELETOR DE PERFIL -->
-        <app-profile-toggle 
-          [perfilSelecionado]="tipoPerfil" 
+
+        <app-profile-toggle
+          [perfilSelecionado]="tipoPerfil"
           (perfilChange)="mudarPerfil($event)">
         </app-profile-toggle>
 
-        <!-- FLUXO 1: Cadastro de Usuário Comum -->
-        @if (tipoPerfil === 'usuario') {
-          <div class="area-inputs">
-            <div class="grupo-input">
-              <input type="text" name="nome" [(ngModel)]="nome" placeholder="Nome Completo" required>
-            </div>
-            <div class="grupo-input">
-              <input type="email" name="emailUsuario" [(ngModel)]="emailUsuario" placeholder="E-mail" required>
-            </div>
-            <div class="grupo-input">
-              <input type="text" name="nomeUsuario" [(ngModel)]="nomeUsuario" placeholder="Nome de Usuário" required>
-            </div>
-            <div class="linha-dupla-inputs">
-              <div class="grupo-input">
-                <input type="password" name="senhaUsuario" [(ngModel)]="senhaUsuario" placeholder="Senha *" required>
-              </div>
-              <div class="grupo-input">
-                <input type="password" name="confirmarSenhaUsuario" [(ngModel)]="confirmarSenhaUsuario" placeholder="Confirmar Senha *" required>
-              </div>
-            </div>
 
-            <button type="submit" class="btn-entrar1">Finalizar Cadastro</button>
-            
-            <app-social-login 
-              (googleClick)="cadastroComGoogle()" 
-              (appleClick)="cadastroComApple()">
-            </app-social-login>
+        @if (mensagemErro) {
+          <div
+            class="mensagem-erro"
+            role="alert">
+
+            {{ mensagemErro }}
+
           </div>
         }
 
-        <!-- FLUXO 2: Cadastro do Organizador (Gerenciado pelo novo componente) -->
-        @if (tipoPerfil === 'organizador') {
-          <app-organizer-form 
-            (formSubmit)="executarCadastroOrganizador($event)">
-          </app-organizer-form>
+
+        @if (tipoPerfil === 'usuario') {
+
+          <form
+            (submit)="executarCadastroUsuario($event)">
+
+            <div class="area-inputs">
+
+              <div class="grupo-input">
+                <input
+                  type="text"
+                  name="nome"
+                  [(ngModel)]="nome"
+                  placeholder="Nome Completo"
+                  required>
+              </div>
+
+              <div class="grupo-input">
+                <input
+                  type="email"
+                  name="emailUsuario"
+                  [(ngModel)]="emailUsuario"
+                  placeholder="E-mail"
+                  required>
+              </div>
+
+              <div class="grupo-input">
+                <input
+                  type="text"
+                  name="nomeUsuario"
+                  [(ngModel)]="nomeUsuario"
+                  placeholder="Nome de Usuário"
+                  required>
+              </div>
+
+              <div class="linha-dupla-inputs">
+
+                <div class="grupo-input">
+                  <input
+                    type="password"
+                    name="senhaUsuario"
+                    [(ngModel)]="senhaUsuario"
+                    placeholder="Senha *"
+                    required>
+                </div>
+
+                <div class="grupo-input">
+                  <input
+                    type="password"
+                    name="confirmarSenhaUsuario"
+                    [(ngModel)]="confirmarSenhaUsuario"
+                    placeholder="Confirmar Senha *"
+                    required>
+                </div>
+
+              </div>
+
+              <button
+                type="submit"
+                class="btn-entrar1">
+
+                Finalizar Cadastro
+
+              </button>
+
+
+              <app-social-login
+                (googleClick)="cadastroComGoogle()"
+                (appleClick)="cadastroComApple()">
+              </app-social-login>
+
+            </div>
+
+          </form>
+
         }
 
-        <!-- LINK DE RODAPÉ -->
+
+        @if (tipoPerfil === 'organizador') {
+
+          <app-organizer-form
+            [carregando]="cadastrandoOrganizador"
+            (formSubmit)="executarCadastroOrganizador($event)">
+          </app-organizer-form>
+
+        }
+
+
         <div class="container-login-link">
-          <span class="texto-chamada">Já possui uma conta?</span>
-          <a class="link-login" routerLink="/login">Entrar</a>
+
+          <span class="texto-chamada">
+            Já possui uma conta?
+          </span>
+
+          <a
+            class="link-login"
+            routerLink="/login">
+            Entrar
+          </a>
+
         </div>
 
-      </form>
+      </div>
+
     </section>
 
   </div>
+
 </div>
+
 <app-footer></app-footer>
