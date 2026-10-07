@@ -1,7 +1,8 @@
 <section id="exibicao-banner" aria-roledescription="carrossel" aria-label="Eventos em destaque">
-    <div class="banner-grande" 
-        (touchstart)="touchStart($event)" 
-        (touchend)="touchEnd($event)">
+    @if (listaBanner.length > 0) {
+        <div class="banner-grande" 
+            (touchstart)="touchStart($event)" 
+            (touchend)="touchEnd($event)">
 
         <img [src]="listaBanner[index].imagem" class="imagem" [attr.alt]="'Destaque: ' + listaBanner[index].titulo">
 
@@ -45,4 +46,5 @@
             }
         </div>
     </div>
+    }
 </section>

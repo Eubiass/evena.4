@@ -7,6 +7,7 @@ import { SocialLogin } from '../../shared/components/cadastroLogin/social-login/
 import { OrganizerForm } from '../../shared/components/cadastroLogin/organizer-form/organizer-form';
 import { Header } from '../../shared/components/header/header';
 import { Footer } from '../../shared/components/footer/footer';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-cadastro',
@@ -19,7 +20,10 @@ export class Cadastro {
   tipoPerfil: 'usuario' | 'organizador' = 'usuario';
   passoOrganizador = 1;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(
+  private route: ActivatedRoute,
+  private authService: AuthService
+  ) {
     if (this.route.snapshot.queryParamMap.get('perfil') === 'organizador') {
       this.tipoPerfil = 'organizador';
     }
@@ -89,7 +93,20 @@ export class Cadastro {
   }
 
   executarCadastroOrganizador(dadosOrganizador: any) {
-    console.log('Dados do Organizador recebidos:', dadosOrganizador);
-    // Lógica para enviar para a API / backend
+    this.authService.cadastrarOrganizador(dadosOrganizador).subscribe({
+      next: (sessao) => {
+        console.log('Organizador cadastrado com sucesso:', sessao);
+        alert('Organizador cadastrado com sucesso!');
+      },
+      error: (erro) => {
+        console.error('ERRO COMPLETO:', erro);
+        console.error('STATUS:', erro.status);
+        console.error('URL:', erro.url);
+        console.error('ERROR DA API:', erro.error);
+        console.error('MENSAGEM:', erro.message);
+      
+        alert(`Erro ${erro.status}: ${erro.message}`);
+      }
+    });
   }
 }

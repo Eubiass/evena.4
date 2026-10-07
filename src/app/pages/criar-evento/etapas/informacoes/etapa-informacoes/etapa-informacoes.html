@@ -12,24 +12,25 @@
       >
     </div>
 
-    <div class="campo">
-      <label for="categoria">Categoria <span>*</span></label>
-
-      <select
-        id="categoria"
-        name="categoria"
-        [(ngModel)]="categoria"
-      >
-        <option value="">Selecione uma categoria</option>
-
-        @for (categoria of categorias; track categoria.valor) {
-          <option [value]="categoria.valor">
-            {{ categoria.nome }}
-          </option>
-        }
-      </select>
+   <div class="campo">
+    <label>
+      Categoria <span>*</span>
+    </label>
+  
+    <div class="categorias">
+      @for (categoria of categorias; track categoria.valor) {
+        <button
+          type="button"
+          class="categoria"
+          [class.ativa]="categoriaSelecionada === categoria.valor"
+          (click)="selecionarCategoria(categoria.valor)"
+        >
+          {{ categoria.nome }}
+        </button>
+      }
     </div>
-
+  </div>
+  
     <div class="campo">
       <label>Classificação etária <span>*</span></label>
 

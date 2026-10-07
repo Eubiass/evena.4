@@ -5,6 +5,8 @@ import { DetalhesEvento } from './pages/detalhes-evento/detalhes-evento';
 import { Login } from './pages/login/login';
 import { Cadastro } from './pages/cadastro/cadastro';
 import { CriarEvento } from './pages/criar-evento/criar-evento';
+import { PerfilOrganizador } from './pages/perfil-organizador/perfil-organizador';
+import { EditarPerfilOrganizador } from './pages/editar-perfil-organizador/editar-perfil-organizador';
 
 export const routes: Routes = [
   { path: '', 
@@ -21,6 +23,11 @@ export const routes: Routes = [
     component: Cadastro},
 
   {path: 'criar-evento',
-    component: CriarEvento
-  }
+    component: CriarEvento },
+
+  {path: 'perfil-organizador',
+  component: PerfilOrganizador},
+
+  { path: 'editar-perfil-organizador',
+  component: EditarPerfilOrganizador },
 ];

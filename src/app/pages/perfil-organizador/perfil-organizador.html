@@ -1,0 +1,160 @@
+<app-header></app-header>
+
+<main class="perfil-organizador">
+
+  <section class="capa">
+    <button type="button" class="editar-banner">
+      <i class="bi bi-camera"></i>
+      Editar banner
+    </button>
+  </section>
+
+  <section class="conteudo-perfil">
+
+    <div class="perfil">
+
+      <!-- FOTO -->
+      <div class="foto-container">
+
+        <div class="foto-empresa">
+          {{ empresa?.nome?.charAt(0)?.toUpperCase() }}
+        </div>
+
+        <button
+          type="button"
+          class="editar-foto"
+          aria-label="Editar foto">
+          <i class="bi bi-camera"></i>
+        </button>
+      </div>
+
+      <!-- DADOS -->
+      <div class="dados">
+
+        <div class="nome">
+          <h1>{{ empresa?.nome }}</h1>
+
+          <i
+            class="bi bi-patch-check-fill verificado"
+            aria-label="Empresa verificada">
+          </i>
+        </div>
+
+        <span class="usuario">
+          &#64;{{ empresa?.nome?.toLowerCase()?.replace(' ', '') }}
+        </span>
+
+        <strong class="categoria">
+          Eventos • Cultura • Entretenimento
+        </strong>
+
+        <p class="descricao">
+          {{
+            perfil?.descricao ||
+            'Conectamos pessoas aos melhores eventos, criando experiências memoráveis por todo o Brasil.'
+          }}
+        </p>
+
+        <div class="contato">
+
+          <span>
+            <i class="bi bi-geo-alt"></i>
+            São Paulo, SP
+          </span>
+
+          <span>
+            <i class="bi bi-envelope"></i>
+            {{ perfil?.email }}
+          </span>
+
+          <span>
+            <i class="bi bi-window"></i>
+            www.evena.online
+          </span>
+
+        </div>
+
+      </div>
+
+      <!-- AÇÕES -->
+      <div class="acoes">
+
+        <a routerLink="/editar-perfil-organizador" class="editar-perfil">
+            <i class="bi bi-pencil"></i>
+            Editar perfil
+        </a>
+
+        <a routerLink="/eventos" class="gerenciar-eventos">
+          Gerenciar eventos
+        </a>
+
+        <div class="redes">
+
+          <button type="button" aria-label="Instagram">
+            <i class="bi bi-instagram"></i>
+          </button>
+
+          <button type="button" aria-label="X">
+            <i class="bi bi-twitter-x"></i>
+          </button>
+
+          <button type="button" aria-label="YouTube">
+            <i class="bi bi-youtube"></i>
+          </button>
+
+          <button type="button" aria-label="TikTok">
+            <i class="bi bi-tiktok"></i>
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- EVENTOS -->
+    <section class="secao eventos">
+
+      <h2>Eventos da empresa</h2>
+
+      <div class="evento-vazio">
+        <h3>Você ainda não possui eventos</h3>
+
+        <p>
+          Crie seu primeiro evento e comece a divulgá-lo no Evena.
+        </p>
+
+        <a routerLink="/criar-evento">
+          Criar primeiro evento
+        </a>
+      </div>
+
+    </section>
+
+
+    <!-- SOBRE -->
+    <section class="secao sobre">
+
+      <h2>Sobre o {{ empresa?.nome }}</h2>
+
+      <p>
+        {{
+          perfil?.descricao ||
+          'Conte um pouco sobre sua empresa e os eventos que você organiza.'
+        }}
+      </p>
+
+      @if (perfil?.dataCriacao) {
+        <span class="data-cadastro">
+          Empresa cadastrada em {{ perfil?.dataCriacao }}
+        </span>
+      }
+
+    </section>
+
+  </section>
+
+</main>
+
+<app-footer></app-footer>

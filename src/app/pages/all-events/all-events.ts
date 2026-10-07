@@ -55,8 +55,7 @@ export class AllEvents implements OnInit {
       }
     });
 
-    const dados = this.eventoService.getEventos();
-    this.eventosFiltrados$ = this.filtroService.obterEventosFiltrados(dados);
+    this.eventosFiltrados$ = this.filtroService.obterEventosFiltrados( this.eventoService.getEventos() );
 
     this.temFiltroAtivo$ = this.filtroService.filtros$.pipe(
       map(filtros => !!(

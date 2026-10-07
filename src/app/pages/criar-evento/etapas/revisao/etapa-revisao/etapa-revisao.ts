@@ -1,11 +1,5 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DadosEvento, DataEvento } from '../../../../../models/dados-evento';
-
 
 @Component({
   selector: 'app-etapa-revisao',

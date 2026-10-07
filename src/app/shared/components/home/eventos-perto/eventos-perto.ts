@@ -33,15 +33,21 @@ export class EventosPerto implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.eventosCidadeIP = this.eventoService.getEventos();
+    this.eventoService.getEventos().subscribe(eventos => {
+      this.eventosCidadeIP = eventos;
+      this.cdr.detectChanges();
+    });
 
     await this.localizacaoPorIP();
 
-    const gpsJaAtivadoAnteriormente = localStorage.getItem('evena_gps_ativo') === 'true';
+    const gpsJaAtivadoAnteriormente =
+      localStorage.getItem('evena_gps_ativo') === 'true';
 
     if (gpsJaAtivadoAnteriormente && navigator.permissions) {
       try {
-        const statusPermissao = await navigator.permissions.query({ name: 'geolocation' as PermissionName });
+        const statusPermissao = await navigator.permissions.query({
+          name: 'geolocation' as PermissionName
+        });
 
         if (statusPermissao.state === 'granted') {
           this.solicitarLocalizacao(true);
@@ -49,39 +55,41 @@ export class EventosPerto implements OnInit {
           localStorage.removeItem('evena_gps_ativo');
         }
       } catch (e) {
-        console.warn("Não foi possível verificar as permissões nativas.", e);
+        console.warn(
+          'Não foi possível verificar as permissões nativas.',
+          e
+        );
       }
     }
   }
 
   filtrarPorCidade() {
-    const todos = this.eventoService.getEventos();
+   this.eventoService.getEventos().subscribe(todos => {
 
-    if (!this.cidadeDetectada || this.cidadeDetectada === 'sua região') {
-      this.eventosCidadeIP = todos;
-      this.cdr.detectChanges();
+     if (!this.cidadeDetectada || this.cidadeDetectada === 'sua região') {
+       this.eventosCidadeIP = todos;
+       this.cdr.detectChanges();
 
-      setTimeout(() => this.atualizarSetas('ip'));
-      return;
-    }
+       setTimeout(() => this.atualizarSetas('ip'));
+       return;
+     }
 
-    const cidade = this.cidadeDetectada.toLowerCase().trim();
+     const cidade = this.cidadeDetectada.toLowerCase().trim();
 
-    this.eventosCidadeIP = todos.filter(e => {
-      const local = e.cidade.toLowerCase();
+     this.eventosCidadeIP = todos.filter(e => {
+       const local = e.cidade.toLowerCase();
+       return local.includes(cidade) ||
+         (cidade.includes('são paulo') && local.includes('sp')) ||
+         (cidade.includes('sp') && local.includes('são paulo'));
+     });
 
-      return local.includes(cidade) ||
-        (cidade.includes('são paulo') && local.includes('sp')) ||
-        (cidade.includes('sp') && local.includes('são paulo'));
-    });
+     if (this.eventosCidadeIP.length === 0) {
+       this.eventosCidadeIP = todos;
+     }
+     this.cdr.detectChanges();
 
-    if (this.eventosCidadeIP.length === 0) {
-      this.eventosCidadeIP = todos;
-    }
-
-    this.cdr.detectChanges();
-
-    setTimeout(() => this.atualizarSetas('ip'));
+     setTimeout(() => this.atualizarSetas('ip'));
+   });
   }
 
   async localizacaoPorIP() {
@@ -113,21 +121,31 @@ export class EventosPerto implements OnInit {
       (position) => {
         const latUser = position.coords.latitude;
         const lngUser = position.coords.longitude;
-        const todos = this.eventoService.getEventos();
+        this.eventoService.getEventos().subscribe(todos => {
 
-        this.eventosProximosGps = todos
-          .filter(e => e.lat && e.lng)
-          .map(e => ({
-            ...e,
-            distancia: this.calcularDistancia(
-              latUser,
-              lngUser,
-              e.lat!,
-              e.lng!
-            )
-          }))
-          .filter(e => e.distancia! <= 15)
-          .sort((a, b) => a.distancia! - b.distancia!);
+         this.eventosProximosGps = todos
+           .filter(e => e.lat && e.lng)
+           .map(e => ({
+             ...e,
+             distancia: this.calcularDistancia(
+               latUser,
+               lngUser,
+               e.lat!,
+               e.lng!
+             )
+           }))
+           .filter(e => e.distancia! <= 15)
+           .sort((a, b) => a.distancia! - b.distancia!);
+         
+         this.localizacaoAtiva = true;
+         this.carregandoGps = false;
+         
+         localStorage.setItem('evena_gps_ativo', 'true');
+         
+         this.cdr.detectChanges();
+         
+         setTimeout(() => this.atualizarSetas('gps'));
+        });
 
         this.localizacaoAtiva = true;
         this.carregandoGps = false;
@@ -195,7 +213,6 @@ export class EventosPerto implements OnInit {
     if (!element) return;
 
     const tolerancia = 5;
-
     const noInicio = element.scrollLeft <= tolerancia;
 
     const noFinal =

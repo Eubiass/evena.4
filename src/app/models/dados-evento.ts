@@ -12,6 +12,7 @@ export interface Atracao {
 
 export interface DadosEvento {
   nome: string;
+  // categorias: string[];
   categoria: string;
   classificacao: string;
   descricao: string;
@@ -50,6 +51,7 @@ export interface DadosEvento {
 export function criarDadosEventoVazio(): DadosEvento {
   return {
     nome: '',
+    //categorias: [],
     categoria: '',
     classificacao: '',
     descricao: '',

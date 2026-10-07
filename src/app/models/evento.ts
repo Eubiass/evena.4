@@ -33,7 +33,7 @@ export interface Evento {
   lng: number;       
   distancia?: number;
   
-  categoria: string[];
+  categoria: string;
   artista?: string[]; 
   
   linkCompra?: string;

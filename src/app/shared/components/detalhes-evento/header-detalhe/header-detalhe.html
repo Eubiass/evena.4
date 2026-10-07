@@ -8,9 +8,12 @@
         [attr.alt]="evento?.titulo ? 'Imagem de capa do evento: ' + evento.titulo : 'Imagem de capa do evento'">
       
       <div class="hero-text">
-        @if (evento?.categoria?.length) {
-          <span class="tag-categoria" [attr.aria-label]="'Categoria: ' + evento.categoria[0]">
-            {{ evento.categoria[0] }}
+        @if (evento?.categoria) {
+          <span
+            class="tag-categoria"
+            [attr.aria-label]="'Categoria: ' + evento.categoria"
+          >
+            {{ evento.categoria }}
           </span>
         }
         

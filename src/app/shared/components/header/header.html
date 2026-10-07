@@ -1,6 +1,6 @@
 <header class="app-header" [class.busca-ativa]="pesquisaAtiva" role="banner">
-  
-  <!-- SEÇÃO ESQUERDA: Logo -->
+
+  <!-- LOGO -->
   <div class="header-section left">
     @if (!pesquisaAtiva) {
       <a routerLink="/" class="logo-link">
@@ -9,116 +9,232 @@
     }
   </div>
 
-  <!-- SEÇÃO CENTRAL: Menu Desktop -->
-  <nav class="header-section center desktop-only" aria-label="Navegação principal">
+  <!-- MENU DESKTOP -->
+  <nav
+    class="header-section center desktop-only"
+    aria-label="Navegação principal">
+
     @if (!pesquisaAtiva) {
-      <a class="btn_nav_bar" 
-         routerLink="/" 
-         routerLinkActive="ativo" 
-         [routerLinkActiveOptions]="{ exact: true }">
-         Início
+
+      <a
+        class="btn_nav_bar"
+        routerLink="/"
+        routerLinkActive="ativo"
+        [routerLinkActiveOptions]="{ exact: true }">
+        Início
       </a>
-      <a class="btn_nav_bar" 
-         routerLink="/eventos" 
-         routerLinkActive="ativo">
-         Eventos
+
+      <a
+        class="btn_nav_bar"
+        routerLink="/eventos"
+        routerLinkActive="ativo">
+        Eventos
       </a>
+
+      @if (usuarioAutenticado) {
+        <a
+          class="btn_nav_bar"
+          routerLink="/criar-evento"
+          routerLinkActive="ativo">
+          Organize seu evento
+        </a>
+      }
+
     }
   </nav>
 
-  <!-- SEÇÃO DIREITA: Busca, Perfil/Entrar e Menu Mobile -->
-  <section class="header-section right" [class.expandida]="pesquisaAtiva">
-    
-    <!-- Componente de Busca -->
-    <div class="btn-search" [class.active]="pesquisaAtiva">
-      <button 
-        type="button" 
-        class="search-trigger" 
-        (click)="togglePesquisa()" 
+  <!-- DIREITA -->
+  <section
+    class="header-section right"
+    [class.expandida]="pesquisaAtiva">
+
+    <!-- PESQUISA -->
+    <div
+      class="btn-search"
+      [class.active]="pesquisaAtiva">
+
+      <button
+        type="button"
+        class="search-trigger"
+        (click)="togglePesquisa()"
         [attr.aria-expanded]="pesquisaAtiva ? 'true' : 'false'"
         aria-label="Abrir campo de pesquisa">
-        <img src="search.png" class="search" alt="" aria-hidden="true">
+
+        <img
+          src="search.png"
+          class="search"
+          alt=""
+          aria-hidden="true">
+
       </button>
 
-      <input 
-        type="text" 
-        placeholder="Pesquisar..." 
+      <input
+        type="text"
+        placeholder="Pesquisar..."
         id="campo-busca"
         aria-label="Pesquisar eventos"
         [(ngModel)]="termoPesquisa"
         (keyup.enter)="fazerPesquisa()"
         autocomplete="off">
 
-      @if (pesquisaAtiva) {
-        <button (click)="togglePesquisa()" class="btn-fechar" type="button" aria-label="Fechar busca">×</button>
+      @if (pesquisaAtiva && termoPesquisa.trim()) {
+        <button
+          type="button"
+          class="btn-limpar-pesquisa"
+          (click)="limparPesquisa()"
+          aria-label="Limpar pesquisa">
+          ×
+        </button>
       }
+
+      @if (pesquisaAtiva && !termoPesquisa.trim()) {
+        <button
+          type="button"
+          class="btn-fechar"
+          (click)="togglePesquisa()"
+          aria-label="Fechar busca">
+          ×
+        </button>
+      }
+
+      @if (!pesquisaAtiva && termoPesquisa.trim()) {
+        <button
+          type="button"
+          class="btn-limpar-pesquisa"
+          (click)="limparPesquisa()"
+          aria-label="Limpar pesquisa">
+          ×
+        </button>
+      }
+
     </div>
 
-    <!-- Botões Desktop e Acionador Mobile -->
     @if (!pesquisaAtiva) {
-      
-      <!-- LÓGICA DE AUTENTICAÇÃO (DESKTOP) -->
+
+      <!-- DESKTOP -->
       @if (!usuarioAutenticado) {
-        <!-- Exibido apenas se NÃO estiver logado -->
-        <a routerLink="/login" class="desktop-only" aria-label="Entrar ou cadastrar">
-          <button class="btn-login">Entrar</button>
+
+        <a
+          routerLink="/login"
+          class="desktop-only login-link">
+
+          <button class="btn-login">
+            Entrar
+          </button>
+
         </a>
+
       } @else {
-        <!-- Exibido apenas se ESTIVER logado -->
-        <a routerLink="/perfil" class="desktop-only" aria-label="Acessar meu perfil">
-          <img src="perfil-placeholder.png" class="perfil" alt="Foto de perfil">
+
+        <!-- No desktop fica apenas o ícone -->
+        <a
+          routerLink="/perfil-organizador"
+          class="perfil desktop-only"
+          aria-label="Meu Perfil"
+          title="Meu Perfil">
+
+          {{ nomeUsuario.charAt(0).toUpperCase() }}
+
         </a>
+
       }
 
-      <!-- Botão Hambúrguer Mobile -->
-      <button 
-        class="menu-mobile-btn" 
-        (click)="toggleMenu()" 
+      <!-- HAMBÚRGUER MOBILE -->
+      <button
+        class="menu-mobile-btn"
+        type="button"
+        (click)="toggleMenu()"
         [attr.aria-expanded]="menuAberto ? 'true' : 'false'"
         aria-label="Menu principal">
+
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
+
       </button>
+
     }
+
   </section>
 
-  <!-- MENU OVERLAY (GAVETA MOBILE) -->
-  <aside class="menu-overlay" [class.aberto]="menuAberto" [attr.aria-hidden]="!menuAberto ? 'true' : 'false'" role="dialog" aria-label="Menu móvel">
-    <button type="button" class="btn_fechar_menu" (click)="toggleMenu()" aria-label="Fechar menu principal">×</button>
-    
-    <nav class="mobile-nav" aria-label="Navegação móvel">
-      <a routerLink="/" 
-         routerLinkActive="ativo" 
-         [routerLinkActiveOptions]="{ exact: true }" 
-         (click)="toggleMenu()">
-         Início
-      </a>
-      <a routerLink="/eventos" 
-         routerLinkActive="ativo" 
-         (click)="toggleMenu()">
-         Eventos
-      </a>
-      
-      <hr class="divisor-menu" role="presentation">
 
-      <!-- LÓGICA DE AUTENTICAÇÃO (MOBILE) -->
-      @if (!usuarioAutenticado) {
-        <!-- Exibido se NÃO estiver logado -->
-        <a routerLink="/login" 
-           routerLinkActive="ativo" 
-           (click)="toggleMenu()">
-           Entrar / Cadastrar
+  <!-- MENU MOBILE -->
+  <aside
+    class="menu-overlay"
+    [class.aberto]="menuAberto"
+    [attr.aria-hidden]="!menuAberto ? 'true' : 'false'"
+    role="dialog"
+    aria-label="Menu móvel">
+
+    <button
+      type="button"
+      class="btn_fechar_menu"
+      (click)="toggleMenu()"
+      aria-label="Fechar menu principal">
+      ×
+    </button>
+
+    <nav
+      class="mobile-nav"
+      aria-label="Navegação móvel">
+
+      <a
+        routerLink="/"
+        routerLinkActive="ativo"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="fecharMenu()">
+        Início
+      </a>
+
+      <a
+        routerLink="/eventos"
+        routerLinkActive="ativo"
+        (click)="fecharMenu()">
+        Eventos
+      </a>
+
+      @if (usuarioAutenticado) {
+
+        <a
+          routerLink="/criar-evento"
+          routerLinkActive="ativo"
+          (click)="fecharMenu()">
+          Organize seu evento
         </a>
-      } @else {
-        <!-- Exibido se ESTIVER logado -->
-        <a routerLink="/perfil" 
-           routerLinkActive="ativo" 
-           (click)="toggleMenu()">
-           Meu Perfil
-        </a>
+
       }
+
+      <hr class="divisor-menu">
+
+      @if (!usuarioAutenticado) {
+
+        <a
+          routerLink="/login"
+          routerLinkActive="ativo"
+          (click)="fecharMenu()">
+          Entrar / Cadastrar
+        </a>
+
+      } @else {
+
+        <a
+          routerLink="/perfil-organizador"
+          routerLinkActive="ativo"
+          (click)="fecharMenu()">
+          Meu Perfil
+        </a>
+
+        <button
+          type="button"
+          class="btn-sair"
+          (click)="sair()">
+          Sair da conta
+        </button>
+
+      }
+
     </nav>
+
   </aside>
 
 </header>

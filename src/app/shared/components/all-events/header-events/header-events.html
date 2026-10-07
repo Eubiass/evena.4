@@ -10,12 +10,14 @@
       <span>Filtros</span>
     </button>
 
-    <button *ngIf="temFiltroAtivo" 
-            type="button" 
-            class="btn-limpar" 
-            (click)="onLimparFiltros()">
-      <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-      <span>Limpar filtros</span>
-    </button>
+  @if (temFiltroAtivo) {
+    <button
+     type="button"
+     class="btn-limpar"
+     (click)="onLimparFiltros()">
+     <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+     <span>Limpar filtros</span>
+   </button>
+  }
   </div>
 </header>

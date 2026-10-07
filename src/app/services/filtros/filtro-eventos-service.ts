@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, combineLatest, map } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  combineLatest,
+  map
+} from 'rxjs';
+
 import { Evento } from '../../models/evento';
 
 export interface Filtros {
@@ -13,62 +19,144 @@ export interface Filtros {
 
 @Injectable({ providedIn: 'root' })
 export class FiltroEventosService {
+
   private readonly filtrosPadrao: Filtros = {
-    termo: '', estado: '', cidade: '', preco: 'todos', data: '', categoria: 'Todos'
+    termo: '',
+    estado: '',
+    cidade: '',
+    preco: 'todos',
+    data: '',
+    categoria: 'Todos'
   };
 
-  private filtrosSubject = new BehaviorSubject<Filtros>(this.filtrosPadrao);
+  private filtrosSubject =
+    new BehaviorSubject<Filtros>(this.filtrosPadrao);
+
   filtros$ = this.filtrosSubject.asObservable();
 
-  private normalizarTexto(t: string): string {
-    return t ? t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '') : '';
+  private normalizarTexto(texto: string): string {
+    return texto
+      ? texto
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+      : '';
   }
 
-  atualizarFiltros(novosFiltros: Partial<Filtros>) {
-    this.filtrosSubject.next({ ...this.filtrosSubject.value, ...novosFiltros });
+  atualizarFiltros(novosFiltros: Partial<Filtros>): void {
+    this.filtrosSubject.next({
+      ...this.filtrosSubject.value,
+      ...novosFiltros
+    });
   }
 
-  resetarFiltros() { this.filtrosSubject.next(this.filtrosPadrao); }
+  resetarFiltros(): void {
+    this.filtrosSubject.next(this.filtrosPadrao);
+  }
 
-  obterEventosFiltrados(eventosIniciais: Evento[]): Observable<Evento[]> {
-    return this.filtros$.pipe(
-      map(filtros => {
-        const termoBusca = this.normalizarTexto(filtros.termo);
-        const cidadeBusca = this.normalizarTexto(filtros.cidade);
+  obterEventosFiltrados(
+    eventos$: Observable<Evento[]>
+  ): Observable<Evento[]> {
 
-        return eventosIniciais.filter(evento => {
-          // 1. Busca Global (Termo)
-          const matchTermo = !termoBusca || 
-            this.normalizarTexto(evento.titulo).includes(termoBusca) ||
-            this.normalizarTexto(evento.localNome).includes(termoBusca);
+    return combineLatest([
+      eventos$,
+      this.filtros$
+    ]).pipe(
 
-          // 2. Cidade (Input)
-          const matchCidade = !cidadeBusca || 
-            this.normalizarTexto(evento.cidade).includes(cidadeBusca);
+      map(([eventos, filtros]) => {
 
-          // 3. Preço (Dropdown)
-          const p = evento.preco;
-          const fP = filtros.preco;
-          const matchPreco = fP === 'todos' ? true :
-                             fP === 'gratis' ? p === 0 :
-                             fP === 'ate50' ? (p > 0 && p <= 50) :
-                             fP === '50-150' ? (p > 50 && p <= 150) :
-                             fP === 'mais150' ? p > 150 : true;
+        const termoBusca =
+          this.normalizarTexto(filtros.termo).trim();
 
-          // 4. Data (Calendário ISO)
-          const dF = filtros.data; // "2026-07-31"
+        const cidadeBusca =
+          this.normalizarTexto(filtros.cidade).trim();
+
+        return eventos.filter(evento => {
+
+          // 1. PESQUISA GLOBAL
+          const textoPesquisa = [
+            evento.titulo,
+            evento.cidade,
+            evento.uf,
+            evento.categoria,
+            evento.localNome,
+            evento.descricao,
+            ...(evento.artista ?? [])
+          ]
+            .map(valor => this.normalizarTexto(valor ?? ''))
+            .join(' ');
+
+          const matchTermo =
+            !termoBusca ||
+            textoPesquisa.includes(termoBusca);
+
+
+          // 2. CIDADE
+          const matchCidade =
+            !cidadeBusca ||
+            this.normalizarTexto(evento.cidade)
+              .includes(cidadeBusca);
+
+
+          // 3. PREÇO
+          const preco = evento.preco;
+          const filtroPreco = filtros.preco;
+
+          const matchPreco =
+            filtroPreco === 'todos' ? true :
+            filtroPreco === 'gratis' ? preco === 0 :
+            filtroPreco === 'ate50' ? (
+              preco > 0 && preco <= 50
+            ) :
+            filtroPreco === '50-150' ? (
+              preco > 50 && preco <= 150
+            ) :
+            filtroPreco === 'mais150' ? (
+              preco > 150
+            ) :
+            true;
+
+
+          // 4. DATA
+          const filtroData = filtros.data;
+
           let matchData = true;
-          if (dF) {
-            const noArray = evento.datasOcorrencia?.includes(dF);
-            const noIntervalo = evento.intervalo && (dF >= evento.intervalo.inicio && dF <= evento.intervalo.fim);
-            matchData = !!(noArray || noIntervalo);
+
+          if (filtroData) {
+
+            const existeNaLista =
+              evento.datasOcorrencia?.includes(filtroData);
+
+            const existeNoIntervalo =
+              evento.intervalo &&
+              filtroData >= evento.intervalo.inicio &&
+              filtroData <= evento.intervalo.fim;
+
+            matchData =
+              !!(existeNaLista || existeNoIntervalo);
           }
 
-          // 5. Categoria e Estado
-          const matchCat = filtros.categoria === 'Todos' || evento.categoria.includes(filtros.categoria);
-          const matchEst = !filtros.estado || evento.uf === filtros.estado;
 
-          return matchTermo && matchCidade && matchPreco && matchData && matchCat && matchEst;
+          // 5. CATEGORIA
+          const matchCategoria =
+            filtros.categoria === 'Todos' ||
+            evento.categoria === filtros.categoria;
+
+
+          // 6. ESTADO
+          const matchEstado =
+            !filtros.estado ||
+            evento.uf === filtros.estado;
+
+
+          return (
+            matchTermo &&
+            matchCidade &&
+            matchPreco &&
+            matchData &&
+            matchCategoria &&
+            matchEstado
+          );
         });
       })
     );

@@ -87,9 +87,7 @@ export class Categorias implements AfterViewInit, OnDestroy {
     }
 
     const tolerancia = 5;
-
     const noInicio = element.scrollLeft <= tolerancia;
-
     const noFinal =
       element.scrollLeft + element.clientWidth >=
       element.scrollWidth - tolerancia;
@@ -102,14 +100,12 @@ export class Categorias implements AfterViewInit, OnDestroy {
 
   scrollDireita() {
     const element = this.carousel?.nativeElement;
-
     if (!element) {
       return;
     }
 
     const primeiroItem =
       element.querySelector('.item-wrapper') as HTMLElement;
-
     if (!primeiroItem) {
       return;
     }
@@ -129,14 +125,12 @@ export class Categorias implements AfterViewInit, OnDestroy {
 
   scrollEsquerda() {
     const element = this.carousel?.nativeElement;
-
     if (!element) {
       return;
     }
 
     const primeiroItem =
       element.querySelector('.item-wrapper') as HTMLElement;
-
     if (!primeiroItem) {
       return;
     }

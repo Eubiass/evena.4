@@ -1,11 +1,8 @@
 <form class="etapa-data-local" (ngSubmit)="enviarFormulario()" novalidate>
   <div class="formulario">
-
     <div class="campo">
       <label>Datas do evento <span>*</span></label>
-      <p class="descricao-campo">
-        Adicione uma ou mais datas para o seu evento.
-      </p>
+      <p class="descricao-campo">Adicione uma ou mais datas para o seu evento.</p>
 
       <div class="datas">
         @for (item of datas; track $index) {
@@ -178,9 +175,7 @@
           </label>
 
           @if (erroGeradorDatas) {
-            <span class="erro-gerador">
-              {{ erroGeradorDatas }}
-            </span>
+            <span class="erro-gerador">{{ erroGeradorDatas }}</span>
           }
 
           <div class="acoes-gerador">
@@ -204,146 +199,112 @@
       }
     </div>
 
-    <div class="campo">
-      <label>Como será o evento? <span>*</span></label>
-      <p class="descricao-campo">
-        Escolha o formato do evento.
-      </p>
-
-      <div class="tipos-local">
-        <button
-          type="button"
-          class="tipo-local"
-          [class.ativo]="tipoLocal === 'presencial'"
-          (click)="selecionarTipoLocal('presencial')"
+    <div class="endereco">
+      <div class="campo">
+        <label for="endereco">Endereço <span>*</span></label>
+        <input
+          id="endereco"
+          name="endereco"
+          type="text"
+          placeholder="Rua, avenida..."
+          [(ngModel)]="endereco"
         >
-          <strong>Presencial</strong>
-          <span>O evento acontecerá em um local físico.</span>
-        </button>
 
-        <button
-          type="button"
-          class="tipo-local"
-          [class.ativo]="tipoLocal === 'online'"
-          (click)="selecionarTipoLocal('online')"
-        >
-          <strong>Online</strong>
-          <span>O evento acontecerá pela internet.</span>
-        </button>
-
-        <button
-          type="button"
-          class="tipo-local"
-          [class.ativo]="tipoLocal === 'hibrido'"
-          (click)="selecionarTipoLocal('hibrido')"
-        >
-          <strong>Híbrido</strong>
-          <span>O evento acontecerá presencialmente e online.</span>
-        </button>
+        @if (camposInvalidos.includes('endereco')) {
+          <span class="erro-campo">Informe o endereço do evento.</span>
+        }
       </div>
 
-      @if (camposInvalidos.includes('tipoLocal')) {
-        <span class="erro-campo">
-          Selecione como será o evento.
-        </span>
-      }
-    </div>
-
-    @if (tipoLocal === 'presencial' || tipoLocal === 'hibrido') {
-      <div class="endereco">
+      <div class="linha-endereco">
         <div class="campo">
-          <label for="endereco">Endereço <span>*</span></label>
+          <label for="numero">Número</label>
           <input
-            id="endereco"
-            name="endereco"
+            id="numero"
+            name="numero"
             type="text"
-            placeholder="Rua, avenida..."
-            [(ngModel)]="endereco"
+            [(ngModel)]="numero"
           >
+        </div>
 
-          @if (camposInvalidos.includes('endereco')) {
-            <span class="erro-campo">
-              Informe o endereço do evento.
-            </span>
+        <div class="campo">
+          <label for="complemento">Complemento</label>
+          <input
+            id="complemento"
+            name="complemento"
+            type="text"
+            placeholder="Sala, bloco, andar..."
+            [(ngModel)]="complemento"
+          >
+        </div>
+      </div>
+
+      <div class="linha-endereco">
+        <div class="campo">
+          <label for="estado">Estado <span>*</span></label>
+          <select
+            id="estado"
+            name="estado"
+            [(ngModel)]="estado"
+            (ngModelChange)="alterarEstado()"
+          >
+            <option value="">Selecione um estado</option>
+            <option value="AC">Acre</option>
+            <option value="AL">Alagoas</option>
+            <option value="AP">Amapá</option>
+            <option value="AM">Amazonas</option>
+            <option value="BA">Bahia</option>
+            <option value="CE">Ceará</option>
+            <option value="DF">Distrito Federal</option>
+            <option value="ES">Espírito Santo</option>
+            <option value="GO">Goiás</option>
+            <option value="MA">Maranhão</option>
+            <option value="MT">Mato Grosso</option>
+            <option value="MS">Mato Grosso do Sul</option>
+            <option value="MG">Minas Gerais</option>
+            <option value="PA">Pará</option>
+            <option value="PB">Paraíba</option>
+            <option value="PR">Paraná</option>
+            <option value="PE">Pernambuco</option>
+            <option value="PI">Piauí</option>
+            <option value="RJ">Rio de Janeiro</option>
+            <option value="RN">Rio Grande do Norte</option>
+            <option value="RS">Rio Grande do Sul</option>
+            <option value="RO">Rondônia</option>
+            <option value="RR">Roraima</option>
+            <option value="SC">Santa Catarina</option>
+            <option value="SP">São Paulo</option>
+            <option value="SE">Sergipe</option>
+            <option value="TO">Tocantins</option>
+          </select>
+
+          @if (camposInvalidos.includes('estado')) {
+            <span class="erro-campo">Selecione um estado.</span>
           }
         </div>
 
-        <div class="linha-endereco">
-          <div class="campo">
-            <label for="numero">Número</label>
-            <input
-              id="numero"
-              name="numero"
-              type="text"
-              [(ngModel)]="numero"
-            >
-          </div>
+        <div class="campo">
+          <label for="cidade">Cidade <span>*</span></label>
+          <select
+            id="cidade"
+            name="cidade"
+            [(ngModel)]="cidade"
+            [disabled]="!estado"
+          >
+            <option value="">
+              {{ estado ? 'Selecione uma cidade' : 'Selecione um estado primeiro' }}
+            </option>
 
-          <div class="campo">
-            <label for="complemento">Complemento</label>
-            <input
-              id="complemento"
-              name="complemento"
-              type="text"
-              placeholder="Sala, bloco, andar..."
-              [(ngModel)]="complemento"
-            >
-          </div>
-        </div>
+            @for (cidade of cidadesDisponiveis; track cidade) {
+              <option [value]="cidade">{{ cidade }}</option>
+            }
+          </select>
 
-        <div class="linha-endereco">
-          <div class="campo">
-            <label for="cidade">Cidade</label>
-            <input
-              id="cidade"
-              name="cidade"
-              type="text"
-              [(ngModel)]="cidade"
-            >
-          </div>
-
-          <div class="campo">
-            <label for="estado">Estado</label>
-            <select
-              id="estado"
-              name="estado"
-              [(ngModel)]="estado"
-            >
-              <option value="">Selecione</option>
-              <option value="SP">São Paulo</option>
-              <option value="RJ">Rio de Janeiro</option>
-              <option value="MG">Minas Gerais</option>
-              <option value="PR">Paraná</option>
-              <option value="SC">Santa Catarina</option>
-              <option value="RS">Rio Grande do Sul</option>
-            </select>
-          </div>
+          @if (camposInvalidos.includes('cidade')) {
+            <span class="erro-campo">Selecione uma cidade válida.</span>
+          }
         </div>
       </div>
-    }
-
-    @if (tipoLocal === 'online' || tipoLocal === 'hibrido') {
-      <div class="campo">
-        <label for="link">
-          Link do evento{{ tipoLocal === 'online' ? '' : ' online' }}
-          <span>*</span>
-        </label>
-
-        <input
-          id="link"
-          name="link"
-          type="url"
-          placeholder="https://..."
-          [(ngModel)]="link"
-        >
-
-        @if (camposInvalidos.includes('link')) {
-          <span class="erro-campo">
-            Informe o link para a participação online.
-          </span>
-        }
-      </div>
-    }
+    </div>
   </div>
 
   <div class="acoes">

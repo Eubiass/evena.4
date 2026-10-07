@@ -19,17 +19,17 @@ export class OrganizerForm {
     // Passo 1
     emailEmpresa: ['', [Validators.required, Validators.email]],
     telefoneEmpresa: ['', [Validators.required, Validators.minLength(10)]],
-    senhaOrganizador: ['', [Validators.required, Validators.minLength(6)]],
+    senhaOrganizador: ['', [Validators.required, Validators.minLength(8)]],
     confirmarSenhaOrganizador: ['', [Validators.required]],
     
     // Passo 2
     razaoSocial: ['', [Validators.required]],
     nomeFantasia: ['', [Validators.required]],
-    cnpj: ['', [Validators.required, Validators.pattern(/^\d{14}$/)]], // Exige 14 dígitos
+    cnpj: ['', [Validators.required, Validators.pattern(/^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/)]],
     ramoEmpresa: ['', [Validators.required]],
 
     // Passo 3
-    cep: ['', [Validators.required, Validators.pattern(/^\d{8}$/)]],
+    cep: ['', [Validators.required, Validators.pattern(/^\d{5}-\d{3}$/)]],
     estado: ['', [Validators.required]],
     cidade: ['', [Validators.required]],
     bairro: ['', [Validators.required]],
@@ -50,7 +50,56 @@ export class OrganizerForm {
   }
 
   voltarPasso() {
-    if (this.passoAtual > 1) this.passoAtual--;
+      if (this.passoAtual > 1) this.passoAtual--;
+    }
+
+  formatarCnpj(event: Event): void {
+    const input = event.target as HTMLInputElement;
+
+    let valor = input.value.replace(/\D/g, '');
+
+    valor = valor.substring(0, 14);
+
+    if (valor.length > 12) {
+      valor = valor.replace(
+        /^(\d{2})(\d{3})(\d{3})(\d{4})(\d{0,2}).*/,
+        '$1.$2.$3/$4-$5'
+      );
+    } else if (valor.length > 8) {
+      valor = valor.replace(
+        /^(\d{2})(\d{3})(\d{3})(\d{0,4}).*/,
+        '$1.$2.$3/$4'
+      );
+    } else if (valor.length > 5) {
+      valor = valor.replace(
+        /^(\d{2})(\d{3})(\d{0,3}).*/,
+        '$1.$2.$3'
+      );
+    } else if (valor.length > 2) {
+      valor = valor.replace(
+        /^(\d{2})(\d{0,3}).*/,
+        '$1.$2'
+      );
+    }
+
+    this.form.get('cnpj')?.setValue(valor);
+  }
+
+  formatarCep(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    
+    let valor = input.value.replace(/\D/g, '');
+    
+    valor = valor.substring(0, 8);
+    
+    if (valor.length > 5) {
+      valor = valor.replace(
+        /^(\d{5})(\d{0,3}).*/,
+        '$1-$2'
+      );
+    }
+  
+    this.form.get('cep')?.setValue(valor);
   }
 
   submeter() {

@@ -38,7 +38,7 @@
         <input type="text" formControlName="nomeFantasia" placeholder="Nome Fantasia *">
       </div>
       <div class="grupo-input">
-        <input type="text" formControlName="cnpj" placeholder="CNPJ (Apenas 14 números) *">
+        <input type="text" formControlName="cnpj" placeholder="CNPJ *" (input)="formatarCnpj($event)">
       </div>
       <div class="grupo-input">
         <select formControlName="ramoEmpresa">
@@ -60,7 +60,7 @@
   @if (passoAtual === 3) {
     <div class="area-inputs grid-localizacao">
       <div class="grupo-input campo-largo">
-        <input type="text" formControlName="cep" placeholder="CEP (Apenas números) *">
+        <input type="text" formControlName="cep" placeholder="CEP *" (input)="formatarCep($event)">
       </div>
       <div class="grupo-input">
         <input type="text" formControlName="estado" placeholder="Estado *">

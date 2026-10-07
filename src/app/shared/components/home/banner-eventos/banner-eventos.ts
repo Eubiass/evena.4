@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy, HostListener, ChangeDetectorRef } from '@angular/core';
 import { EventoService } from '../../../../services/evento-service';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { Evento } from '../../../../models/evento';
 
 @Component({
   selector: 'app-banner-eventos',
   standalone: true,
-  imports: [RouterLink],
+  imports: [],
   templateUrl: './banner-eventos.html',
   styleUrl: './banner-eventos.css',
 })
@@ -29,20 +29,21 @@ export class BannerEventos implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    // 1. Pega todos os eventos do service
-    const todosEventos = this.eventoService.getEventos();
+   this.eventoService.getEventos().subscribe(todosEventos => {
 
-    // 2. Filtra para mostrar apenas os IDs que estão na lista de destaques
-    this.listaBanner = todosEventos.filter(evento => 
-      this.idsDestaque.includes(evento.id)
-    );
+     // Filtra apenas os eventos destacados
+     this.listaBanner = todosEventos.filter(evento =>
+       this.idsDestaque.includes(evento.id)
+     );
 
-    // 3. Garante a ordem específica baseada no array idsDestaque
-    this.listaBanner.sort((a, b) => 
-      this.idsDestaque.indexOf(a.id) - this.idsDestaque.indexOf(b.id)
-    );
+     // Mantém a ordem definida em idsDestaque
+     this.listaBanner.sort((a, b) =>
+       this.idsDestaque.indexOf(a.id) - this.idsDestaque.indexOf(b.id)
+     );
 
-    this.iniciarTimer();
+     this.iniciarTimer();
+     this.cdr.detectChanges();
+   });
   }
 
   ngOnDestroy() {

@@ -1,14 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  Output,
-  ViewChild
-} from "@angular/core";
-
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { DiaFestival } from "../../../../../models/evento";
 
@@ -49,7 +39,9 @@ export class SelecaoDiasBloco implements AfterViewInit, OnDestroy {
       this.atualizarSetas();
     });
 
-    this.resizeObserver.observe(this.diasContainer.nativeElement);
+    if (this.diasContainer) {
+      this.resizeObserver.observe(this.diasContainer.nativeElement);
+    }
   }
 
 

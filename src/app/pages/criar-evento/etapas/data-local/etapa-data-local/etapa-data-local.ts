@@ -1,6 +1,16 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output
+} from '@angular/core';
+
 import { FormsModule } from '@angular/forms';
-import { DadosEvento, DataEvento } from '../../../../../models/dados-evento';
+import {
+  DadosEvento,
+  DataEvento
+} from '../../../../../models/dados-evento';
 
 @Component({
   selector: 'app-etapa-data-local',
@@ -11,34 +21,72 @@ import { DadosEvento, DataEvento } from '../../../../../models/dados-evento';
 })
 export class EtapaDataLocal implements OnInit {
   @Input() dadosEvento!: DadosEvento;
+
   @Output() continuar = new EventEmitter<Partial<DadosEvento>>();
   @Output() voltar = new EventEmitter<void>();
 
   datas: DataEvento[] = [this.criarDataVazia()];
 
-  tipoLocal = '';
+  tipoLocal = 'presencial';
+
   endereco = '';
   numero = '';
   complemento = '';
   cidade = '';
   estado = '';
-  link = '';
+
+  cidadesPorEstado: Record<string, string[]> = {
+    AC: ['Rio Branco', 'Cruzeiro do Sul'],
+    AL: ['Maceió', 'Arapiraca'],
+    AP: ['Macapá', 'Santana'],
+    AM: ['Manaus', 'Parintins'],
+    BA: ['Salvador', 'Feira de Santana', 'Vitória da Conquista'],
+    CE: ['Fortaleza', 'Caucaia', 'Juazeiro do Norte'],
+    DF: ['Brasília'],
+    ES: ['Vitória', 'Vila Velha', 'Serra'],
+    GO: ['Goiânia', 'Aparecida de Goiânia', 'Anápolis'],
+    MA: ['São Luís', 'Imperatriz'],
+    MT: ['Cuiabá', 'Várzea Grande', 'Rondonópolis'],
+    MS: ['Campo Grande', 'Dourados', 'Três Lagoas'],
+    MG: ['Belo Horizonte', 'Uberlândia', 'Contagem', 'Juiz de Fora'],
+    PA: ['Belém', 'Ananindeua', 'Santarém'],
+    PB: ['João Pessoa', 'Campina Grande'],
+    PR: ['Curitiba', 'Londrina', 'Maringá', 'Cascavel'],
+    PE: ['Recife', 'Jaboatão dos Guararapes', 'Olinda'],
+    PI: ['Teresina', 'Parnaíba'],
+    RJ: ['Rio de Janeiro', 'Niterói', 'Petrópolis', 'Nova Iguaçu'],
+    RN: ['Natal', 'Mossoró', 'Parnamirim'],
+    RS: ['Porto Alegre', 'Caxias do Sul', 'Pelotas'],
+    RO: ['Porto Velho', 'Ji-Paraná'],
+    RR: ['Boa Vista', 'Rorainópolis'],
+    SC: ['Florianópolis', 'Joinville', 'Blumenau', 'Chapecó'],
+    SP: ['São Paulo', 'Campinas', 'Santos', 'Ribeirão Preto', 'Sorocaba'],
+    SE: ['Aracaju', 'Nossa Senhora do Socorro'],
+    TO: ['Palmas', 'Araguaína']
+  };
 
   dataMinima = '';
+
   horariosInvalidos: number[] = [];
   camposInvalidos: string[] = [];
 
   mostrarGeradorDatas = false;
+
   dataInicial = '';
   dataFinal = '';
   horarioInicial = '';
   horarioFinal = '';
+
   geradorTerminaNoDiaSeguinte = false;
   erroGeradorDatas = '';
 
   ngOnInit() {
     this.definirDataMinima();
     this.carregarDados();
+  }
+
+  get cidadesDisponiveis(): string[] {
+    return this.cidadesPorEstado[this.estado] || [];
   }
 
   private criarDataVazia(): DataEvento {
@@ -57,15 +105,16 @@ export class EtapaDataLocal implements OnInit {
       ? this.dadosEvento.datas.map(item => ({ ...item }))
       : [this.criarDataVazia()];
 
-    Object.assign(this, {
-      tipoLocal: this.dadosEvento.tipoLocal,
-      endereco: this.dadosEvento.endereco,
-      numero: this.dadosEvento.numero,
-      complemento: this.dadosEvento.complemento,
-      cidade: this.dadosEvento.cidade,
-      estado: this.dadosEvento.estado,
-      link: this.dadosEvento.link
-    });
+    this.tipoLocal = 'presencial';
+    this.endereco = this.dadosEvento.endereco;
+    this.numero = this.dadosEvento.numero;
+    this.complemento = this.dadosEvento.complemento;
+    this.cidade = this.dadosEvento.cidade;
+    this.estado = this.dadosEvento.estado;
+
+    if (!this.cidadesDisponiveis.includes(this.cidade)) {
+      this.cidade = '';
+    }
   }
 
   private definirDataMinima() {
@@ -73,6 +122,13 @@ export class EtapaDataLocal implements OnInit {
 
     this.dataMinima =
       `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart(2, '0')}-${String(hoje.getDate()).padStart(2, '0')}`;
+  }
+
+  alterarEstado() {
+    this.cidade = '';
+    this.camposInvalidos = this.camposInvalidos.filter(
+      campo => campo !== 'cidade'
+    );
   }
 
   adicionarData() {
@@ -101,8 +157,7 @@ export class EtapaDataLocal implements OnInit {
     }
 
     if (this.dataFinal < this.dataInicial) {
-      this.erroGeradorDatas =
-        'A data final não pode ser anterior à data inicial.';
+      this.erroGeradorDatas = 'A data final não pode ser anterior à data inicial.';
       return;
     }
 
@@ -111,11 +166,8 @@ export class EtapaDataLocal implements OnInit {
       return;
     }
 
-    if (
-      this.horarioInicial === this.horarioFinal
-    ) {
-      this.erroGeradorDatas =
-        'O horário de início e término não podem ser iguais.';
+    if (this.horarioInicial === this.horarioFinal) {
+      this.erroGeradorDatas = 'O horário de início e término não podem ser iguais.';
       return;
     }
 
@@ -132,7 +184,8 @@ export class EtapaDataLocal implements OnInit {
     const fim = new Date(`${this.dataFinal}T00:00:00`);
 
     while (inicio <= fim) {
-      const data = inicio.toISOString().split('T')[0];
+      const data =
+        `${inicio.getFullYear()}-${String(inicio.getMonth() + 1).padStart(2, '0')}-${String(inicio.getDate()).padStart(2, '0')}`;
 
       this.datas.push({
         data,
@@ -156,14 +209,10 @@ export class EtapaDataLocal implements OnInit {
     this.mostrarGeradorDatas = false;
   }
 
-  selecionarTipoLocal(tipo: string) {
-    this.tipoLocal = tipo;
-    this.camposInvalidos =
-      this.camposInvalidos.filter(campo => campo !== 'tipoLocal');
-  }
-
   horarioUltrapassaMeiaNoite(item: DataEvento) {
-    return !!item.inicio && !!item.fim && item.fim < item.inicio;
+    return !!item.inicio &&
+      !!item.fim &&
+      item.fim < item.inicio;
   }
 
   private validarHorarios() {
@@ -174,6 +223,7 @@ export class EtapaDataLocal implements OnInit {
         if (item.inicio === item.fim && item.inicio) {
           this.horariosInvalidos.push(index);
         }
+
         return;
       }
 
@@ -204,39 +254,31 @@ export class EtapaDataLocal implements OnInit {
       }
     });
 
-    if (!this.tipoLocal) {
-      this.camposInvalidos.push('tipoLocal');
+    if (!this.estado) {
+      this.camposInvalidos.push('estado');
     }
 
-    if (
-      ['presencial', 'hibrido'].includes(this.tipoLocal) &&
-      !this.endereco.trim()
-    ) {
+    if (!this.cidade || !this.cidadesDisponiveis.includes(this.cidade)) {
+      this.camposInvalidos.push('cidade');
+    }
+
+    if (!this.endereco.trim()) {
       this.camposInvalidos.push('endereco');
-    }
-
-    if (
-      ['online', 'hibrido'].includes(this.tipoLocal) &&
-      !this.link.trim()
-    ) {
-      this.camposInvalidos.push('link');
     }
 
     return !this.camposInvalidos.length;
   }
 
   enviarFormulario() {
-    // if (!this.validarCampos() || !this.validarHorarios()) return;
-
     this.continuar.emit({
       datas: this.datas,
-      tipoLocal: this.tipoLocal,
+      tipoLocal: 'presencial',
       endereco: this.endereco,
       numero: this.numero,
       complemento: this.complemento,
       cidade: this.cidade,
       estado: this.estado,
-      link: this.link
+      link: ''
     });
   }
 

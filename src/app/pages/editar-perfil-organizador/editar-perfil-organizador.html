@@ -1,0 +1,437 @@
+<app-header></app-header>
+
+<main class="editar-perfil">
+
+  <section class="painel-edicao">
+
+    <!-- COLUNA ESQUERDA -->
+    <aside class="midia-perfil">
+
+      <a
+        routerLink="/perfil-organizador"
+        class="voltar">
+
+        <i class="bi bi-arrow-left"></i>
+        Editar perfil da empresa
+      </a>
+
+
+      <section class="bloco-midia">
+
+        <h2>Foto da empresa</h2>
+
+        <div class="foto-container">
+
+          <div class="foto-preview">
+            {{ empresa?.nome?.charAt(0)?.toUpperCase() }}
+          </div>
+
+          <label
+            for="fotoEmpresa"
+            class="editar-foto"
+            aria-label="Alterar foto">
+
+            <i class="bi bi-camera"></i>
+          </label>
+
+          <input
+            id="fotoEmpresa"
+            type="file"
+            accept=".jpg,.jpeg,.png,.gif"
+            hidden>
+
+        </div>
+
+        <small>
+          JPG, PNG ou GIF. Máx. 5MB
+        </small>
+
+      </section>
+
+
+      <section class="bloco-midia banner-bloco">
+
+        <h2>Banner da empresa</h2>
+
+        <div class="banner-preview">
+
+          <label
+            for="bannerEmpresa"
+            class="editar-banner"
+            aria-label="Alterar banner">
+
+            <i class="bi bi-camera"></i>
+          </label>
+
+        </div>
+
+        <input
+          id="bannerEmpresa"
+          type="file"
+          accept=".jpg,.jpeg,.png,.gif"
+          hidden>
+
+        <small>
+          Recomendado: 1820x480px. Máx. 10MB
+        </small>
+
+      </section>
+
+
+      <div class="acoes-form">
+
+        <a
+          routerLink="/perfil-organizador"
+          class="btn-cancelar">
+          Cancelar
+        </a>
+
+        <button
+          type="submit"
+          form="formPerfil"
+          class="btn-salvar">
+          Salvar alterações
+        </button>
+
+      </div>
+
+    </aside>
+
+
+    <!-- COLUNA DIREITA -->
+    <form
+      id="formPerfil"
+      class="formulario"
+      (ngSubmit)="salvar()">
+
+
+      <!-- NOME / USUÁRIO -->
+      <div class="linha">
+
+        <div class="campo">
+
+          <label for="nomeEmpresa">
+            <i class="bi bi-building"></i>
+            Nome da empresa
+          </label>
+
+          <input
+            id="nomeEmpresa"
+            type="text"
+            [(ngModel)]="form.nomeEmpresa"
+            name="nomeEmpresa"
+            required>
+
+        </div>
+
+
+        <div class="campo">
+
+          <label for="nomeUsuario">
+            <i class="bi bi-at"></i>
+            Nome de usuário
+          </label>
+
+          <input
+            id="nomeUsuario"
+            type="text"
+            [value]="form.nomeUsuario"
+            readonly>
+
+        </div>
+
+      </div>
+
+
+      <!-- DESCRIÇÃO -->
+      <div class="campo">
+
+        <label for="descricao">
+          <i class="bi bi-card-text"></i>
+          Descrição
+
+          <span class="opcional">
+            opcional
+          </span>
+        </label>
+
+        <textarea
+          id="descricao"
+          [(ngModel)]="form.descricao"
+          name="descricao"
+          maxlength="500">
+        </textarea>
+
+      </div>
+
+
+      <!-- EMAIL / TELEFONE -->
+      <div class="linha">
+
+        <div class="campo">
+
+          <label for="email">
+            <i class="bi bi-envelope"></i>
+            Email
+          </label>
+
+          <input
+            id="email"
+            type="email"
+            [(ngModel)]="form.email"
+            name="email"
+            required>
+
+        </div>
+
+
+        <div class="campo">
+
+          <label for="telefone">
+            <i class="bi bi-telephone"></i>
+            Telefone
+
+            <span class="opcional">
+              opcional
+            </span>
+          </label>
+
+          <input
+            id="telefone"
+            type="tel"
+            [(ngModel)]="form.telefone"
+            name="telefone">
+
+        </div>
+
+      </div>
+
+
+      <!-- SITE / LOCALIZAÇÃO -->
+      <div class="linha">
+
+        <div class="campo">
+
+          <label for="site">
+            <i class="bi bi-globe"></i>
+            Site
+
+            <span class="opcional">
+              opcional
+            </span>
+          </label>
+
+          <input
+            id="site"
+            type="url"
+            [(ngModel)]="form.site"
+            name="site">
+
+        </div>
+
+
+        <div class="campo">
+
+          <label for="localizacao">
+            <i class="bi bi-geo-alt"></i>
+            Localização
+          </label>
+
+          <input
+            id="localizacao"
+            type="text"
+            [(ngModel)]="form.localizacao"
+            name="localizacao">
+
+        </div>
+
+      </div>
+
+
+      <!-- REDES SOCIAIS -->
+      <section class="grupo-form">
+
+        <div class="titulo-grupo">
+
+          <i class="bi bi-share"></i>
+
+          <span>
+            Redes sociais
+          </span>
+
+          <span class="opcional">
+            opcional
+          </span>
+
+        </div>
+
+
+        <div class="redes-grid">
+
+          <div class="rede-campo">
+
+            <i class="bi bi-instagram"></i>
+
+            <input
+              type="text"
+              placeholder="Instagram"
+              [(ngModel)]="form.instagram"
+              name="instagram">
+
+          </div>
+
+
+          <div class="rede-campo">
+
+            <i class="bi bi-facebook"></i>
+
+            <input
+              type="text"
+              placeholder="Facebook"
+              [(ngModel)]="form.facebook"
+              name="facebook">
+
+          </div>
+
+
+          <div class="rede-campo">
+
+            <i class="bi bi-twitter-x"></i>
+
+            <input
+              type="text"
+              placeholder="X"
+              [(ngModel)]="form.x"
+              name="x">
+
+          </div>
+
+
+          <div class="rede-campo">
+
+            <i class="bi bi-tiktok"></i>
+
+            <input
+              type="text"
+              placeholder="TikTok"
+              [(ngModel)]="form.tiktok"
+              name="tiktok">
+
+          </div>
+
+
+          <div class="rede-campo">
+
+            <i class="bi bi-youtube"></i>
+
+            <input
+              type="text"
+              placeholder="YouTube"
+              [(ngModel)]="form.youtube"
+              name="youtube">
+
+          </div>
+
+
+          <div class="rede-campo">
+
+            <i class="bi bi-linkedin"></i>
+
+            <input
+              type="text"
+              placeholder="LinkedIn"
+              [(ngModel)]="form.linkedin"
+              name="linkedin">
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- SEGURANÇA -->
+      <section class="seguranca">
+        <div class="seguranca-titulo">
+          <div>
+            <h3>
+              Alterar senha
+            </h3>
+
+            <p>
+              Preencha apenas se quiser definir uma nova senha.
+            </p>
+          </div>
+
+          <span class="opcional">
+            opcional
+          </span>
+        </div>
+
+
+        <div class="linha">
+          <div class="campo">
+
+            <label for="novaSenha">
+              <i class="bi bi-key"></i>
+              Nova senha
+            </label>
+
+            <div class="campo-senha">
+
+              <input id="novaSenha" [type]="mostrarNovaSenha ? 'text' : 'password'" [(ngModel)]="form.novaSenha" name="novaSenha">
+              <button type="button" class="btn-ver-senha" (click)="alternarNovaSenha()" [attr.aria-label]=" mostrarNovaSenha ? 'Ocultar senha' : 'Mostrar senha'">
+                <i class="bi" [class.bi-eye]="!mostrarNovaSenha" [class.bi-eye-slash]="mostrarNovaSenha"></i>
+              </button>
+
+            </div>
+          </div>
+
+          <div class="campo">
+
+            <label for="confirmarSenha">
+              <i class="bi bi-check2-circle"></i>
+              Confirmar senha
+            </label>
+
+            <div class="campo-senha">
+
+              <input
+                id="confirmarSenha"
+                [type]="mostrarConfirmarSenha ? 'text' : 'password'"
+                [(ngModel)]="form.confirmarSenha"
+                name="confirmarSenha">
+
+              <button
+                type="button"
+                class="btn-ver-senha"
+                (click)="alternarConfirmarSenha()"
+                [attr.aria-label]="
+                  mostrarConfirmarSenha
+                    ? 'Ocultar senha'
+                    : 'Mostrar senha'
+                ">
+
+                <i
+                  class="bi"
+                  [class.bi-eye]="!mostrarConfirmarSenha"
+                  [class.bi-eye-slash]="mostrarConfirmarSenha">
+                </i>
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </form>
+
+  </section>
+
+</main>
+
+<app-footer></app-footer>

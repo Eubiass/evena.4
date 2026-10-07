@@ -21,15 +21,22 @@ export class EtapaInformacoes implements OnInit {
   @Output() continuar = new EventEmitter<Partial<DadosEvento>>();
 
   nome = '';
-  categoria = '';
+  //categoriasSelecionadas: string[] = [];
+  categoriaSelecionada = '';
   classificacao = '';
   descricao = '';
+
   imagemSelecionada = false;
   imagemPreview: string | null = null;
   nomeImagem = '';
 
   categorias = [
     { valor: 'musica', nome: 'Música' },
+    { valor: 'teatro', nome: 'Teatro' },
+    { valor: 'infantil', nome: 'Infantil' },
+    { valor: 'tecnologia', nome: 'Tecnologia' },
+    { valor: 'festival', nome: 'Festival' },
+    { valor: 'comedia', nome: 'Comédia' },
     { valor: 'esportes', nome: 'Esportes' },
     { valor: 'cultura', nome: 'Cultura' },
     { valor: 'gastronomia', nome: 'Gastronomia' }
@@ -45,12 +52,33 @@ export class EtapaInformacoes implements OnInit {
     if (!this.dadosEvento) return;
 
     this.nome = this.dadosEvento.nome;
-    this.categoria = this.dadosEvento.categoria;
+    /* this.categoriasSelecionadas = [
+      ...this.dadosEvento.categorias
+    ]; */ 
+    this.categoriaSelecionada = this.dadosEvento.categoria;
     this.classificacao = this.dadosEvento.classificacao;
     this.descricao = this.dadosEvento.descricao;
+
     this.imagemSelecionada = this.dadosEvento.imagemSelecionada;
     this.imagemPreview = this.dadosEvento.imagemPreview || null;
     this.nomeImagem = this.dadosEvento.nomeImagem;
+  }
+
+  /*alternarCategoria(categoria: string) {
+    if (this.categoriasSelecionadas.includes(categoria)) {
+      this.categoriasSelecionadas =
+        this.categoriasSelecionadas.filter(
+  erv        item => item !== categoria
+        );
+
+      return;
+    }
+
+    this.categoriasSelecionadas.push(categoria);
+  }*/
+
+  selecionarCategoria(categoria: string) {
+    this.categoriaSelecionada = categoria;
   }
 
   selecionarClassificacao(classificacao: string) {
@@ -75,7 +103,8 @@ export class EtapaInformacoes implements OnInit {
   enviarFormulario() {
     this.continuar.emit({
       nome: this.nome,
-      categoria: this.categoria,
+      //categorias: this.categoriasSelecionadas,
+      categoria: this.categoriaSelecionada,
       classificacao: this.classificacao,
       descricao: this.descricao,
       imagemSelecionada: this.imagemSelecionada,
