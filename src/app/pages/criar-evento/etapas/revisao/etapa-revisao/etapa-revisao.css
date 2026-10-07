@@ -210,12 +210,18 @@
   color: #fff;
 }
 
-.botao-voltar:hover {
+.botao-voltar:hover:not(:disabled) {
   background: #f7f8fa;
 }
 
-.botao-publicar:hover {
+.botao-publicar:hover:not(:disabled) {
   opacity: .9;
+}
+
+.botao-voltar:disabled,
+.botao-publicar:disabled {
+  opacity: .55;
+  cursor: not-allowed;
 }
 
 @media (max-width: 650px) {

@@ -5,207 +5,329 @@ import {
   OnInit,
   Output
 } from '@angular/core';
-
 import { FormsModule } from '@angular/forms';
 
 import {
   Atracao,
-  DadosEvento,
-  Recurso
+  DadosEvento
 } from '../../../../../models/dados-evento';
 
 @Component({
   selector: 'app-etapa-detalhes',
   standalone: true,
-  imports: [FormsModule],
+  imports: [
+    FormsModule
+  ],
   templateUrl: './etapa-detalhes.html',
   styleUrl: './etapa-detalhes.css'
 })
 export class EtapaDetalhes implements OnInit {
-  @Input() dadosEvento!: DadosEvento;
-  @Output() continuar = new EventEmitter<Partial<DadosEvento>>();
-  @Output() voltar = new EventEmitter<void>();
+  @Input()
+  dadosEvento!: DadosEvento;
+
+  @Output()
+  continuar =
+    new EventEmitter<Partial<DadosEvento>>();
+
+  @Output()
+  voltar =
+    new EventEmitter<void>();
 
   tipoIngresso = '';
-  precoMinimo = '';
-  precoMaximo = '';
+
+  preco = '';
   linkIngresso = '';
 
-  atracoes: Atracao[] = [this.criarAtracaoVazia()];
+  atracoes: Atracao[] = [
+    this.criarAtracaoVazia()
+  ];
 
-  estacionamento = false;
-  guardaVolumes = false;
-  acessibilidade = false;
-
-  recursos: Recurso[] = [];
-  novoRecurso = '';
-  mostrarNovoRecurso = false;
+  recursos: string[] = [];
 
   informacoes = '';
+
   pergunta = '';
   resposta = '';
 
-  erroPreco = '';
+  erro = '';
 
-  ngOnInit() {
+  readonly opcoesRecursos = [
+    'Acessibilidade',
+    'Estacionamento',
+    'Wi-Fi',
+    'Alimentação',
+    'Banheiros',
+    'Segurança',
+    'Pet friendly',
+    'Espaço kids',
+    'Guarda-volumes',
+    'Ar-condicionado'
+  ];
+
+  ngOnInit(): void {
     this.carregarDados();
   }
 
-  private criarAtracaoVazia(): Atracao {
-    return {
-      nome: '',
-      descricao: ''
-    };
-  }
+  selecionarTipoIngresso(
+    tipo: string
+  ): void {
+    this.tipoIngresso =
+      tipo;
 
-  private carregarDados() {
-    if (!this.dadosEvento) return;
+    this.erro = '';
 
-    const dados = this.dadosEvento;
-
-    this.tipoIngresso = dados.tipoIngresso;
-    this.precoMinimo = dados.precoMinimo;
-    this.precoMaximo = dados.precoMaximo;
-    this.linkIngresso = dados.linkIngresso;
-
-    this.atracoes = dados.atracoes.length
-      ? dados.atracoes.map(atracao => ({ ...atracao }))
-      : [this.criarAtracaoVazia()];
-
-    this.estacionamento = dados.estacionamento;
-    this.guardaVolumes = dados.guardaVolumes;
-    this.acessibilidade = dados.acessibilidade;
-
-    this.recursos = dados.recursos.map(recurso => ({ ...recurso }));
-
-    this.informacoes = dados.informacoes;
-    this.pergunta = dados.pergunta;
-    this.resposta = dados.resposta;
-  }
-
-  selecionarTipoIngresso(tipo: string) {
-    this.tipoIngresso = tipo;
-    this.erroPreco = '';
-
-    if (tipo === 'gratuito') {
-      this.precoMinimo = '';
-      this.precoMaximo = '';
+    if (
+      tipo === 'gratuito'
+    ) {
+      this.preco = '';
       this.linkIngresso = '';
     }
   }
 
-  adicionarAtracao() {
-    this.atracoes.push(this.criarAtracaoVazia());
+  adicionarAtracao(): void {
+    this.atracoes.push(
+      this.criarAtracaoVazia()
+    );
   }
 
-  removerAtracao(index: number) {
-    if (this.atracoes.length === 1) {
-      this.atracoes[0] = this.criarAtracaoVazia();
+  removerAtracao(
+    index: number
+  ): void {
+    if (
+      this.atracoes.length === 1
+    ) {
+      this.atracoes[0] =
+        this.criarAtracaoVazia();
+
       return;
     }
 
-    this.atracoes.splice(index, 1);
+    this.atracoes.splice(
+      index,
+      1
+    );
   }
 
-  adicionarRecurso() {
-    const nome = this.novoRecurso.trim();
+  alternarRecurso(
+    recurso: string
+  ): void {
+    if (
+      this.recursoSelecionado(
+        recurso
+      )
+    ) {
+      this.recursos =
+        this.recursos.filter(
+          item =>
+            item !== recurso
+        );
 
-    if (!nome) return;
-
-    if (this.recursos.some(recurso =>
-      recurso.nome.toLowerCase() === nome.toLowerCase()
-    )) {
       return;
     }
 
-    this.recursos.push({
-      nome,
-      selecionado: true
+    this.recursos = [
+      ...this.recursos,
+      recurso
+    ];
+  }
+
+  recursoSelecionado(
+    recurso: string
+  ): boolean {
+    return this.recursos.includes(
+      recurso
+    );
+  }
+
+  continuarEtapa(): void {
+    if (!this.validar()) {
+      return;
+    }
+
+    this.continuar.emit({
+      tipoIngresso:
+        this.tipoIngresso,
+
+      preco:
+        this.tipoIngresso ===
+        'pago'
+          ? this.preco.trim()
+          : '',
+
+      linkIngresso:
+        this.tipoIngresso ===
+        'pago'
+          ? this.linkIngresso.trim()
+          : '',
+
+      atracoes:
+        this.atracoes
+          .filter(
+            atracao =>
+              atracao.nome.trim()
+          )
+          .map(
+            atracao => ({
+              nome:
+                atracao.nome.trim()
+            })
+          ),
+
+      recursos: [
+        ...this.recursos
+      ],
+
+      informacoes:
+        this.informacoes.trim(),
+
+      pergunta:
+        this.pergunta.trim(),
+
+      resposta:
+        this.resposta.trim()
     });
-
-    this.novoRecurso = '';
-    this.mostrarNovoRecurso = false;
   }
 
-  removerRecurso(index: number) {
-    this.recursos.splice(index, 1);
+  voltarEtapa(): void {
+    this.voltar.emit();
   }
 
-  cancelarNovoRecurso() {
-    this.novoRecurso = '';
-    this.mostrarNovoRecurso = false;
+  private criarAtracaoVazia():
+    Atracao {
+    return {
+      nome: ''
+    };
   }
 
-  private validarPrecos() {
-    this.erroPreco = '';
+  private carregarDados(): void {
+    if (!this.dadosEvento) {
+      return;
+    }
 
-    if (this.tipoIngresso !== 'pago') return true;
+    this.tipoIngresso =
+      this.dadosEvento.tipoIngresso;
 
-    const minimo = this.converterPreco(this.precoMinimo);
-    const maximo = this.converterPreco(this.precoMaximo);
+    this.preco =
+      this.dadosEvento.preco;
 
-    if (minimo === null || maximo === null) {
-      this.erroPreco = 'Informe valores válidos para os preços.';
+    this.linkIngresso =
+      this.dadosEvento.linkIngresso;
+
+    this.atracoes =
+      this.dadosEvento.atracoes.length
+        ? this.dadosEvento
+            .atracoes
+            .map(
+              atracao => ({
+                ...atracao
+              })
+            )
+        : [
+            this.criarAtracaoVazia()
+          ];
+
+    this.recursos = [
+      ...this.dadosEvento.recursos
+    ];
+
+    this.informacoes =
+      this.dadosEvento.informacoes;
+
+    this.pergunta =
+      this.dadosEvento.pergunta;
+
+    this.resposta =
+      this.dadosEvento.resposta;
+  }
+
+  private validar(): boolean {
+    this.erro = '';
+
+    if (!this.tipoIngresso) {
+      this.erro =
+        'Selecione o tipo de ingresso.';
+
       return false;
     }
 
-    if (minimo < 0 || maximo < 0) {
-      this.erroPreco = 'Os preços não podem ser negativos.';
-      return false;
+    if (
+      this.tipoIngresso ===
+      'pago'
+    ) {
+      if (
+        !this.preco.trim()
+      ) {
+        this.erro =
+          'Informe o preço do ingresso.';
+
+        return false;
+      }
+
+      const preco =
+        this.converterPreco(
+          this.preco
+        );
+
+      if (
+        preco === null ||
+        preco <= 0
+      ) {
+        this.erro =
+          'Informe um preço válido.';
+
+        return false;
+      }
+
+      if (
+        !this.linkIngresso.trim()
+      ) {
+        this.erro =
+          'Informe o link para compra do ingresso.';
+
+        return false;
+      }
     }
 
-    if (maximo < minimo) {
-      this.erroPreco =
-        'O preço máximo não pode ser menor que o preço mínimo.';
+    const atracoesValidas =
+      this.atracoes.filter(
+        atracao =>
+          atracao.nome.trim()
+      );
+
+    /*
+     * TEMPORÁRIO:
+     * a API ainda exige artistaId
+     * para cadastrar categoria.
+     */
+    if (
+      !atracoesValidas.length
+    ) {
+      this.erro =
+        'Informe pelo menos uma atração para o evento.';
+
       return false;
     }
 
     return true;
   }
 
-  private converterPreco(valor: string): number | null {
-    if (!valor.trim()) return null;
-
-    const numero = Number(
+  private converterPreco(
+    valor: string
+  ): number | null {
+    const normalizado =
       valor
         .replace('R$', '')
         .replace(/\s/g, '')
         .replace(/\./g, '')
-        .replace(',', '.')
-    );
+        .replace(',', '.');
 
-    return Number.isNaN(numero) ? null : numero;
-  }
+    const preco =
+      Number(normalizado);
 
-  private validarAtracoes() {
-    return this.atracoes.every(
-      atracao => atracao.nome.trim().length > 0
-    );
-  }
-
-  enviarFormulario() {
-    // if (!this.tipoIngresso) return;
-    // if (!this.validarPrecos()) return;
-    // if (this.tipoIngresso === 'pago' && !this.linkIngresso.trim()) return;
-    // if (!this.validarAtracoes()) return;
-
-    this.continuar.emit({
-      tipoIngresso: this.tipoIngresso,
-      precoMinimo: this.tipoIngresso === 'pago' ? this.precoMinimo : '',
-      precoMaximo: this.tipoIngresso === 'pago' ? this.precoMaximo : '',
-      linkIngresso: this.tipoIngresso === 'pago' ? this.linkIngresso : '',
-      atracoes: this.atracoes,
-      estacionamento: this.estacionamento,
-      guardaVolumes: this.guardaVolumes,
-      acessibilidade: this.acessibilidade,
-      recursos: this.recursos,
-      informacoes: this.informacoes,
-      pergunta: this.pergunta,
-      resposta: this.resposta
-    });
-  }
-
-  voltarEtapa() {
-    this.voltar.emit();
+    return Number.isFinite(
+      preco
+    )
+      ? preco
+      : null;
   }
 }

@@ -1,65 +1,103 @@
 :host {
   display: block;
+  width: 100%;
 }
 
-.etapa-informacoes {
-  display: grid;
-  grid-template-columns: 1fr 320px;
-  gap: 28px;
-}
+/* ESTRUTURA */
 
-.formulario,
-.campo,
-.capa,
-.upload {
-  display: flex;
-  flex-direction: column;
+.etapa-informacoes,
+.formulario {
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .formulario {
-  gap: 20px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 20px 28px;
+}
+
+.campo,
+.capa {
+  display: flex;
+  flex-direction: column;
 }
 
 .campo {
   gap: 7px;
 }
 
+/* COLUNA PRINCIPAL */
+
+.campo:nth-child(1),
+.campo:nth-child(2),
+.campo:nth-child(3),
+.campo:nth-child(4) {
+  grid-column: 1;
+}
+
+/* IMAGEM */
+
+.campo:nth-child(5) {
+  grid-column: 2;
+  grid-row: 1 / span 4;
+}
+
+/* LABELS */
+
 label {
-  color: var(--cor-principal);
+  color: #514968;
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 label span {
-  color: #e53935;
+  color: #e35d67;
 }
+
+/* CAMPOS */
 
 input,
 textarea {
   width: 100%;
   box-sizing: border-box;
+
   border: 1px solid #dfe1eb;
   border-radius: 7px;
-  padding: 10px 12px;
-  background: #fff;
-  color: var(--cor-principal);
+
+  background: #ffffff;
+
+  color: #514968;
+
   font: inherit;
   font-size: 13px;
+
   outline: none;
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 input {
   height: 42px;
+  padding: 0 12px;
 }
 
 textarea {
-  min-height: 110px;
+  min-height: 130px;
+  padding: 12px;
+
   resize: vertical;
 }
 
 input:focus,
 textarea:focus {
   border-color: var(--cor-secundaria);
+
+  box-shadow:
+    0 0 0 2px
+    rgba(109, 226, 76, 0.08);
 }
 
 input::placeholder,
@@ -72,18 +110,31 @@ textarea::placeholder {
 .categorias {
   display: flex;
   flex-wrap: wrap;
+
   gap: 8px;
 }
 
 .categoria {
-  padding: 9px 13px;
+  min-height: 40px;
+
+  padding: 0 14px;
+
   border: 1px solid #dfe1eb;
   border-radius: 7px;
-  background: #fff;
+
+  background: #ffffff;
+
   color: #686478;
+
   font-size: 12px;
+  font-weight: 500;
+
   cursor: pointer;
-  transition: 0.15s;
+
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease,
+    color 0.15s ease;
 }
 
 .categoria:hover {
@@ -92,39 +143,64 @@ textarea::placeholder {
 
 .categoria.ativa {
   border-color: var(--cor-secundaria);
-  background: #f2edff;
-  color: #5821c7;
+
+  background:
+    rgba(109, 226, 76, 0.08);
+
+  color: #514968;
 }
 
 /* CLASSIFICAÇÃO */
 
 .classificacoes {
   display: flex;
-  gap: 8px;
   flex-wrap: wrap;
+
+  gap: 8px;
 }
 
 .classificacao {
-  min-width: 44px;
+  min-width: 56px;
   height: 40px;
-  padding: 0 10px;
+
+  padding: 0 11px;
+
   border: 1px solid #dfe1eb;
   border-radius: 7px;
-  background: #fff;
+
+  background: #ffffff;
+
   color: #686478;
+
   font-size: 12px;
+  font-weight: 500;
+
   cursor: pointer;
+
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.classificacao:hover {
+  border-color: var(--cor-secundaria);
 }
 
 .classificacao.ativa {
   border-color: var(--cor-secundaria);
-  background: #f2edff;
-  color: #5821c7;
+
+  background:
+    rgba(109, 226, 76, 0.08);
+
+  color: #514968;
 }
 
 .contador {
   align-self: flex-end;
+
   color: #9995a8;
+
   font-size: 11px;
 }
 
@@ -132,62 +208,136 @@ textarea::placeholder {
 
 .capa {
   gap: 7px;
+
+  width: 100%;
+  min-width: 0;
 }
+
+/*
+ * Não usamos aspect-ratio aqui.
+ * O upload precisa crescer quando existir
+ * preview + nome + ações.
+ */
 
 .upload {
   width: 100%;
   min-width: 0;
-  aspect-ratio: 16 / 9;
+  min-height: 235px;
+
   box-sizing: border-box;
+
+  padding: 14px;
+
+  border: 1px dashed #d4cde5;
+  border-radius: 8px;
+
+  background: #faf9fd;
+
+  display: flex;
+  flex-direction: column;
 
   align-items: center;
   justify-content: center;
-  gap: 8px;
 
-  padding: 20px;
+  gap: 10px;
 
-  border: 1px dashed #cfc8e8;
-  border-radius: 7px;
-  background: #faf9ff;
+  overflow: hidden;
+
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.upload:hover {
+  border-color: var(--cor-secundaria);
+
+  background: #fbfdfb;
+}
+
+/* CONTEÚDO QUANDO NÃO HÁ IMAGEM */
+
+.upload-conteudo {
+  width: 100%;
+  min-height: 205px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  text-align: center;
 }
 
 .upload .icone {
+  margin-bottom: 3px;
+
   color: var(--cor-secundaria);
-  font-size: 26px;
-  font-weight: 700;
+
+  font-size: 28px;
+  font-weight: 400;
 }
 
 .upload strong {
-  color: var(--cor-principal);
+  color: #514968;
+
   font-size: 13px;
+  font-weight: 600;
+
   text-align: center;
 }
 
 .upload span {
   color: #85899a;
+
   font-size: 12px;
+
   text-align: center;
 }
 
 .upload small {
-  color: #9995a8;
+  color: #a2a0ae;
+
   font-size: 10px;
+
   text-align: center;
 }
 
-/* NOME DO ARQUIVO */
+/* PREVIEW */
+
+.preview {
+  width: 100%;
+  height: 175px;
+
+  display: block;
+
+  object-fit: cover;
+
+  border-radius: 7px;
+
+  background: #eeeeF4;
+}
+
+/* NOME DA IMAGEM */
 
 .nome-imagem {
   display: block;
+
   width: 100%;
   max-width: 100%;
   min-width: 0;
+
   box-sizing: border-box;
 
-  padding: 0 4px;
+  padding: 0 6px;
 
   color: #85899a;
+
   font-size: 11px;
+  font-weight: 400;
+
   text-align: center;
 
   overflow: hidden;
@@ -195,77 +345,165 @@ textarea::placeholder {
   white-space: nowrap;
 }
 
-.botao-upload {
-  width: fit-content;
-  margin-top: 6px;
-  padding: 10px 16px;
+/* AÇÕES DA IMAGEM */
 
-  border: 1px solid var(--cor-secundaria);
+.acoes-imagem {
+  width: 100%;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+}
+
+.botao-upload,
+.botao-remover-imagem {
+  height: 38px;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
+
+  padding: 0 14px;
+
   border-radius: 6px;
 
-  background: #fff;
-  color: var(--cor-principal);
+  font-size: 11px;
+  font-weight: 600;
 
-  font-size: 12px;
   cursor: pointer;
+
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.botao-upload {
+  border:
+    1px solid
+    var(--cor-secundaria);
+
+  background: #ffffff;
+
+  color: #514968;
+}
+
+.botao-upload:hover {
+  background:
+    rgba(109, 226, 76, 0.07);
 }
 
 .botao-upload input {
   display: none;
 }
 
-.preview {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  display: block;
+.botao-remover-imagem {
+  border: 1px solid #ead4d8;
 
-  object-fit: cover;
-  border-radius: 6px;
+  background: #ffffff;
+
+  color: #ba5965;
 }
 
-/* AÇÕES */
+.botao-remover-imagem:hover {
+  background: #fff8f9;
+
+  border-color: #dfbbc1;
+}
+
+/* ERROS */
+
+.erro {
+  grid-column: 1 / -1;
+
+  margin: 0;
+
+  color: #c25461;
+
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* AÇÕES DA ETAPA */
 
 .acoes {
+  grid-column: 1 / -1;
+
   display: flex;
+
   justify-content: flex-end;
+
   gap: 12px;
 
-  grid-column: 1 / -1;
+  margin-top: 4px;
 }
 
 .botao-continuar {
-  padding: 13px 20px;
+  min-width: 150px;
+  height: 44px;
 
-  border: 1px solid var(--cor-principal);
+  padding: 0 20px;
+
+  border:
+    1px solid
+    var(--cor-principal);
+
   border-radius: 6px;
 
-  background: var(--cor-principal);
-  color: #fff;
+  background:
+    var(--cor-principal);
+
+  color: #ffffff;
 
   font-size: 12px;
   font-weight: 600;
 
   cursor: pointer;
+
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
 }
 
 .botao-continuar:hover {
-  opacity: 0.9;
+  opacity: 0.92;
+
+  transform: translateY(-1px);
 }
 
 /* RESPONSIVIDADE */
 
-@media (max-width: 760px) {
-  .etapa-informacoes {
+@media (max-width: 900px) {
+  .formulario {
     grid-template-columns: 1fr;
   }
 
-  .acoes {
-    grid-column: auto;
+  .campo:nth-child(1),
+  .campo:nth-child(2),
+  .campo:nth-child(3),
+  .campo:nth-child(4),
+  .campo:nth-child(5) {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .capa {
+    max-width: 520px;
+  }
+
+  .preview {
+    height: auto;
+    aspect-ratio: 16 / 9;
   }
 }
 
 @media (max-width: 480px) {
-  .etapa-informacoes {
+  .formulario {
     gap: 20px;
   }
 
@@ -274,7 +512,7 @@ textarea::placeholder {
   }
 
   .categoria {
-    padding: 8px 11px;
+    padding: 0 11px;
   }
 
   .classificacoes {
@@ -282,8 +520,32 @@ textarea::placeholder {
   }
 
   .classificacao {
-    min-width: 40px;
+    min-width: 44px;
     height: 38px;
+  }
+
+  .upload {
+    min-height: 215px;
+
+    padding: 12px;
+  }
+
+  .upload-conteudo {
+    min-height: 185px;
+  }
+
+  .preview {
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  .acoes-imagem {
+    flex-direction: column;
+  }
+
+  .botao-upload,
+  .botao-remover-imagem {
+    width: 100%;
   }
 
   .botao-continuar {

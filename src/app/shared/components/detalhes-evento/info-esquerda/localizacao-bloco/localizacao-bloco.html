@@ -1,39 +1,94 @@
-<section class="info-block" aria-labelledby="titulo-localizacao">
+<section
+  class="info-block"
+  aria-labelledby="titulo-localizacao"
+>
   <div class="block-header">
-    <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
-    <h2 id="titulo-localizacao">Localização</h2>
+    <i
+      class="fa-solid fa-location-dot"
+      aria-hidden="true"
+    ></i>
+
+    <h2 id="titulo-localizacao">
+      Localização
+    </h2>
   </div>
 
   <div class="localizacao-container">
-    
+
     @if (evento?.enderecoCompleto) {
+
       <div class="endereco-detalhes">
+
         <div class="endereco-texto">
-          <h3>{{ evento?.online ? 'Evento Online' : (evento?.localNome || 'Local do Evento') }}</h3>
-          <p>{{ evento?.enderecoCompleto }}</p>
-          @if (evento?.cidade && evento?.uf) {
-            <span class="endereco-cidade">{{ evento.cidade }} - {{ evento.uf }}</span>
+
+          <h3>
+            {{
+              evento?.online
+                ? 'Evento Online'
+                : (evento?.localNome || 'Local do Evento')
+            }}
+          </h3>
+
+          <p>
+            {{ evento?.enderecoCompleto }}
+          </p>
+
+          @if (
+            evento?.cidade &&
+            evento?.uf
+          ) {
+            <span class="endereco-cidade">
+              {{ evento?.cidade }} - {{ evento?.uf }}
+            </span>
           }
+
         </div>
-        
+
         @if (!evento?.online) {
-          <button class="btn-maps" (click)="abrirNoMaps()" aria-label="Como chegar ao local do evento no Google Maps">
-            <i class="fa-solid fa-map-location-dot" aria-hidden="true"></i>
+          <button
+            class="btn-maps"
+            (click)="abrirNoMaps()"
+            aria-label="Como chegar ao local do evento no Google Maps"
+          >
+            <i
+              class="fa-solid fa-map-location-dot"
+              aria-hidden="true"
+            ></i>
+
             Como chegar
           </button>
         }
+
       </div>
+
     } @else {
-      <div class="endereco-detalhes" aria-live="polite">
+
+      <div
+        class="endereco-detalhes"
+        aria-live="polite"
+      >
         <div class="endereco-texto">
-          <h3>Local a definir</h3>
-          <p>As informações de localização serão atualizadas em breve pelo organizador.</p>
+          <h3>
+            Local a definir
+          </h3>
+
+          <p>
+            As informações de localização serão atualizadas em breve pelo organizador.
+          </p>
         </div>
       </div>
+
     }
 
-    @if (!evento?.online && evento?.lat && evento?.lng && evento?.exibirMapa) {
+
+    @if (
+      !evento?.online &&
+      evento?.lat &&
+      evento?.lng &&
+      evento?.exibirMapa
+    ) {
       <div class="mapa-wrapper">
+
         <iframe
           title="Mapa interativo mostrando a localização do evento"
           width="100%"
@@ -41,10 +96,12 @@
           style="border:0; border-radius: 16px;"
           loading="lazy"
           allowfullscreen
-          [src]="getUrlMapaSafe()">
+          [src]="getUrlMapaSafe()"
+        >
         </iframe>
+
       </div>
     }
-    
+
   </div>
 </section>

@@ -7,12 +7,10 @@ export interface DataEvento {
 
 export interface Atracao {
   nome: string;
-  descricao: string;
 }
 
 export interface DadosEvento {
   nome: string;
-  // categorias: string[];
   categoria: string;
   classificacao: string;
   descricao: string;
@@ -20,30 +18,30 @@ export interface DadosEvento {
   imagemSelecionada: boolean;
   imagemPreview: string;
   nomeImagem: string;
+  arquivoImagem: File | null;
 
   datas: DataEvento[];
 
   tipoLocal: string;
+
   endereco: string;
   numero: string;
   complemento: string;
   cidade: string;
   estado: string;
+
   link: string;
 
   tipoIngresso: string;
-  precoMinimo: string;
-  precoMaximo: string;
+  preco: string;
   linkIngresso: string;
 
   atracoes: Atracao[];
 
-  estacionamento: boolean;
-  guardaVolumes: boolean;
-  acessibilidade: boolean;
-  recursos: Recurso[];
+  recursos: string[];
 
   informacoes: string;
+
   pergunta: string;
   resposta: string;
 }
@@ -51,7 +49,6 @@ export interface DadosEvento {
 export function criarDadosEventoVazio(): DadosEvento {
   return {
     nome: '',
-    //categorias: [],
     categoria: '',
     classificacao: '',
     descricao: '',
@@ -59,41 +56,38 @@ export function criarDadosEventoVazio(): DadosEvento {
     imagemSelecionada: false,
     imagemPreview: '',
     nomeImagem: '',
+    arquivoImagem: null,
 
-    datas: [{
-      data: '',
-      inicio: '',
-      fim: '',
-      terminaNoDiaSeguinte: false
-    }],
+    datas: [
+      {
+        data: '',
+        inicio: '',
+        fim: '',
+        terminaNoDiaSeguinte: false
+      }
+    ],
 
     tipoLocal: '',
+
     endereco: '',
     numero: '',
     complemento: '',
     cidade: '',
     estado: '',
+
     link: '',
 
     tipoIngresso: '',
-    precoMinimo: '',
-    precoMaximo: '',
+    preco: '',
     linkIngresso: '',
 
     atracoes: [],
 
-    estacionamento: false,
-    guardaVolumes: false,
-    acessibilidade: false,
     recursos: [],
 
     informacoes: '',
+
     pergunta: '',
     resposta: ''
   };
-}
-
-export interface Recurso {
-  nome: string;
-  selecionado: boolean;
 }

@@ -4,49 +4,54 @@
 
   <main class="conteudo-criar-evento">
 
-    <h1>Criar novo evento</h1>
-
-    <p class="subtitulo">
-      Vamos começar pelas informações básicas do seu evento.
-    </p>
-
     <app-barra-etapas
       [etapaAtual]="etapaAtual"
     />
+
 
     <div class="conteudo-etapa">
 
       @switch (etapaAtual) {
 
         @case (1) {
+
           <app-etapa-informacoes
             [dadosEvento]="dadosEvento"
             (continuar)="receberDados($event)"
           />
+
         }
 
         @case (2) {
+
           <app-etapa-data-local
             [dadosEvento]="dadosEvento"
             (continuar)="receberDados($event)"
             (voltar)="voltarEtapa()"
           />
+
         }
 
         @case (3) {
+
           <app-etapa-detalhes
             [dadosEvento]="dadosEvento"
             (continuar)="receberDados($event)"
             (voltar)="voltarEtapa()"
           />
+
         }
 
         @case (4) {
+
           <app-etapa-revisao
             [dadosEvento]="dadosEvento"
+            [publicando]="publicando"
             (editar)="editarEtapa($event)"
             (voltar)="voltarEtapa()"
+            (publicar)="publicarEvento()"
           />
+
         }
 
       }

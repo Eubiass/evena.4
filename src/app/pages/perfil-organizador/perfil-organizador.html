@@ -1,108 +1,141 @@
-<app-header></app-header>
+<app-header />
 
 <main class="perfil-organizador">
 
   <section class="capa">
-    <button type="button" class="editar-banner">
+    <button
+      type="button"
+      class="editar-banner"
+    >
       <i class="bi bi-camera"></i>
       Editar banner
     </button>
   </section>
 
+
   <section class="conteudo-perfil">
 
     <div class="perfil">
 
-      <!-- FOTO -->
       <div class="foto-container">
 
         <div class="foto-empresa">
-          {{ empresa?.nome?.charAt(0)?.toUpperCase() }}
+          {{
+            empresa?.nome
+              ?.charAt(0)
+              ?.toUpperCase()
+          }}
         </div>
 
         <button
           type="button"
           class="editar-foto"
-          aria-label="Editar foto">
+          aria-label="Editar foto"
+        >
           <i class="bi bi-camera"></i>
         </button>
+
       </div>
 
-      <!-- DADOS -->
+
       <div class="dados">
 
         <div class="nome">
-          <h1>{{ empresa?.nome }}</h1>
+
+          <h1>
+            {{ empresa?.nome }}
+          </h1>
 
           <i
             class="bi bi-patch-check-fill verificado"
-            aria-label="Empresa verificada">
-          </i>
+            aria-label="Empresa verificada"
+          ></i>
+
         </div>
 
-        <span class="usuario">
-          &#64;{{ empresa?.nome?.toLowerCase()?.replace(' ', '') }}
-        </span>
+        @if (usuario) {
+          <span class="usuario">
+            &#64;{{ usuario }}
+          </span>
+        }
 
         <strong class="categoria">
-          Eventos • Cultura • Entretenimento
+          Eventos e entretenimento
         </strong>
 
         <p class="descricao">
           {{
             perfil?.descricao ||
-            'Conectamos pessoas aos melhores eventos, criando experiências memoráveis por todo o Brasil.'
+            'Conte um pouco sobre sua empresa e os eventos que você organiza.'
           }}
         </p>
 
         <div class="contato">
 
-          <span>
-            <i class="bi bi-geo-alt"></i>
-            São Paulo, SP
-          </span>
+          @if (empresa?.endereco) {
+            <span>
+              <i class="bi bi-geo-alt"></i>
+              {{ empresa?.endereco }}
+            </span>
+          }
 
-          <span>
-            <i class="bi bi-envelope"></i>
-            {{ perfil?.email }}
-          </span>
-
-          <span>
-            <i class="bi bi-window"></i>
-            www.evena.online
-          </span>
+          @if (perfil?.email) {
+            <span>
+              <i class="bi bi-envelope"></i>
+              {{ perfil?.email }}
+            </span>
+          }
 
         </div>
 
       </div>
 
-      <!-- AÇÕES -->
+
       <div class="acoes">
 
-        <a routerLink="/editar-perfil-organizador" class="editar-perfil">
-            <i class="bi bi-pencil"></i>
-            Editar perfil
+        <a
+          routerLink="/editar-perfil-organizador"
+          class="editar-perfil"
+        >
+          <i class="bi bi-pencil"></i>
+          Editar perfil
         </a>
 
-        <a routerLink="/eventos" class="gerenciar-eventos">
-          Gerenciar eventos
+        <a
+          routerLink="/criar-evento"
+          class="gerenciar-eventos"
+        >
+          <i class="bi bi-plus-lg"></i>
+          Criar evento
         </a>
 
         <div class="redes">
 
-          <button type="button" aria-label="Instagram">
+          <button
+            type="button"
+            aria-label="Instagram"
+          >
             <i class="bi bi-instagram"></i>
           </button>
 
-          <button type="button" aria-label="X">
+          <button
+            type="button"
+            aria-label="X"
+          >
             <i class="bi bi-twitter-x"></i>
           </button>
 
-          <button type="button" aria-label="YouTube">
+          <button
+            type="button"
+            aria-label="YouTube"
+          >
             <i class="bi bi-youtube"></i>
           </button>
 
-          <button type="button" aria-label="TikTok">
+          <button
+            type="button"
+            aria-label="TikTok"
+          >
             <i class="bi bi-tiktok"></i>
           </button>
 
@@ -113,30 +146,248 @@
     </div>
 
 
-    <!-- EVENTOS -->
     <section class="secao eventos">
 
-      <h2>Eventos da empresa</h2>
+      <div class="titulo-secao">
 
-      <div class="evento-vazio">
-        <h3>Você ainda não possui eventos</h3>
+        <h2>
+          Eventos da empresa
+        </h2>
 
-        <p>
-          Crie seu primeiro evento e comece a divulgá-lo no Evena.
-        </p>
+        @if (eventos.length) {
+          <a
+            routerLink="/criar-evento"
+            class="criar-evento"
+          >
+            + Criar evento
+          </a>
+        }
 
-        <a routerLink="/criar-evento">
-          Criar primeiro evento
-        </a>
       </div>
+
+
+      @if (carregandoEventos) {
+
+        <div class="estado-eventos">
+
+          <span class="carregando"></span>
+
+          <p>
+            Carregando eventos...
+          </p>
+
+        </div>
+
+      } @else if (erroEventos) {
+
+        <div class="estado-eventos">
+
+          <i class="bi bi-exclamation-circle"></i>
+
+          <p>
+            {{ erroEventos }}
+          </p>
+
+        </div>
+
+      } @else if (eventos.length) {
+
+        <div class="lista-eventos">
+
+          @for (
+            evento of eventos;
+            track evento.id
+          ) {
+
+            <article
+              class="card-evento"
+              role="link"
+              tabindex="0"
+              (click)="abrirEvento(evento)"
+              (keydown.enter)="abrirEvento(evento)"
+            >
+
+              <div class="imagem-evento">
+
+                @if (evento.imagem) {
+
+                  <img
+                    [src]="evento.imagem"
+                    [alt]="evento.titulo"
+                  >
+
+                } @else {
+
+                  <div class="imagem-vazia">
+                    <i class="bi bi-calendar-event"></i>
+                  </div>
+
+                }
+
+              </div>
+
+
+              <div class="dados-evento">
+
+                <div class="cabecalho-evento">
+
+                  <div>
+
+                    <span class="data-evento">
+                      {{
+                        evento.dataExibicao ||
+                        'Data não informada'
+                      }}
+                    </span>
+
+                    <h3>
+                      {{ evento.titulo }}
+                    </h3>
+
+                  </div>
+
+
+                  <button
+                    type="button"
+                    class="excluir-evento"
+                    [disabled]="
+                      eventoRemovendoId !== null
+                    "
+                    aria-label="Excluir evento"
+                    (click)="
+                      $event.stopPropagation();
+                      removerEvento(evento)
+                    "
+                  >
+
+                    @if (
+                      eventoRemovendoId ===
+                      evento.id
+                    ) {
+
+                      <span class="spinner"></span>
+
+                    } @else {
+
+                      <i class="bi bi-trash"></i>
+
+                    }
+
+                  </button>
+
+                </div>
+
+
+                @if (evento.descricao) {
+
+                  <p class="descricao-evento">
+                    {{ evento.descricao }}
+                  </p>
+
+                }
+
+
+                <div class="informacoes-evento">
+
+                  @if (evento.horario) {
+
+                    <span>
+                      <i class="bi bi-clock"></i>
+
+                      {{ evento.horario }}
+                    </span>
+
+                  }
+
+
+                  @if (
+                    evento.cidade ||
+                    evento.uf
+                  ) {
+
+                    <span>
+
+                      <i class="bi bi-geo-alt"></i>
+
+                      {{ evento.cidade }}
+
+                      @if (
+                        evento.cidade &&
+                        evento.uf
+                      ) {
+                        ,
+                      }
+
+                      {{ evento.uf }}
+
+                    </span>
+
+                  } @else if (evento.online) {
+
+                    <span>
+                      <i class="bi bi-camera-video"></i>
+                      Online
+                    </span>
+
+                  }
+
+                </div>
+
+
+                <div class="rodape-evento">
+
+                  <strong>
+                    {{ formatarPreco(evento) }}
+                  </strong>
+
+                  @if (evento.categoria) {
+
+                    <span class="categoria-evento">
+                      {{ evento.categoria }}
+                    </span>
+
+                  }
+
+                </div>
+
+              </div>
+
+            </article>
+
+          }
+
+        </div>
+
+      } @else {
+
+        <div class="evento-vazio">
+
+          <i class="bi bi-calendar-plus"></i>
+
+          <h3>
+            Você ainda não possui eventos
+          </h3>
+
+          <p>
+            Crie seu primeiro evento e comece a divulgá-lo no Evena.
+          </p>
+
+          <a routerLink="/criar-evento">
+            Criar primeiro evento
+          </a>
+
+        </div>
+
+      }
 
     </section>
 
 
-    <!-- SOBRE -->
     <section class="secao sobre">
 
-      <h2>Sobre o {{ empresa?.nome }}</h2>
+      <h2>
+        Sobre o {{ empresa?.nome }}
+      </h2>
 
       <p>
         {{
@@ -145,16 +396,10 @@
         }}
       </p>
 
-      @if (perfil?.dataCriacao) {
-        <span class="data-cadastro">
-          Empresa cadastrada em {{ perfil?.dataCriacao }}
-        </span>
-      }
-
     </section>
 
   </section>
 
 </main>
 
-<app-footer></app-footer>
+<app-footer />

@@ -1,205 +1,470 @@
 <div class="etapa-revisao">
+
   <div class="cabecalho">
-    <h2>Revise seu evento</h2>
-    <p>Confira todas as informações antes de publicar seu evento.</p>
+
+    <h2>
+      Revise seu evento
+    </h2>
+
+    <p>
+      Confira todas as informações antes de publicar seu evento.
+    </p>
+
   </div>
 
+
   <section class="secao">
+
     <div class="titulo-secao">
-      <h3>Informações básicas</h3>
-      <button type="button" (click)="editarEtapa(1)">Editar</button>
+
+      <h3>
+        Informações básicas
+      </h3>
+
+      <button
+        type="button"
+        (click)="editarEtapa(1)"
+      >
+        Editar
+      </button>
+
     </div>
 
+
     @if (dadosEvento.imagemPreview) {
+
       <div class="capa-revisao">
+
         <img
           [src]="dadosEvento.imagemPreview"
           alt="Imagem de capa do evento"
         >
 
         @if (dadosEvento.nomeImagem) {
-          <span>{{ dadosEvento.nomeImagem }}</span>
+          <span>
+            {{ dadosEvento.nomeImagem }}
+          </span>
         }
+
       </div>
+
     }
 
+
     <div class="informacoes">
+
       <div class="informacao">
         <span>Nome</span>
-        <strong>{{ dadosEvento.nome || 'Não informado' }}</strong>
+
+        <strong>
+          {{
+            dadosEvento.nome ||
+            'Não informado'
+          }}
+        </strong>
       </div>
+
 
       <div class="informacao">
         <span>Categoria</span>
-        <strong>{{ dadosEvento.categoria || 'Não informado' }}</strong>
+
+        <strong>
+          {{
+            dadosEvento.categoria ||
+            'Não informado'
+          }}
+        </strong>
       </div>
+
 
       <div class="informacao">
         <span>Classificação</span>
-        <strong>{{ dadosEvento.classificacao || 'Não informado' }}</strong>
+
+        <strong>
+          {{
+            dadosEvento.classificacao ||
+            'Não informado'
+          }}
+        </strong>
       </div>
 
-      <div class="informacao informacao-longa">
+
+      <div
+        class="informacao informacao-longa"
+      >
         <span>Descrição</span>
-        <strong>{{ dadosEvento.descricao || 'Não informado' }}</strong>
+
+        <strong>
+          {{
+            dadosEvento.descricao ||
+            'Não informado'
+          }}
+        </strong>
       </div>
 
-      @if (!dadosEvento.imagemPreview) {
-        <div class="informacao">
-          <span>Imagem de capa</span>
-          <strong>Não selecionada</strong>
-        </div>
-      }
     </div>
+
   </section>
 
+
   <section class="secao">
+
     <div class="titulo-secao">
-      <h3>Data e local</h3>
-      <button type="button" (click)="editarEtapa(2)">Editar</button>
+
+      <h3>
+        Data e local
+      </h3>
+
+      <button
+        type="button"
+        (click)="editarEtapa(2)"
+      >
+        Editar
+      </button>
+
     </div>
+
 
     <div class="datas-revisao">
-      @if (dadosEvento.datas.length) {
-        @for (item of dadosEvento.datas; track $index) {
-          <div class="data-revisao">
-            <div class="informacao">
-              <span>Data {{ $index + 1 }}</span>
-              <strong>{{ formatarData(item.data) }}</strong>
-            </div>
 
-            <div class="informacao">
-              <span>Horário</span>
-              <strong>{{ formatarHorario(item) }}</strong>
-            </div>
+      @for (
+        item of dadosEvento.datas;
+        track $index
+      ) {
+
+        <div class="data-revisao">
+
+          <div class="informacao">
+
+            <span>
+              Data {{ $index + 1 }}
+            </span>
+
+            <strong>
+              {{
+                formatarData(
+                  item.data
+                )
+              }}
+            </strong>
+
           </div>
-        }
-      } @else {
-        <div class="informacao">
-          <span>Data</span>
-          <strong>Não informado</strong>
+
+
+          <div class="informacao">
+
+            <span>
+              Horário
+            </span>
+
+            <strong>
+              {{
+                formatarHorario(
+                  item
+                )
+              }}
+            </strong>
+
+          </div>
+
         </div>
+
       }
+
     </div>
+
 
     <div class="informacoes">
+
       <div class="informacao">
+
         <span>Tipo</span>
-        <strong>{{ formatarTipoLocal(dadosEvento.tipoLocal) }}</strong>
+
+        <strong>
+          {{
+            formatarTipoLocal(
+              dadosEvento.tipoLocal
+            )
+          }}
+        </strong>
+
       </div>
 
-      @if (dadosEvento.tipoLocal === 'presencial' || dadosEvento.tipoLocal === 'hibrido') {
-        <div class="informacao informacao-longa">
+
+      @if (
+        dadosEvento.tipoLocal ===
+        'presencial'
+      ) {
+
+        <div
+          class="informacao informacao-longa"
+        >
+
           <span>Local</span>
-          <strong>{{ formatarEndereco() }}</strong>
+
+          <strong>
+            {{ formatarEndereco() }}
+          </strong>
+
         </div>
+
       }
 
-      @if (dadosEvento.tipoLocal === 'online' || dadosEvento.tipoLocal === 'hibrido') {
-        <div class="informacao informacao-longa">
-          <span>Link do evento</span>
-          <strong>{{ dadosEvento.link || 'Não informado' }}</strong>
+
+      @if (
+        dadosEvento.tipoLocal ===
+        'online'
+      ) {
+
+        <div
+          class="informacao informacao-longa"
+        >
+
+          <span>
+            Link do evento
+          </span>
+
+          <strong>
+            {{
+              dadosEvento.link ||
+              'Não informado'
+            }}
+          </strong>
+
         </div>
+
       }
+
     </div>
+
   </section>
+
 
   <section class="secao">
+
     <div class="titulo-secao">
-      <h3>Detalhes</h3>
-      <button type="button" (click)="editarEtapa(3)">Editar</button>
+
+      <h3>
+        Detalhes
+      </h3>
+
+      <button
+        type="button"
+        (click)="editarEtapa(3)"
+      >
+        Editar
+      </button>
+
     </div>
+
 
     <div class="informacoes">
+
       <div class="informacao">
+
         <span>Ingressos</span>
-        <strong>{{ formatarTipoIngresso(dadosEvento.tipoIngresso) }}</strong>
+
+        <strong>
+          {{
+            formatarTipoIngresso(
+              dadosEvento.tipoIngresso
+            )
+          }}
+        </strong>
+
       </div>
 
-      @if (dadosEvento.tipoIngresso === 'pago') {
+
+      @if (
+        dadosEvento.tipoIngresso ===
+        'pago'
+      ) {
+
         <div class="informacao">
-          <span>Faixa de preço</span>
+
+          <span>Preço</span>
+
           <strong>
-            {{ formatarPreco(dadosEvento.precoMinimo, dadosEvento.precoMaximo) }}
+            {{ formatarPreco() }}
           </strong>
+
         </div>
 
-        <div class="informacao informacao-longa">
-          <span>Link de venda</span>
-          <strong>{{ dadosEvento.linkIngresso || 'Não informado' }}</strong>
+
+        <div
+          class="informacao informacao-longa"
+        >
+
+          <span>
+            Link de venda
+          </span>
+
+          <strong>
+            {{
+              dadosEvento.linkIngresso ||
+              'Não informado'
+            }}
+          </strong>
+
         </div>
+
       }
 
-      <div class="informacao informacao-longa">
+
+      <div
+        class="informacao informacao-longa"
+      >
+
         <span>Atrações</span>
 
-        @if (dadosEvento.atracoes.length) {
+        @if (
+          dadosEvento.atracoes.length
+        ) {
+
           <div class="lista-atracoes">
-            @for (atracao of dadosEvento.atracoes; track $index) {
+
+            @for (
+              atracao of dadosEvento.atracoes;
+              track $index
+            ) {
+
               <div class="atracao-revisao">
-                <strong>{{ atracao.nome }}</strong>
-
-                @if (atracao.descricao) {
-                  <span>{{ atracao.descricao }}</span>
-                }
+                <strong>
+                  {{ atracao.nome }}
+                </strong>
               </div>
+
             }
+
           </div>
+
         } @else {
-          <strong>Não informado</strong>
+
+          <strong>
+            Não informado
+          </strong>
+
         }
+
       </div>
 
-      <div class="informacao">
-        <span>Estacionamento</span>
-        <strong>{{ dadosEvento.estacionamento ? 'Sim' : 'Não' }}</strong>
+
+      <div
+        class="informacao informacao-longa"
+      >
+
+        <span>
+          Recursos
+        </span>
+
+        @if (
+          dadosEvento.recursos.length
+        ) {
+
+          <strong>
+            {{
+              dadosEvento.recursos.join(', ')
+            }}
+          </strong>
+
+        } @else {
+
+          <strong>
+            Nenhum selecionado
+          </strong>
+
+        }
+
       </div>
 
-      <div class="informacao">
-        <span>Guarda-volumes</span>
-        <strong>{{ dadosEvento.guardaVolumes ? 'Sim' : 'Não' }}</strong>
-      </div>
 
-      <div class="informacao">
-        <span>Acessibilidade</span>
-        <strong>{{ dadosEvento.acessibilidade ? 'Sim' : 'Não' }}</strong>
-      </div>
+      @if (
+        dadosEvento.informacoes
+      ) {
 
-      @if (dadosEvento.informacoes) {
-        <div class="informacao informacao-longa">
-          <span>Outras informações</span>
-          <strong>{{ dadosEvento.informacoes }}</strong>
+        <div
+          class="informacao informacao-longa"
+        >
+
+          <span>
+            Outras informações
+          </span>
+
+          <strong>
+            {{
+              dadosEvento.informacoes
+            }}
+          </strong>
+
         </div>
+
       }
 
-      @if (dadosEvento.pergunta || dadosEvento.resposta) {
-        <div class="informacao informacao-longa">
-          <span>Pergunta frequente</span>
-          <strong>{{ dadosEvento.pergunta || 'Não informado' }}</strong>
 
-          @if (dadosEvento.resposta) {
-            <small>{{ dadosEvento.resposta }}</small>
+      @if (
+        dadosEvento.pergunta ||
+        dadosEvento.resposta
+      ) {
+
+        <div
+          class="informacao informacao-longa"
+        >
+
+          <span>
+            Pergunta frequente
+          </span>
+
+          <strong>
+            {{
+              dadosEvento.pergunta ||
+              'Não informado'
+            }}
+          </strong>
+
+          @if (
+            dadosEvento.resposta
+          ) {
+            <small>
+              {{ dadosEvento.resposta }}
+            </small>
           }
+
         </div>
+
       }
+
     </div>
+
   </section>
 
+
   <div class="acoes">
+
     <button
       type="button"
       class="botao-voltar"
+      [disabled]="publicando"
       (click)="voltarEtapa()"
     >
       ← Voltar
     </button>
 
+
     <button
       type="button"
       class="botao-publicar"
+      [disabled]="publicando"
       (click)="publicarEvento()"
     >
-      Publicar evento
+
+      @if (publicando) {
+        Publicando...
+      } @else {
+        Publicar evento
+      }
+
     </button>
+
   </div>
+
 </div>

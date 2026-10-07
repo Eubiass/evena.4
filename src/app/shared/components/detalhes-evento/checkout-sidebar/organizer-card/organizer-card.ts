@@ -1,24 +1,39 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 
 @Component({
-  selector: "app-organizer-card",
+  selector: 'app-organizer-card',
   imports: [],
-  templateUrl: "./organizer-card.html",
-  styleUrl: "./organizer-card.css",
+  templateUrl: './organizer-card.html',
+  styleUrl: './organizer-card.css'
 })
 export class OrganizerCard {
   @Input() organizador: any;
-  @Input() isSeguindo: boolean = false;
+  @Input() isSeguindo = false;
 
-  @Output() profileClick = new EventEmitter<void>();
-  @Output() followToggle = new EventEmitter<Event>();
+  @Output()
+  profileClick =
+    new EventEmitter<void>();
+
+  @Output()
+  followToggle =
+    new EventEmitter<Event>();
 
   onProfileClick(): void {
     this.profileClick.emit();
   }
 
-  onFollowClick(event: Event): void {
+  onFollowClick(
+    event: Event
+  ): void {
     event.stopPropagation();
-    this.followToggle.emit(event);
+
+    this.followToggle.emit(
+      event
+    );
   }
 }

@@ -1,313 +1,341 @@
-<form class="etapa-data-local" (ngSubmit)="enviarFormulario()" novalidate>
-  <div class="formulario">
-    <div class="campo">
-      <label>Datas do evento <span>*</span></label>
-      <p class="descricao-campo">Adicione uma ou mais datas para o seu evento.</p>
+<div class="etapa-data-local">
 
-      <div class="datas">
-        @for (item of datas; track $index) {
-          <div
-            class="linha-data"
-            [class.com-erro]="
-              horariosInvalidos.includes($index) ||
-              camposInvalidos.includes('data-' + $index) ||
-              camposInvalidos.includes('inicio-' + $index) ||
-              camposInvalidos.includes('fim-' + $index)
-            "
-          >
-            <div class="campo">
-              <label [for]="'data-' + $index">Data</label>
-              <input
-                [id]="'data-' + $index"
-                [name]="'data-' + $index"
-                type="date"
-                [min]="dataMinima"
-                [(ngModel)]="item.data"
-              >
-            </div>
+  <section class="secao">
 
-            <div class="campo">
-              <label [for]="'inicio-' + $index">Início</label>
-              <input
-                [id]="'inicio-' + $index"
-                [name]="'inicio-' + $index"
-                type="time"
-                [(ngModel)]="item.inicio"
-              >
-            </div>
+    <div class="cabecalho-secao">
 
-            <div class="campo">
-              <label [for]="'fim-' + $index">Término</label>
-              <input
-                [id]="'fim-' + $index"
-                [name]="'fim-' + $index"
-                type="time"
-                [(ngModel)]="item.fim"
-              >
-            </div>
+      <h2>
+        Data e horário
+      </h2>
+
+      <p>
+        Informe quando o evento acontecerá.
+      </p>
+
+    </div>
+
+
+    <div class="lista-datas">
+
+      @for (
+        item of datas;
+        track $index
+      ) {
+
+        <div class="linha-data">
+
+          <div class="campo">
+
+            <label>
+              Data
+            </label>
+
+            <input
+              type="date"
+              [(ngModel)]="item.data"
+              [min]="dataMinima"
+            >
+
+          </div>
+
+
+          <div class="campo">
+
+            <label>
+              Início
+            </label>
+
+            <input
+              type="time"
+              [(ngModel)]="item.inicio"
+            >
+
+          </div>
+
+
+          <div class="campo">
+
+            <label>
+              Término
+            </label>
+
+            <input
+              type="time"
+              [(ngModel)]="item.fim"
+            >
+
+          </div>
+
+
+          <label class="dia-seguinte">
+
+            <input
+              type="checkbox"
+              [(ngModel)]="
+                item.terminaNoDiaSeguinte
+              "
+            >
+
+            Termina no dia seguinte
+
+          </label>
+
+
+          @if (
+            datas.length > 1
+          ) {
 
             <button
               type="button"
               class="botao-remover-data"
-              [disabled]="datas.length === 1"
-              aria-label="Remover data"
-              (click)="removerData($index)"
+              (click)="
+                removerData($index)
+              "
             >
-              ×
+              Remover
             </button>
 
-            @if (horarioUltrapassaMeiaNoite(item)) {
-              <label class="dia-seguinte">
-                <input
-                  type="checkbox"
-                  [name]="'diaSeguinte-' + $index"
-                  [(ngModel)]="item.terminaNoDiaSeguinte"
-                >
-                <span>Termina no dia seguinte</span>
-              </label>
-            }
+          }
 
-            @if (horariosInvalidos.includes($index)) {
-              <span class="erro-horario">
-                @if (item.inicio === item.fim) {
-                  O horário de início e término não podem ser iguais.
-                } @else if (item.fim < item.inicio && !item.terminaNoDiaSeguinte) {
-                  O término é anterior ao início. Marque "Termina no dia seguinte".
-                } @else {
-                  Revise os horários informados.
-                }
-              </span>
-            }
+        </div>
 
-            @if (camposInvalidos.includes('data-' + $index)) {
-              <span class="erro-horario">Informe uma data válida.</span>
-            }
+      }
 
-            @if (camposInvalidos.includes('inicio-' + $index)) {
-              <span class="erro-horario">Informe o horário de início.</span>
-            }
+    </div>
 
-            @if (camposInvalidos.includes('fim-' + $index)) {
-              <span class="erro-horario">Informe o horário de término.</span>
-            }
-          </div>
-        }
+
+    <div class="acoes-datas">
+
+      <button
+        type="button"
+        class="botao-adicionar-data"
+        (click)="adicionarData()"
+      >
+        + Adicionar outra data
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <section class="secao">
+
+    <div class="cabecalho-secao">
+
+      <h2>
+        Formato do evento
+      </h2>
+
+      <p>
+        Escolha como o evento será realizado.
+      </p>
+
+    </div>
+
+
+    <div class="tipos-local">
+
+      <button
+        type="button"
+        class="tipo-local"
+        [class.ativo]="
+          tipoLocal === 'presencial'
+        "
+        (click)="
+          selecionarTipoLocal(
+            'presencial'
+          )
+        "
+      >
+        Presencial
+      </button>
+
+
+      <button
+        type="button"
+        class="tipo-local"
+        [class.ativo]="
+          tipoLocal === 'online'
+        "
+        (click)="
+          selecionarTipoLocal(
+            'online'
+          )
+        "
+      >
+        Online
+      </button>
+
+    </div>
+
+  </section>
+
+
+  @if (
+    tipoLocal ===
+    'presencial'
+  ) {
+
+    <section class="secao">
+
+      <div class="cabecalho-secao">
+
+        <h2>
+          Endereço
+        </h2>
+
+        <p>
+          Informe onde o evento acontecerá.
+        </p>
+
       </div>
 
-      <div class="acoes-datas">
-        <button
-          type="button"
-          class="botao-adicionar-data"
-          (click)="adicionarData()"
-        >
-          + Adicionar data
-        </button>
 
-        <button
-          type="button"
-          class="botao-adicionar-datas"
-          (click)="alternarGeradorDatas()"
-        >
-          + Adicionar datas consecutivas
-        </button>
-      </div>
+      <div class="linha-endereco">
 
-      @if (mostrarGeradorDatas) {
-        <div class="gerador-datas">
-          <div class="gerador-cabecalho">
-            <h3>Adicionar datas consecutivas</h3>
-            <p>Escolha o período e os horários.</p>
-          </div>
+        <div class="campo">
 
-          <div class="linha-gerador">
-            <div class="campo">
-              <label for="dataInicial">Data inicial</label>
-              <input
-                id="dataInicial"
-                name="dataInicial"
-                type="date"
-                [min]="dataMinima"
-                [(ngModel)]="dataInicial"
-              >
-            </div>
-
-            <div class="campo">
-              <label for="dataFinal">Data final</label>
-              <input
-                id="dataFinal"
-                name="dataFinal"
-                type="date"
-                [min]="dataMinima"
-                [(ngModel)]="dataFinal"
-              >
-            </div>
-          </div>
-
-          <div class="linha-gerador">
-            <div class="campo">
-              <label for="horarioInicial">Horário de início</label>
-              <input
-                id="horarioInicial"
-                name="horarioInicial"
-                type="time"
-                [(ngModel)]="horarioInicial"
-              >
-            </div>
-
-            <div class="campo">
-              <label for="horarioFinal">Horário de término</label>
-              <input
-                id="horarioFinal"
-                name="horarioFinal"
-                type="time"
-                [(ngModel)]="horarioFinal"
-              >
-            </div>
-          </div>
-
-          <label class="dia-seguinte">
-            <input
-              type="checkbox"
-              name="geradorTerminaNoDiaSeguinte"
-              [(ngModel)]="geradorTerminaNoDiaSeguinte"
-            >
-            <span>Termina no dia seguinte</span>
+          <label for="estado">
+            Estado
           </label>
 
-          @if (erroGeradorDatas) {
-            <span class="erro-gerador">{{ erroGeradorDatas }}</span>
-          }
+          <input
+            id="estado"
+            type="text"
+            [(ngModel)]="estado"
+            maxlength="2"
+            placeholder="SP"
+          >
 
-          <div class="acoes-gerador">
-            <button
-              type="button"
-              class="botao-cancelar"
-              (click)="alternarGeradorDatas()"
-            >
-              Cancelar
-            </button>
-
-            <button
-              type="button"
-              class="botao-gerar"
-              (click)="gerarDatas()"
-            >
-              Gerar datas
-            </button>
-          </div>
         </div>
-      }
-    </div>
 
-    <div class="endereco">
-      <div class="campo">
-        <label for="endereco">Endereço <span>*</span></label>
-        <input
-          id="endereco"
-          name="endereco"
-          type="text"
-          placeholder="Rua, avenida..."
-          [(ngModel)]="endereco"
-        >
 
-        @if (camposInvalidos.includes('endereco')) {
-          <span class="erro-campo">Informe o endereço do evento.</span>
-        }
+        <div class="campo">
+
+          <label for="cidade">
+            Cidade
+          </label>
+
+          <input
+            id="cidade"
+            type="text"
+            [(ngModel)]="cidade"
+            placeholder="São Paulo"
+          >
+
+        </div>
+
       </div>
 
+
       <div class="linha-endereco">
+
         <div class="campo">
-          <label for="numero">Número</label>
+
+          <label for="endereco">
+            Endereço
+          </label>
+
+          <input
+            id="endereco"
+            type="text"
+            [(ngModel)]="endereco"
+            placeholder="Rua, avenida..."
+          >
+
+        </div>
+
+
+        <div class="campo">
+
+          <label for="numero">
+            Número
+          </label>
+
           <input
             id="numero"
-            name="numero"
             type="text"
             [(ngModel)]="numero"
+            placeholder="100"
           >
+
         </div>
 
-        <div class="campo">
-          <label for="complemento">Complemento</label>
-          <input
-            id="complemento"
-            name="complemento"
-            type="text"
-            placeholder="Sala, bloco, andar..."
-            [(ngModel)]="complemento"
-          >
-        </div>
       </div>
 
-      <div class="linha-endereco">
-        <div class="campo">
-          <label for="estado">Estado <span>*</span></label>
-          <select
-            id="estado"
-            name="estado"
-            [(ngModel)]="estado"
-            (ngModelChange)="alterarEstado()"
-          >
-            <option value="">Selecione um estado</option>
-            <option value="AC">Acre</option>
-            <option value="AL">Alagoas</option>
-            <option value="AP">Amapá</option>
-            <option value="AM">Amazonas</option>
-            <option value="BA">Bahia</option>
-            <option value="CE">Ceará</option>
-            <option value="DF">Distrito Federal</option>
-            <option value="ES">Espírito Santo</option>
-            <option value="GO">Goiás</option>
-            <option value="MA">Maranhão</option>
-            <option value="MT">Mato Grosso</option>
-            <option value="MS">Mato Grosso do Sul</option>
-            <option value="MG">Minas Gerais</option>
-            <option value="PA">Pará</option>
-            <option value="PB">Paraíba</option>
-            <option value="PR">Paraná</option>
-            <option value="PE">Pernambuco</option>
-            <option value="PI">Piauí</option>
-            <option value="RJ">Rio de Janeiro</option>
-            <option value="RN">Rio Grande do Norte</option>
-            <option value="RS">Rio Grande do Sul</option>
-            <option value="RO">Rondônia</option>
-            <option value="RR">Roraima</option>
-            <option value="SC">Santa Catarina</option>
-            <option value="SP">São Paulo</option>
-            <option value="SE">Sergipe</option>
-            <option value="TO">Tocantins</option>
-          </select>
 
-          @if (camposInvalidos.includes('estado')) {
-            <span class="erro-campo">Selecione um estado.</span>
-          }
-        </div>
+      <div class="campo">
 
-        <div class="campo">
-          <label for="cidade">Cidade <span>*</span></label>
-          <select
-            id="cidade"
-            name="cidade"
-            [(ngModel)]="cidade"
-            [disabled]="!estado"
-          >
-            <option value="">
-              {{ estado ? 'Selecione uma cidade' : 'Selecione um estado primeiro' }}
-            </option>
+        <label for="complemento">
+          Complemento
+        </label>
 
-            @for (cidade of cidadesDisponiveis; track cidade) {
-              <option [value]="cidade">{{ cidade }}</option>
-            }
-          </select>
+        <input
+          id="complemento"
+          type="text"
+          [(ngModel)]="complemento"
+          placeholder="Bloco, sala, ponto de referência..."
+        >
 
-          @if (camposInvalidos.includes('cidade')) {
-            <span class="erro-campo">Selecione uma cidade válida.</span>
-          }
-        </div>
       </div>
-    </div>
-  </div>
+
+    </section>
+
+  }
+
+
+  @if (
+    tipoLocal ===
+    'online'
+  ) {
+
+    <section class="secao">
+
+      <div class="cabecalho-secao">
+
+        <h2>
+          Evento online
+        </h2>
+
+        <p>
+          Informe o link de acesso ao evento.
+        </p>
+
+      </div>
+
+
+      <div class="campo">
+
+        <label for="link">
+          Link do evento
+        </label>
+
+        <input
+          id="link"
+          type="url"
+          [(ngModel)]="link"
+          placeholder="https://..."
+        >
+
+      </div>
+
+    </section>
+
+  }
+
+
+  @if (erro) {
+
+    <p class="erro">
+      {{ erro }}
+    </p>
+
+  }
+
 
   <div class="acoes">
+
     <button
       type="button"
       class="botao-voltar"
@@ -316,11 +344,15 @@
       ← Voltar
     </button>
 
+
     <button
-      type="submit"
+      type="button"
       class="botao-continuar"
+      (click)="continuarEtapa()"
     >
       Continuar →
     </button>
+
   </div>
-</form>
+
+</div>

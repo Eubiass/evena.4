@@ -1,38 +1,59 @@
-<div class="checkout-card" role="region" aria-label="Área de ingressos e ações do evento">
-  
-  <!-- 1. Bloco de Preço -->
-  <app-price-header 
-    [preco]="evento?.preco">
+<div
+  class="checkout-card"
+  role="region"
+  aria-label="Área de ingressos e ações do evento"
+>
+
+  <app-price-header
+    [preco]="evento?.preco"
+  >
   </app-price-header>
 
-  <!-- 2. Bloco do Organizador -->
+
   <app-organizer-card
-    [organizador]="evento?.organizador"
+    [organizador]="organizador"
     [isSeguindo]="isSeguindo"
     (profileClick)="irParaPerfilOrganizador()"
-    (followToggle)="alternarSeguir($event)">
+    (followToggle)="alternarSeguir($event)"
+  >
   </app-organizer-card>
 
-  <!-- 3. Bloco de Informações Rápidas -->
+
   <app-event-brief-info
     [dataExibicao]="evento?.dataExibicao"
-    [horario]="evento?.horario">
+    [horario]="evento?.horario"
+  >
   </app-event-brief-info>
 
-  <!-- 4. Bloco de Ações e Botões -->
+
   <app-event-actions
     [isSalvo]="isSalvo"
     (comprar)="redirecionarParceiro()"
     (salvar)="alternarSalvar()"
     (agenda)="adicionarAoCalendario()"
-    (compartilhar)="compartilharEvento()">
+    (compartilhar)="compartilharEvento()"
+  >
   </app-event-actions>
 
-  <!-- Rodapé -->
+
   <div class="card-footer-report">
-    <button type="button" class="btn-report">
-      <i class="fa-regular fa-flag" aria-hidden="true"></i>
-      <span>Reportar este evento</span>
+
+    <button
+      type="button"
+      class="btn-report"
+    >
+
+      <i
+        class="fa-regular fa-flag"
+        aria-hidden="true"
+      ></i>
+
+      <span>
+        Reportar este evento
+      </span>
+
     </button>
+
   </div>
+
 </div>

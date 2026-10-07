@@ -1,5 +1,14 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { DadosEvento, DataEvento } from '../../../../../models/dados-evento';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
+
+import {
+  DataEvento,
+  DadosEvento
+} from '../../../../../models/dados-evento';
 
 @Component({
   selector: 'app-etapa-revisao',
@@ -9,80 +18,188 @@ import { DadosEvento, DataEvento } from '../../../../../models/dados-evento';
   styleUrl: './etapa-revisao.css'
 })
 export class EtapaRevisao {
-  @Input() dadosEvento!: DadosEvento;
+  @Input()
+  dadosEvento!: DadosEvento;
 
-  @Output() voltar = new EventEmitter<void>();
-  @Output() editar = new EventEmitter<number>();
+  @Input()
+  publicando = false;
 
-  voltarEtapa() {
+  @Output()
+  voltar =
+    new EventEmitter<void>();
+
+  @Output()
+  editar =
+    new EventEmitter<number>();
+
+  @Output()
+  publicar =
+    new EventEmitter<void>();
+
+  editarEtapa(
+    etapa: number
+  ): void {
+    if (
+      this.publicando
+    ) {
+      return;
+    }
+
+    this.editar.emit(
+      etapa
+    );
+  }
+
+  voltarEtapa(): void {
+    if (
+      this.publicando
+    ) {
+      return;
+    }
+
     this.voltar.emit();
   }
 
-  editarEtapa(etapa: number) {
-    this.editar.emit(etapa);
+  publicarEvento(): void {
+    if (
+      this.publicando
+    ) {
+      return;
+    }
+
+    this.publicar.emit();
   }
 
-  publicarEvento() {
-    console.log('Evento pronto para publicação:', this.dadosEvento);
+  formatarData(
+    data: string
+  ): string {
+    if (!data) {
+      return 'Não informado';
+    }
+
+    const [
+      ano,
+      mes,
+      dia
+    ] = data.split('-');
+
+    if (
+      !ano ||
+      !mes ||
+      !dia
+    ) {
+      return data;
+    }
+
+    return `${dia}/${mes}/${ano}`;
   }
 
-  formatarData(data: string): string {
-    if (!data) return 'Não informado';
+  formatarHorario(
+    item: DataEvento
+  ): string {
+    if (
+      !item.inicio
+    ) {
+      return 'Não informado';
+    }
 
-    const partes = data.split('-');
+    if (
+      !item.fim
+    ) {
+      return item.inicio;
+    }
 
-    if (partes.length !== 3) return data;
+    const diaSeguinte =
+      item.terminaNoDiaSeguinte
+        ? ' (+1 dia)'
+        : '';
 
-    return `${partes[2]}/${partes[1]}/${partes[0]}`;
+    return `${item.inicio} - ${item.fim}${diaSeguinte}`;
   }
 
-  formatarHorario(item: DataEvento): string {
-    if (!item.inicio || !item.fim) return 'Não informado';
+  formatarTipoLocal(
+    tipo: string
+  ): string {
+    if (
+      tipo === 'presencial'
+    ) {
+      return 'Presencial';
+    }
 
-    const horario = `${item.inicio} às ${item.fim}`;
+    if (
+      tipo === 'online'
+    ) {
+      return 'Online';
+    }
 
-    return item.terminaNoDiaSeguinte
-      ? `${horario} (dia seguinte)`
-      : horario;
+    return 'Não informado';
   }
 
-  formatarTipoLocal(tipo: string): string {
-    const tipos: Record<string, string> = {
-      presencial: 'Presencial',
-      online: 'Online',
-      hibrido: 'Híbrido'
-    };
+  formatarTipoIngresso(
+    tipo: string
+  ): string {
+    if (
+      tipo === 'gratuito'
+    ) {
+      return 'Gratuito';
+    }
 
-    return tipos[tipo] || 'Não informado';
+    if (
+      tipo === 'pago'
+    ) {
+      return 'Pago';
+    }
+
+    return 'Não informado';
   }
 
-  formatarTipoIngresso(tipo: string): string {
-    const tipos: Record<string, string> = {
-      gratuito: 'Gratuito',
-      pago: 'Pago'
-    };
+  formatarPreco(): string {
+    if (
+      this.dadosEvento.tipoIngresso !==
+      'pago'
+    ) {
+      return 'Gratuito';
+    }
 
-    return tipos[tipo] || 'Não informado';
-  }
+    if (
+      !this.dadosEvento.preco
+    ) {
+      return 'Não informado';
+    }
 
-  formatarPreco(minimo: string, maximo: string): string {
-    if (!minimo && !maximo) return 'Não informado';
-    if (minimo === maximo) return `R$ ${minimo}`;
-
-    return `R$ ${minimo} até R$ ${maximo}`;
+    return `R$ ${this.dadosEvento.preco}`;
   }
 
   formatarEndereco(): string {
-    const partes = [
+    const endereco = [
       this.dadosEvento.endereco,
       this.dadosEvento.numero,
-      this.dadosEvento.complemento,
+      this.dadosEvento.complemento
+    ]
+      .map(
+        valor =>
+          valor.trim()
+      )
+      .filter(Boolean)
+      .join(', ');
+
+    const cidadeEstado = [
       this.dadosEvento.cidade,
       this.dadosEvento.estado
-    ].filter(Boolean);
+    ]
+      .map(
+        valor =>
+          valor.trim()
+      )
+      .filter(Boolean)
+      .join(' - ');
 
-    return partes.length
-      ? partes.join(', ')
-      : 'Não informado';
+    return [
+      endereco,
+      cidadeEstado
+    ]
+      .filter(Boolean)
+      .join(' · ') ||
+      'Não informado';
   }
 }
