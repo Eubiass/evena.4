@@ -1,56 +1,104 @@
 <section class="lista-eventos-container">
-  @if (eventos$ | async; as totalEventos) {
-    @if (totalEventos.length > 0) {
-      <div class="grid-eventos" role="region" aria-label="Resultados da busca de eventos">
-        @for (item of (eventosPaginados$ | async); track item.id) {
+
+  @if (eventosPaginados$ | async; as eventos) {
+
+    @if (totalItens > 0) {
+
+      <div
+        class="grid-eventos"
+        role="region"
+        aria-label="Resultados da busca de eventos">
+
+        @for (item of eventos; track item.id) {
+
           <app-card-evento
             [dadosEvento]="item"
             class="card-item-fluid">
           </app-card-evento>
+
         }
+
       </div>
 
       <div class="paginacao-container">
+
         <button
           class="btn-paginacao"
           [disabled]="paginaAtual === 1"
           (click)="paginaAnterior()">
+
           &lt; Anterior
+
         </button>
 
         <span class="texto-paginacao">
-          Página <strong>{{ paginaAtual }}</strong> de <strong>{{ totalPaginas }}</strong>
+
+          Página
+          <strong>{{ paginaAtual }}</strong>
+          de
+          <strong>{{ totalPaginas }}</strong>
+
         </span>
 
         <button
           class="btn-paginacao"
           [disabled]="paginaAtual >= totalPaginas"
           (click)="proximaPagina()">
+
           Próxima &gt;
+
         </button>
+
       </div>
+
     } @else {
+
       <div class="empty-state-hero" role="alert">
+
         <div class="empty-icon-wrapper">
-          <i class="fa-solid fa-calendar-xmark" aria-hidden="true"></i>
+          <i
+            class="fa-solid fa-calendar-xmark"
+            aria-hidden="true">
+          </i>
         </div>
 
-        <h2 class="ops-titulo">Ops! Nenhum evento encontrado.</h2>
+        <h2 class="ops-titulo">
+          Ops! Nenhum evento encontrado.
+        </h2>
 
         <p class="ops-subtitulo">
-          Não encontramos eventos cadastrados para os critérios selecionados no momento.
-          Tente alterar a cidade ou limpar os filtros de busca.
+          Não encontramos eventos cadastrados para os critérios
+          selecionados no momento. Tente alterar a cidade ou
+          limpar os filtros de busca.
         </p>
 
-        <button class="btn-ver-todos" (click)="onResetarClique()">
+        <button
+          class="btn-ver-todos"
+          (click)="onResetarClique()">
+
           Ver todos os eventos
+
         </button>
+
       </div>
+
     }
+
   } @else {
-    <div class="loading-container" aria-live="polite">
-      <div class="spinner-loader" aria-hidden="true"></div>
+
+    <div
+      class="loading-container"
+      aria-live="polite">
+
+      <div
+        class="spinner-loader"
+        aria-hidden="true">
+      </div>
+
       <p>Buscando eventos...</p>
+
     </div>
+
   }
+
 </section>
