@@ -248,6 +248,54 @@
     text-decoration: underline;
 }
 
+/* --- VISUALIZAÇÃO DA SENHA --- */
+
+.campo-senha {
+    position: relative;
+}
+
+.campo-senha input {
+    padding-right: 50px;
+}
+
+.botao-visualizar-senha {
+    position: absolute;
+
+    top: 50%;
+    right: 14px;
+
+    transform: translateY(-50%);
+
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: none;
+    background: transparent;
+
+    color: #777;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+    transition: color 0.2s ease;
+}
+
+.botao-visualizar-senha:hover {
+    color: var(--cor-principal);
+}
+
+.botao-visualizar-senha:focus {
+    outline: none;
+}
+
+
 /* --- DIVISOR INTERATIVO --- */
 .divisor {
     display: flex;

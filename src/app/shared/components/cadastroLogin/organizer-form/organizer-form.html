@@ -13,12 +13,54 @@
 
       <div class="linha-dupla-inputs">
 
-        <div class="grupo-input">
-          <input type="password" formControlName="senhaOrganizador" placeholder="Senha *">
-        </div>
+        <div class="linha-dupla-inputs">
 
-        <div class="grupo-input">
-          <input type="password" formControlName="confirmarSenhaOrganizador" placeholder="Confirmar Senha *">
+          <div class="grupo-input campo-senha">
+          
+            <input
+              [type]="mostrarSenha ? 'text' : 'password'"
+              formControlName="senhaOrganizador"
+              placeholder="Senha *">
+        
+            <button
+              type="button"
+              class="botao-visualizar-senha"
+              (click)="alternarSenha()"
+              [attr.aria-label]="mostrarSenha ? 'Ocultar senha' : 'Mostrar senha'"
+            >
+              <i
+                class="fa-regular"
+                [class.fa-eye]="!mostrarSenha"
+                [class.fa-eye-slash]="mostrarSenha"
+                aria-hidden="true"
+              ></i>
+            </button>
+          
+          </div>
+        
+          <div class="grupo-input campo-senha">
+          
+            <input
+              [type]="mostrarConfirmarSenha ? 'text' : 'password'"
+              formControlName="confirmarSenhaOrganizador"
+              placeholder="Confirmar Senha *">
+        
+            <button
+              type="button"
+              class="botao-visualizar-senha"
+              (click)="alternarConfirmarSenha()"
+              [attr.aria-label]="mostrarConfirmarSenha ? 'Ocultar senha' : 'Mostrar senha'"
+            >
+              <i
+                class="fa-regular"
+                [class.fa-eye]="!mostrarConfirmarSenha"
+                [class.fa-eye-slash]="mostrarConfirmarSenha"
+                aria-hidden="true"
+              ></i>
+            </button>
+          
+          </div>
+        
         </div>
       </div>
 

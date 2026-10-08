@@ -27,19 +27,37 @@
                    required>
           </div>
 
-          <div class="grupo-input">
-            <input type="password" 
-                   name="password"
-                   [(ngModel)]="senha"
-                   placeholder="Senha" 
-                   required>
+          <div class="grupo-input campo-senha">          
+            <input
+              [type]="mostrarSenha ? 'text' : 'password'"
+              name="password"
+              [(ngModel)]="senha"
+              placeholder="Senha"
+              autocomplete="current-password"
+              required
+            >          
+
+            <button
+              type="button"
+              class="botao-visualizar-senha"
+              (click)="alternarSenha()"
+              [attr.aria-label]="mostrarSenha ? 'Ocultar senha' : 'Mostrar senha'"
+            >
+              <i
+                class="fa-regular"
+                [class.fa-eye]="!mostrarSenha"
+                [class.fa-eye-slash]="mostrarSenha"
+                aria-hidden="true"
+              ></i>
+            </button>          
+
           </div>
         </div>
 
         <div class="linha-utilitarios">
           <label class="container-checkbox">
             <input type="checkbox" name="remember" id="remember">
-            <span class="marcador-premium"></span>
+            <span class="marcador"></span>
             Lembre de mim
           </label>
           <a class="link-esqueceu-senha">Esqueceu a senha?</a>

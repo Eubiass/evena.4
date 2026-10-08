@@ -18,6 +18,9 @@ export class OrganizerForm {
 
   passoAtual = 1;
 
+  mostrarSenha = false;
+  mostrarConfirmarSenha = false;
+
   form = this.fb.group(
     {
       emailEmpresa: [
@@ -74,6 +77,14 @@ export class OrganizerForm {
     const confirmar = control.get('confirmarSenhaOrganizador')?.value;
 
     return senha === confirmar ? null : { senhasDiferentes: true };
+  }
+
+  alternarSenha(): void {
+    this.mostrarSenha = !this.mostrarSenha;
+  } 
+
+  alternarConfirmarSenha(): void {
+    this.mostrarConfirmarSenha = !this.mostrarConfirmarSenha;
   }
 
   avancarPasso(): void {

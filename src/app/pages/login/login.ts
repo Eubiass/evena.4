@@ -28,6 +28,7 @@ export class Login {
 
   usuario = '';
   senha = '';
+  mostrarSenha = false;
 
   mudarPerfil(perfil: string) {
     this.tipoPerfil = perfil as 'usuario' | 'organizador';
@@ -51,6 +52,10 @@ export class Login {
         alert(mensagem);
       }
     });
+  }
+
+  alternarSenha(): void {
+    this.mostrarSenha = !this.mostrarSenha;
   }
 
   // Métodos prontos para acoplamento das bibliotecas de Autenticação Social

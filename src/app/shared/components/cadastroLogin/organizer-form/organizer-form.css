@@ -151,3 +151,48 @@ button:disabled {
 
   font: 400 12px var(--fonte-principal);
 }
+
+.campo-senha {
+  position: relative;
+}
+
+.campo-senha input {
+  padding-right: 48px;
+}
+
+.botao-visualizar-senha {
+  position: absolute;
+
+  top: 50%;
+  right: 14px;
+
+  transform: translateY(-50%);
+
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 0;
+  background: transparent;
+
+  color: #777;
+
+  cursor: pointer;
+
+  font-size: 15px;
+
+  transition: color 0.2s ease;
+}
+
+.botao-visualizar-senha:hover {
+  color: var(--cor-principal);
+}
+
+.botao-visualizar-senha:focus {
+  outline: none;
+}
