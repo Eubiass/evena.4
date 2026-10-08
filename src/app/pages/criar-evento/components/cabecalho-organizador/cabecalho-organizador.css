@@ -71,12 +71,18 @@
 }
 
 .avatar {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #f4b183, #7d3cff);
+  background: var(--cor-principal);
   border: 1px solid #ddd;
+  color: var(--cor-secundaria);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 /* RESPONSIVIDADE */
