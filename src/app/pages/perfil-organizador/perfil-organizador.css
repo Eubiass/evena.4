@@ -143,7 +143,8 @@
 }
 
 .contato i {
-  font-size: 17px;
+  color: var(--cor-principal);
+  font-size: 15px
 }
 
 .acoes {
@@ -216,12 +217,25 @@
 }
 
 .criar-evento {
-  padding: 9px 18px;
-  border-radius: 20px;
-  background: var(--cor-secundaria);
-  color: var(--cor-principal);
-  font: 600 12px var(--fonte-principal);
+  min-height: 35px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 18px;
+  border-radius: 22px;
+  background: var(--cor-principal);
+  color: var(--cor-secundaria);
+  font: 500 12px var(--fonte-principal);
   text-decoration: none;
+  transition:
+    transform .2s ease,
+    opacity .2s ease;
+}
+
+.criar-evento:hover {
+  transform: translateY(-1px);
+  opacity: .9;
 }
 
 .lista-eventos {

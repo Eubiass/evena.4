@@ -1,39 +1,25 @@
 <form [formGroup]="form">
 
   @if (passoAtual === 1) {
-
     <div class="area-inputs">
 
       <div class="grupo-input">
-        <input
-          type="email"
-          formControlName="emailEmpresa"
-          placeholder="E-mail Corporativo *">
+        <input type="email" formControlName="emailEmpresa" placeholder="E-mail Corporativo *">
       </div>
 
       <div class="grupo-input">
-        <input
-          type="text"
-          formControlName="telefoneEmpresa"
-          placeholder="Telefone / Celular Comercial *">
+        <input type="text" formControlName="telefoneEmpresa" placeholder="Telefone / Celular Comercial *">
       </div>
 
       <div class="linha-dupla-inputs">
 
         <div class="grupo-input">
-          <input
-            type="password"
-            formControlName="senhaOrganizador"
-            placeholder="Senha *">
+          <input type="password" formControlName="senhaOrganizador" placeholder="Senha *">
         </div>
 
         <div class="grupo-input">
-          <input
-            type="password"
-            formControlName="confirmarSenhaOrganizador"
-            placeholder="Confirmar Senha *">
+          <input type="password" formControlName="confirmarSenhaOrganizador" placeholder="Confirmar Senha *">
         </div>
-
       </div>
 
       @if (
@@ -45,48 +31,28 @@
         </span>
       }
 
-      <button
-        type="button"
-        class="btn-entrar"
-        (click)="avancarPasso()">
-
+      <button type="button" class="btn-entrar" (click)="avancarPasso()">
         Próximo Passo
-
       </button>
-
     </div>
-
   }
 
-
   @if (passoAtual === 2) {
-
     <div class="area-inputs">
 
       <div class="grupo-input">
-        <input
-          type="text"
-          formControlName="razaoSocial"
-          placeholder="Razão Social *">
+        <input type="text" formControlName="razaoSocial" placeholder="Razão Social *">
       </div>
 
       <div class="grupo-input">
-        <input
-          type="text"
-          formControlName="nomeFantasia"
-          placeholder="Nome Fantasia *">
+        <input type="text" formControlName="nomeFantasia" placeholder="Nome Fantasia *">
       </div>
 
       <div class="grupo-input">
-        <input
-          type="text"
-          formControlName="cnpj"
-          placeholder="CNPJ *"
-          (input)="formatarCnpj($event)">
+        <input type="text" formControlName="cnpj" placeholder="CNPJ *" (input)="formatarCnpj($event)">
       </div>
 
       <div class="grupo-input">
-
         <select
           formControlName="ramoEmpresa">
 

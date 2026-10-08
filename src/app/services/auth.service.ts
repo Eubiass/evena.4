@@ -12,6 +12,7 @@ export interface PerfilResponse {
   foto?: string;
   banner?: string;
   descricao?: string;
+  site?: string;
 }
 
 export interface EmpresaResponse {

@@ -71,21 +71,28 @@
         </p>
 
         <div class="contato">
-
-          @if (empresa?.endereco) {
+                
+          @if (localizacao) {
             <span>
               <i class="bi bi-geo-alt"></i>
-              {{ empresa?.endereco }}
+              {{ localizacao }}
             </span>
           }
-
+        
           @if (perfil?.email) {
             <span>
               <i class="bi bi-envelope"></i>
               {{ perfil?.email }}
             </span>
           }
-
+        
+          @if (perfil?.site) {
+            <span>
+              <i class="bi bi-globe"></i>
+              {{ perfil?.site }}
+            </span>
+          }
+        
         </div>
 
       </div>

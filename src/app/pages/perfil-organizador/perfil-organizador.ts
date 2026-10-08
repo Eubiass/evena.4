@@ -75,6 +75,28 @@ export class PerfilOrganizador implements OnInit {
       );
   }
 
+  get localizacao(): string {
+    const endereco = this.empresa?.endereco;  
+
+    if (!endereco) {
+      return '';
+    } 
+
+    const partes = endereco
+      .split(',')
+      .map(parte => parte.trim())
+      .filter(Boolean); 
+
+    if (partes.length >= 3) {
+      const cidade = partes[partes.length - 3];
+      const estado = partes[partes.length - 2]; 
+
+      return `${cidade}, ${estado}`;
+    } 
+
+    return endereco;
+  }
+
   abrirEvento(
     evento: Evento
   ): void {
