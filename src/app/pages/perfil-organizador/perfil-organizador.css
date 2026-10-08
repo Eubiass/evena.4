@@ -1,13 +1,13 @@
 .perfil-organizador {
   min-height: 100vh;
-  padding-top: 62px;
+  padding-top: 58px;
   background: var(--cor-fundo);
   color: var(--cor-principal);
 }
 
 .capa {
   position: relative;
-  height: 155px;
+  height: 160px;
   background: linear-gradient(
     180deg,
     var(--cor-principal) 0%,
