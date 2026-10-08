@@ -1,35 +1,19 @@
 .perfil-organizador {
   min-height: 100vh;
-  padding-top: 58px;
+  padding-top: 0;
   background: var(--cor-fundo);
   color: var(--cor-principal);
 }
 
 .capa {
   position: relative;
-  height: 160px;
+  height: 250px;
   background: linear-gradient(
     180deg,
-    var(--cor-principal) 0%,
+    var(--cor-principal) 25%,
     #3d4b60 62%,
     #54715f 100%
   );
-}
-
-.editar-banner {
-  position: absolute;
-  right: max(40px, calc((100% - 1240px) / 2));
-  bottom: 15px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 7px 20px;
-  border: 1px solid var(--cor-secundaria);
-  border-radius: 20px;
-  background: transparent;
-  color: var(--cor-secundaria);
-  font: 500 13px var(--fonte-principal);
-  cursor: pointer;
 }
 
 .conteudo-perfil {
@@ -144,17 +128,19 @@
 
 .contato i {
   color: var(--cor-principal);
-  font-size: 15px
+  font-size: 15px;
 }
+
+/* AÇÕES DO PERFIL */
 
 .acoes {
   display: flex;
   flex-direction: column;
+  align-items: stretch;
   gap: 10px;
 }
 
-.editar-perfil,
-.gerenciar-eventos {
+.editar-perfil {
   min-height: 40px;
   display: flex;
   align-items: center;
@@ -162,40 +148,41 @@
   gap: 8px;
   padding: 0 16px;
   border-radius: 22px;
+  background: var(--cor-secundaria);
+  color: var(--cor-principal);
   font: 600 12px var(--fonte-principal);
   text-align: center;
   text-decoration: none;
 }
 
-.editar-perfil {
-  background: var(--cor-secundaria);
-  color: var(--cor-principal);
-}
-
-.gerenciar-eventos {
-  background: var(--cor-principal);
-  color: var(--cor-secundaria);
-}
-
-.redes {
+.botao-sair {
+  min-height: 32px;
   display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 9px;
-  margin-top: 3px;
+  align-self: flex-end;
+  gap: 6px;
+  padding: 0 10px;
+  border: 1px solid #d8d4df;
+  border-radius: 18px;
+  background: transparent;
+  color: #888;
+  font: 500 10px var(--fonte-principal);
+  cursor: pointer;
+  transition:
+    color .2s ease,
+    border-color .2s ease,
+    background .2s ease;
 }
 
-.redes button {
-  width: 32px;
-  height: 32px;
-  display: grid;
-  place-items: center;
-  padding: 0;
-  border: 1px solid #8c82a9;
-  border-radius: 50%;
-  background: transparent;
-  color: var(--cor-principal);
-  font-size: 16px;
-  cursor: pointer;
+.botao-sair i {
+  font-size: 12px;
+}
+
+.botao-sair:hover {
+  color: #c84d5c;
+  border-color: #d9aeb5;
+  background: rgba(200, 77, 92, 0.04);
 }
 
 .secao {
@@ -463,6 +450,7 @@
 }
 
 @media (max-width: 950px) {
+
   .perfil {
     grid-template-columns: 160px 1fr;
   }
@@ -470,19 +458,20 @@
   .acoes {
     grid-column: 1 / -1;
     flex-direction: row;
+    align-items: center;
   }
 
-  .editar-perfil,
-  .gerenciar-eventos {
+  .editar-perfil {
     flex: 1;
   }
 
-  .redes {
-    align-items: center;
+  .botao-sair {
+    align-self: center;
   }
 }
 
 @media (max-width: 650px) {
+
   .perfil-organizador {
     padding-top: 55px;
   }
@@ -534,10 +523,11 @@
   .acoes {
     grid-column: auto;
     flex-direction: column;
+    align-items: stretch;
   }
 
-  .redes {
-    justify-content: flex-start;
+  .botao-sair {
+    align-self: flex-end;
   }
 
   .titulo-secao {
