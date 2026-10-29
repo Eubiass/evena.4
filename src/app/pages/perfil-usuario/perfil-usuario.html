@@ -1,0 +1,269 @@
+<app-header />
+
+<main class="pagina-perfil-usuario">
+  <section
+    class="capa-perfil"
+    [style.background-image]="bannerUsuario ? 'url(' + bannerUsuario + ')' : null">
+
+    <button class="editar-capa" type="button" disabled>
+      <i class="bi bi-camera"></i>
+      Editar banner
+    </button>
+  </section>
+
+  <div class="layout-perfil">
+    <aside class="barra-perfil">
+      <div class="avatar-area">
+        <img
+          class="avatar-usuario"
+          [src]="fotoUsuario"
+          [alt]="'Foto de ' + nomeUsuario">
+
+        <button class="editar-avatar" type="button" disabled>
+          <i class="bi bi-camera"></i>
+        </button>
+      </div>
+
+      <div class="identificacao">
+        <h1>{{ nomeUsuario }}</h1>
+        <p class="arroba">&#64;{{ arrobaUsuario }}</p>
+      </div>
+
+      <p class="descricao-usuario">{{ descricaoUsuario }}</p>
+
+      <div class="membro-desde">
+        <strong>Membro desde</strong>
+        <span>{{ membroDesde }}</span>
+      </div>
+
+      <button class="botao-editar-perfil" type="button" disabled>
+        <i class="bi bi-pencil"></i>
+        Editar perfil
+      </button>
+
+      <nav class="menu-perfil">
+        <button
+          type="button"
+          title="Visão geral"
+          [class.ativo]="abaAtiva === 'visao-geral'"
+          (click)="selecionarAba('visao-geral')">
+
+          <i class="bi bi-house"></i>
+          <span>Visão geral</span>
+        </button>
+
+        <button
+          type="button"
+          title="Favoritos"
+          [class.ativo]="abaAtiva === 'favoritos'"
+          (click)="selecionarAba('favoritos')">
+
+          <i class="bi bi-heart"></i>
+          <span>Favoritos</span>
+        </button>
+
+        <button
+          type="button"
+          title="Histórico"
+          [class.ativo]="abaAtiva === 'historico'"
+          (click)="selecionarAba('historico')">
+
+          <i class="bi bi-clock-history"></i>
+          <span>Histórico</span>
+        </button>
+
+        <button
+          type="button"
+          title="Configurações"
+          [class.ativo]="abaAtiva === 'configuracoes'"
+          (click)="selecionarAba('configuracoes')">
+
+          <i class="bi bi-gear"></i>
+          <span>Configurações</span>
+        </button>
+      </nav>
+
+      <a class="sair-perfil" href="/login" (click)="sair($event)">
+        <i class="bi bi-box-arrow-right"></i>
+        <span>Sair</span>
+      </a>
+    </aside>
+
+    <section class="conteudo-perfil-usuario">
+
+      @if (carregandoPerfil) {
+        <p class="aviso-carregamento" aria-live="polite">
+          Carregando informações do perfil...
+        </p>
+      } @else if (erroPerfil) {
+        <p class="aviso-erro" role="alert">
+          {{ erroPerfil }}
+        </p>
+      }
+
+      @if (abaAtiva === 'visao-geral') {
+        <section class="secao-eventos">
+          <div class="cabecalho-secao">
+            <h2>Eventos favoritados</h2>
+
+            <button
+              class="ver-todos"
+              type="button"
+              (click)="selecionarAba('favoritos')">
+              Ver todos <span>&gt;</span>
+            </button>
+          </div>
+
+          @if (carregandoFavoritos) {
+            <p>Carregando favoritos...</p>
+          } @else if (erroFavoritos) {
+            <p role="alert">{{ erroFavoritos }}</p>
+          } @else if (favoritos.length === 0) {
+            <p>Você ainda não favoritou nenhum evento.</p>
+          } @else {
+            <div class="grade-eventos favoritos-grade">
+              @for (evento of favoritos.slice(0, 3); track evento.id) {
+                <article
+                  class="card-evento"
+                  (click)="abrirEvento(evento)">
+
+                  <div class="imagem-card">
+                    <img [src]="evento.imagem" [alt]="evento.titulo">
+                  </div>
+
+                  <div class="detalhes-card">
+                    <span class="categoria-evento">
+                      {{ evento.categoria }}
+                    </span>
+
+                    <div class="titulo-com-favorito">
+                      <h3>{{ evento.titulo }}</h3>
+                      <i class="bi bi-heart-fill"></i>
+                    </div>
+
+                    <p>
+                      {{ evento.local }}
+                      @if (evento.horario) {
+                        · {{ evento.horario }}
+                      }
+                    </p>
+
+                    <span class="organizador-evento">
+                      {{ evento.organizador }}
+                    </span>
+                  </div>
+                </article>
+              }
+            </div>
+          }
+        </section>
+
+        <section class="secao-eventos secao-historico">
+          <div class="cabecalho-secao">
+            <h2>Histórico de eventos</h2>
+
+            <button
+              class="ver-todos"
+              type="button"
+              (click)="selecionarAba('historico')">
+              Ver todos <span>&gt;</span>
+            </button>
+          </div>
+
+          <p>
+            O histórico será exibido aqui quando o registro de participação
+            estiver disponível.
+          </p>
+        </section>
+
+      } @else if (abaAtiva === 'favoritos') {
+        <section class="secao-eventos secao-lista-completa">
+          <div class="cabecalho-secao">
+            <h2>Meus favoritos</h2>
+            <span class="contador">{{ favoritos.length }} eventos</span>
+          </div>
+
+          @if (carregandoFavoritos) {
+            <p>Carregando favoritos...</p>
+          } @else if (erroFavoritos) {
+            <p role="alert">{{ erroFavoritos }}</p>
+          } @else if (favoritos.length === 0) {
+            <p>Você ainda não favoritou nenhum evento.</p>
+          } @else {
+            <div class="grade-eventos grade-completa">
+              @for (evento of favoritos; track evento.id) {
+                <article
+                  class="card-evento"
+                  (click)="abrirEvento(evento)">
+
+                  <div class="imagem-card">
+                    <img [src]="evento.imagem" [alt]="evento.titulo">
+                  </div>
+
+                  <div class="detalhes-card">
+                    <span class="categoria-evento">
+                      {{ evento.categoria }}
+                    </span>
+
+                    <div class="titulo-com-favorito">
+                      <h3>{{ evento.titulo }}</h3>
+                      <i class="bi bi-heart-fill"></i>
+                    </div>
+
+                    <p>
+                      {{ evento.local }}
+                      @if (evento.horario) {
+                        · {{ evento.horario }}
+                      }
+                    </p>
+
+                    <span class="organizador-evento">
+                      {{ evento.organizador }}
+                    </span>
+                  </div>
+                </article>
+              }
+            </div>
+          }
+        </section>
+
+      } @else if (abaAtiva === 'historico') {
+        <section class="secao-eventos secao-lista-completa">
+          <div class="cabecalho-secao">
+            <h2>Histórico de eventos</h2>
+            <span class="contador">{{ historico.length }} eventos</span>
+          </div>
+
+          <p>
+            O histórico será exibido aqui quando o registro de participação
+            estiver disponível na API.
+          </p>
+        </section>
+
+      } @else {
+        <section class="secao-eventos estado-configuracoes">
+          <div class="icone-configuracoes">
+            <i class="bi bi-gear"></i>
+          </div>
+
+          <h2>Configurações da conta</h2>
+
+          <p>
+            As opções de configuração serão conectadas quando os recursos
+            de edição de perfil estiverem disponíveis.
+          </p>
+
+          <button
+            class="botao-editar-configuracoes"
+            type="button"
+            disabled>
+            Edição de perfil indisponível nesta etapa
+          </button>
+        </section>
+      }
+
+    </section>
+  </div>
+</main>
+
+<app-footer />

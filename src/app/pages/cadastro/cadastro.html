@@ -1,71 +1,51 @@
+
 <app-header></app-header>
 
 <div class="tela-cadastro-background">
-
   <div class="wrapper-cadastro">
-
-    <app-brand-side-auth>
-    </app-brand-side-auth>
+    <app-brand-side-auth></app-brand-side-auth>
 
     <section id="container-principal">
-
       <div id="form-cadastro">
-
         <header class="header-form">
-
           <h1 class="titulo-cadastro">
-
             @if (tipoPerfil === 'usuario') {
               Criar nova conta
             } @else {
               Cadastro Corporativo
             }
-
           </h1>
 
           <p class="subtitulo-cadastro">
-
             @if (tipoPerfil === 'usuario') {
               Preencha os dados essenciais de acesso
             } @else {
               Preencha os dados para validação da empresa
             }
-
           </p>
-
         </header>
-
 
         <app-profile-toggle
           [perfilSelecionado]="tipoPerfil"
           (perfilChange)="mudarPerfil($event)">
         </app-profile-toggle>
 
-
         @if (mensagemErro) {
-          <div
-            class="mensagem-erro"
-            role="alert">
-
+          <div class="mensagem-erro" role="alert">
             {{ mensagemErro }}
-
           </div>
         }
 
-
         @if (tipoPerfil === 'usuario') {
-
-          <form
-            (submit)="executarCadastroUsuario($event)">
-
+          <form (submit)="executarCadastroUsuario($event)">
             <div class="area-inputs">
-
               <div class="grupo-input">
                 <input
                   type="text"
                   name="nome"
                   [(ngModel)]="nome"
-                  placeholder="Nome Completo"
+                  placeholder="Nome completo"
+                  autocomplete="name"
                   required>
               </div>
 
@@ -75,26 +55,19 @@
                   name="emailUsuario"
                   [(ngModel)]="emailUsuario"
                   placeholder="E-mail"
-                  required>
-              </div>
-
-              <div class="grupo-input">
-                <input
-                  type="text"
-                  name="nomeUsuario"
-                  [(ngModel)]="nomeUsuario"
-                  placeholder="Nome de Usuário"
+                  autocomplete="email"
                   required>
               </div>
 
               <div class="linha-dupla-inputs">
-
                 <div class="grupo-input">
                   <input
                     type="password"
                     name="senhaUsuario"
                     [(ngModel)]="senhaUsuario"
-                    placeholder="Senha *"
+                    placeholder="Senha (mínimo de 8 caracteres)"
+                    autocomplete="new-password"
+                    minlength="8"
                     required>
                 </div>
 
@@ -103,63 +76,45 @@
                     type="password"
                     name="confirmarSenhaUsuario"
                     [(ngModel)]="confirmarSenhaUsuario"
-                    placeholder="Confirmar Senha *"
+                    placeholder="Confirmar senha"
+                    autocomplete="new-password"
                     required>
                 </div>
-
               </div>
 
               <button
                 type="submit"
-                class="btn-entrar1">
-
-                Finalizar Cadastro
-
+                class="btn-entrar1"
+                [disabled]="cadastrandoUsuario">
+                {{
+                  cadastrandoUsuario
+                    ? 'Criando conta...'
+                    : 'Finalizar Cadastro'
+                }}
               </button>
-
 
               <app-social-login
                 (googleClick)="cadastroComGoogle()"
                 (appleClick)="cadastroComApple()">
               </app-social-login>
-
             </div>
-
           </form>
-
         }
 
-
         @if (tipoPerfil === 'organizador') {
-
           <app-organizer-form
             [carregando]="cadastrandoOrganizador"
             (formSubmit)="executarCadastroOrganizador($event)">
           </app-organizer-form>
-
         }
 
-
         <div class="container-login-link">
-
-          <span class="texto-chamada">
-            Já possui uma conta?
-          </span>
-
-          <a
-            class="link-login"
-            routerLink="/login">
-            Entrar
-          </a>
-
+          <span class="texto-chamada">Já possui uma conta?</span>
+          <a class="link-login" routerLink="/login">Entrar</a>
         </div>
-
       </div>
-
     </section>
-
   </div>
-
 </div>
 
 <app-footer></app-footer>

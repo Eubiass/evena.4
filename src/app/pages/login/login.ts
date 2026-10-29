@@ -1,3 +1,4 @@
+
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -12,11 +13,26 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterLink, BrandSideAuth, ProfileToggle, SocialLogin, Header, Footer],
+  imports: [
+    FormsModule,
+    CommonModule,
+    RouterLink,
+    BrandSideAuth,
+    ProfileToggle,
+    SocialLogin,
+    Header,
+    Footer
+  ],
   templateUrl: './login.html',
   styleUrl: './login.css'
 })
 export class Login {
+  tipoPerfil: 'usuario' | 'organizador' = 'usuario';
+  usuario = '';
+  senha = '';
+  mostrarSenha = false;
+  carregando = false;
+  mensagemErro = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -24,32 +40,55 @@ export class Login {
     private authService: AuthService
   ) {}
 
-  tipoPerfil: 'usuario' | 'organizador' = 'usuario';
-
-  usuario = '';
-  senha = '';
-  mostrarSenha = false;
-
-  mudarPerfil(perfil: string) {
+  mudarPerfil(perfil: string): void {
     this.tipoPerfil = perfil as 'usuario' | 'organizador';
+    this.mensagemErro = '';
   }
 
-  executarLogin(event: Event) {
+  executarLogin(event: Event): void {
     event.preventDefault();
-    if (this.tipoPerfil === 'usuario') {
-      console.log('Login de usuário comum ainda não conectado à API.');
+
+    if (this.carregando) {
       return;
     }
+
+    this.mensagemErro = '';
+    this.carregando = true;
+
+    if (this.tipoPerfil === 'usuario') {
+      this.authService.loginUsuario(this.usuario, this.senha).subscribe({
+        next: () => {
+          this.carregando = false;
+          const destino =
+            this.route.snapshot.queryParamMap.get('returnUrl');
+
+          this.router.navigateByUrl(
+            destino?.startsWith('/') ? destino : '/perfil-usuario'
+          );
+        },
+        error: erro => {
+          this.carregando = false;
+          this.mensagemErro = this.obterMensagemErro(
+            erro,
+            'Não foi possível entrar. Confira seu e-mail e sua senha.'
+          );
+        }
+      });
+
+      return;
+    }
+
     this.authService.login(this.usuario, this.senha).subscribe({
-      next: (sessao) => {
-        console.log('Organizador autenticado com sucesso:', sessao);
-        this.router.navigate(['/perfil-organizador']); },
-      error: (erro) => {
-        console.error('Erro ao realizar login:', erro);
-        const mensagem =
-          erro?.error?.message ||
-          'E-mail ou senha inválidos.';
-        alert(mensagem);
+      next: () => {
+        this.carregando = false;
+        this.router.navigate(['/perfil-organizador']);
+      },
+      error: erro => {
+        this.carregando = false;
+        this.mensagemErro = this.obterMensagemErro(
+          erro,
+          'Não foi possível entrar. Confira o e-mail e a senha do organizador.'
+        );
       }
     });
   }
@@ -58,14 +97,21 @@ export class Login {
     this.mostrarSenha = !this.mostrarSenha;
   }
 
-  // Métodos prontos para acoplamento das bibliotecas de Autenticação Social
-  loginComGoogle() {
-    console.log(`Iniciando fluxo de login via GOOGLE para o perfil: ${this.tipoPerfil.toUpperCase()}`);
-    // Futuramente adicione a chamada do SDK do Google Auth aqui
+  loginComGoogle(): void {
+    this.mensagemErro =
+      'O login com Google ainda não está integrado.';
   }
 
-  loginComApple() {
-    console.log(`Iniciando fluxo de login via APPLE para o perfil: ${this.tipoPerfil.toUpperCase()}`);
-    // Futuramente adicione a chamada do SDK do Apple SignIn aqui
+  loginComApple(): void {
+    this.mensagemErro =
+      'O login com Apple ainda não está integrado.';
+  }
+
+  private obterMensagemErro(erro: any, padrao: string): string {
+    return erro?.error?.mensagem
+      || erro?.error?.message
+      || erro?.error?.erro
+      || erro?.message
+      || padrao;
   }
 }

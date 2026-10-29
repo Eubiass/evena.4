@@ -1,56 +1,62 @@
+
 <app-header></app-header>
+
 <div class="tela-login-background">
   <div class="wrapper-login">
-    
     <app-brand-side-auth></app-brand-side-auth>
 
     <section id="container-principal">
       <form id="form-login" (submit)="executarLogin($event)">
-        
         <header class="header-form">
           <h1 class="titulo-login">Seja bem-vindo</h1>
-          <p class="subtitulo-login">Escolha como deseja acessar a plataforma</p>
+          <p class="subtitulo-login">
+            Escolha como deseja acessar a plataforma
+          </p>
         </header>
 
-        <app-profile-toggle 
-          [perfilSelecionado]="tipoPerfil" 
+        <app-profile-toggle
+          [perfilSelecionado]="tipoPerfil"
           (perfilChange)="mudarPerfil($event)">
         </app-profile-toggle>
 
+        @if (mensagemErro) {
+          <div class="mensagem-erro" role="alert">
+            {{ mensagemErro }}
+          </div>
+        }
+
         <div class="area-inputs">
           <div class="grupo-input">
-            <input type="text" 
-                   name="username"
-                   [(ngModel)]="usuario"
-                   [placeholder]="tipoPerfil === 'usuario' ? 'Nome do Usuário' : 'Nome do Organizador'"
-                   autocomplete="off" 
-                   required>
+            <input
+              [type]="tipoPerfil === 'usuario' ? 'email' : 'text'"
+              name="username"
+              [(ngModel)]="usuario"
+              [placeholder]="tipoPerfil === 'usuario' ? 'E-mail' : 'E-mail do Organizador'"
+              [attr.autocomplete]="tipoPerfil === 'usuario' ? 'email' : 'username'"
+              required>
           </div>
 
-          <div class="grupo-input campo-senha">          
+          <div class="grupo-input campo-senha">
             <input
               [type]="mostrarSenha ? 'text' : 'password'"
               name="password"
               [(ngModel)]="senha"
               placeholder="Senha"
               autocomplete="current-password"
-              required
-            >          
+              required>
 
             <button
               type="button"
               class="botao-visualizar-senha"
               (click)="alternarSenha()"
-              [attr.aria-label]="mostrarSenha ? 'Ocultar senha' : 'Mostrar senha'"
-            >
+              [attr.aria-label]="mostrarSenha ? 'Ocultar senha' : 'Mostrar senha'">
               <i
                 class="fa-regular"
                 [class.fa-eye]="!mostrarSenha"
                 [class.fa-eye-slash]="mostrarSenha"
-                aria-hidden="true"
-              ></i>
-            </button>          
-
+                aria-hidden="true">
+              </i>
+            </button>
           </div>
         </div>
 
@@ -63,23 +69,28 @@
           <a class="link-esqueceu-senha">Esqueceu a senha?</a>
         </div>
 
-        <button type="submit" class="btn-entrar">
-          Acessar como {{ tipoPerfil === 'usuario' ? 'Usuário' : 'Organizador' }}
+        <button type="submit" class="btn-entrar" [disabled]="carregando">
+          {{
+            carregando
+              ? 'Entrando...'
+              : 'Acessar como ' + (tipoPerfil === 'usuario' ? 'Usuário' : 'Organizador')
+          }}
         </button>
 
         <div class="container-cadastro-link">
           <span class="texto-chamada">Não tem uma conta?</span>
-            <a class="link-cadastre-se" routerLink="/cadastro">Cadastre-se</a>
+          <a class="link-cadastre-se" routerLink="/cadastro">
+            Cadastre-se
+          </a>
         </div>
-        
-        <app-social-login 
-          (googleClick)="loginComGoogle()" 
+
+        <app-social-login
+          (googleClick)="loginComGoogle()"
           (appleClick)="loginComApple()">
         </app-social-login>
-
       </form>
     </section>
-
   </div>
 </div>
+
 <app-footer></app-footer>

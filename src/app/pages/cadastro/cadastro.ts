@@ -1,3 +1,4 @@
+
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -13,12 +14,19 @@ import { AuthService } from '../../services/auth.service';
   selector: 'app-cadastro',
   standalone: true,
   imports: [
-    FormsModule, RouterLink, BrandSideAuth, ProfileToggle, SocialLogin, OrganizerForm, Header, Footer ],
+    FormsModule,
+    RouterLink,
+    BrandSideAuth,
+    ProfileToggle,
+    SocialLogin,
+    OrganizerForm,
+    Header,
+    Footer
+  ],
   templateUrl: './cadastro.html',
   styleUrl: './cadastro.css'
 })
 export class Cadastro {
-
   tipoPerfil: 'usuario' | 'organizador' = 'usuario';
 
   nome = '';
@@ -27,6 +35,7 @@ export class Cadastro {
   senhaUsuario = '';
   confirmarSenhaUsuario = '';
 
+  cadastrandoUsuario = false;
   cadastrandoOrganizador = false;
   mensagemErro = '';
 
@@ -35,43 +44,52 @@ export class Cadastro {
     private router: Router,
     private authService: AuthService
   ) {
-    if (
-      this.route.snapshot.queryParamMap.get('perfil') === 'organizador'
-    ) {
+    if (this.route.snapshot.queryParamMap.get('perfil') === 'organizador') {
       this.tipoPerfil = 'organizador';
     }
   }
 
   mudarPerfil(perfil: string): void {
-    this.tipoPerfil =
-      perfil as 'usuario' | 'organizador';
-
+    this.tipoPerfil = perfil as 'usuario' | 'organizador';
     this.mensagemErro = '';
   }
 
   executarCadastroUsuario(event: Event): void {
     event.preventDefault();
 
-    if (
-      this.senhaUsuario !==
-      this.confirmarSenhaUsuario
-    ) {
-      this.mensagemErro =
-        'As senhas não coincidem.';
+    if (this.cadastrandoUsuario) {
+      return;
+    }
+
+    if (this.senhaUsuario !== this.confirmarSenhaUsuario) {
+      this.mensagemErro = 'As senhas não coincidem.';
       return;
     }
 
     this.mensagemErro = '';
+    this.cadastrandoUsuario = true;
 
-    console.log(
-      'Cadastro de usuário comum ainda não integrado.'
-    );
+    this.authService.cadastrarUsuario({
+      nome: this.nome,
+      email: this.emailUsuario,
+      senha: this.senhaUsuario
+    }).subscribe({
+      next: () => {
+        this.cadastrandoUsuario = false;
+        this.router.navigate(['/perfil-usuario']);
+      },
+      error: erro => {
+        this.cadastrandoUsuario = false;
+        this.mensagemErro =
+          erro?.error?.mensagem
+          || erro?.error?.message
+          || erro?.error?.erro
+          || 'Não foi possível concluir o cadastro. Confira os dados e tente novamente.';
+      }
+    });
   }
 
-  executarCadastroOrganizador(
-    dadosOrganizador: any
-  ): void {
-
+  executarCadastroOrganizador(dadosOrganizador: any): void {
     if (this.cadastrandoOrganizador) {
       return;
     }
@@ -79,42 +97,29 @@ export class Cadastro {
     this.mensagemErro = '';
     this.cadastrandoOrganizador = true;
 
-    this.authService
-      .cadastrarOrganizador(dadosOrganizador)
-      .subscribe({
-
-        next: () => {
-          this.router.navigate([
-            '/perfil-organizador'
-          ]);
-        },
-
-        error: (erro) => {
-          this.cadastrandoOrganizador = false;
-
-          this.mensagemErro =
-            erro.error?.erro ||
-            erro.error?.mensagem ||
-            'Não foi possível concluir o cadastro. Tente novamente.';
-
-          console.error(
-            'Erro ao cadastrar organizador:',
-            erro
-          );
-        }
-
-      });
+    this.authService.cadastrarOrganizador(dadosOrganizador).subscribe({
+      next: () => {
+        this.cadastrandoOrganizador = false;
+        this.router.navigate(['/perfil-organizador']);
+      },
+      error: erro => {
+        this.cadastrandoOrganizador = false;
+        this.mensagemErro =
+          erro?.error?.mensagem
+          || erro?.error?.message
+          || erro?.error?.erro
+          || 'Não foi possível concluir o cadastro. Tente novamente.';
+      }
+    });
   }
 
   cadastroComGoogle(): void {
-    console.log(
-      `Cadastro Google: ${this.tipoPerfil}`
-    );
+    this.mensagemErro =
+      'O cadastro com Google ainda não está integrado.';
   }
 
   cadastroComApple(): void {
-    console.log(
-      `Cadastro Apple: ${this.tipoPerfil}`
-    );
+    this.mensagemErro =
+      'O cadastro com Apple ainda não está integrado.';
   }
 }

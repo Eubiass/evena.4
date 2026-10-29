@@ -1,10 +1,12 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: "app-event-actions",
-  imports: [],
-  templateUrl: "./event-actions.html",
-  styleUrl: "./event-actions.css",
+  selector: 'app-event-actions',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './event-actions.html',
+  styleUrl: './event-actions.css',
 })
 export class EventActions {
   @Input() isSalvo: boolean = false;

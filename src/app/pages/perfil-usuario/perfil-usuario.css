@@ -1,0 +1,635 @@
+
+:host {
+  display: block;
+  color: #302747;
+  font-family: Arial, sans-serif;
+}
+
+.pagina-perfil-usuario {
+  min-height: 100vh;
+  background: #f8f7fb;
+  color: #302747;
+}
+
+.capa-perfil {
+  position: relative;
+  height: 250px;
+  background: linear-gradient(120deg, #d9d0f5, #b8e5d4);
+  background-position: center;
+  background-size: cover;
+}
+
+.editar-capa {
+  position: absolute;
+  right: 5%;
+  bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border: 0;
+  border-radius: 9px;
+  background: #fff;
+  color: #563b8b;
+}
+
+.layout-perfil {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 24px;
+  max-width: 1440px;
+  margin: auto;
+  padding: 0 32px 36px;
+}
+
+.barra-perfil {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: start;
+  min-width: 0;
+  margin-top: -70px;
+  padding: 0 20px 22px;
+  border-radius: 16px;
+  background: #fff;
+}
+
+.avatar-area {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  margin: 16px;
+}
+
+.avatar-usuario {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 5px solid #fff;
+  border-radius: 50%;
+  background: #eee8fa;
+  object-fit: cover;
+}
+
+.editar-avatar {
+  position: absolute;
+  right: 2px;
+  bottom: 6px;
+  width: 34px;
+  height: 34px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: #6746a5;
+  color: #fff;
+}
+
+.identificacao {
+  width: 100%;
+  color: #302747;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.identificacao h1 {
+  margin: 0;
+  color: #45366e;
+  font-size: 21px;
+  line-height: 1.4;
+}
+
+.arroba {
+  margin: 6px 0 0;
+  color: #81758f;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.descricao-usuario {
+  width: 100%;
+  margin: 16px 0 12px;
+  color: #62576f;
+  font-size: 13px;
+  line-height: 1.6;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.informacao-perfil {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  width: 100%;
+  margin: 0;
+  color: #716580;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.informacao-perfil i {
+  flex-shrink: 0;
+  color: #6746a5;
+}
+
+.membro-desde {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+  margin-top: 16px;
+  padding: 13px 0;
+  border-top: 1px solid #eeeaf4;
+  border-bottom: 1px solid #eeeaf4;
+  font-size: 13px;
+}
+
+.membro-desde strong {
+  color: #563b8b;
+}
+
+.membro-desde span {
+  color: #81758f;
+}
+
+.botao-editar-perfil {
+  width: 100%;
+  margin-top: 14px;
+  padding: 11px;
+  border: 0;
+  border-radius: 9px;
+  background: #6746a5;
+  color: #fff;
+  font-weight: 600;
+}
+
+.menu-perfil {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.menu-perfil button,
+.sair-perfil {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: #62576f;
+  font-size: 14px;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.menu-perfil button i,
+.sair-perfil i {
+  flex-shrink: 0;
+  width: 20px;
+  color: #76619c;
+  font-size: 17px;
+  text-align: center;
+}
+
+.menu-perfil button:hover,
+.menu-perfil button.ativo {
+  background: #f0ebfa;
+  color: #563b8b;
+}
+
+.menu-perfil button.ativo {
+  font-weight: 600;
+}
+
+.menu-perfil button.ativo i {
+  color: #6746a5;
+}
+
+.sair-perfil {
+  margin-top: 8px;
+  color: #a94760;
+}
+
+.sair-perfil i {
+  color: #a94760;
+}
+
+.conteudo-perfil-usuario {
+  min-width: 0;
+  padding-top: 26px;
+  color: #302747;
+}
+
+.secao-eventos {
+  min-width: 0;
+  margin-bottom: 24px;
+  padding: 22px;
+  border-radius: 16px;
+  background: #fff;
+}
+
+.cabecalho-secao {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.cabecalho-secao h2 {
+  margin: 0;
+  color: #45366e;
+  font-size: 19px;
+}
+
+.ver-todos {
+  flex-shrink: 0;
+  padding: 6px 0;
+  border: 0;
+  background: transparent;
+  color: #6746a5;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ver-todos:hover {
+  color: #493079;
+}
+
+.contador {
+  color: #81758f;
+  font-size: 13px;
+}
+
+.grade-eventos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.historico-grade {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.grade-completa {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.card-evento {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #eeeaf4;
+  border-radius: 12px;
+  background: #fff;
+  color: #302747;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card-evento:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgb(49 34 77 / 9%);
+}
+
+.imagem-card {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: #eee8fa;
+}
+
+.imagem-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.detalhes-card {
+  min-width: 0;
+  padding: 12px;
+  color: #302747;
+}
+
+.categoria-evento {
+  display: inline-block;
+  margin-bottom: 7px;
+  color: #6746a5;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.titulo-com-favorito {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 7px;
+}
+
+.detalhes-card h3 {
+  min-width: 0;
+  margin: 0;
+  color: #45366e;
+  font-size: 14px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.titulo-com-favorito i {
+  flex-shrink: 0;
+  color: #b45a8c;
+}
+
+.detalhes-card p {
+  margin: 9px 0 0;
+  color: #716580;
+  font-size: 12px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.organizador-evento {
+  display: block;
+  margin-top: 9px;
+  color: #81758f;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.estado-configuracoes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 24px;
+  text-align: center;
+}
+
+.icone-configuracoes {
+  display: grid;
+  width: 58px;
+  height: 58px;
+  margin-bottom: 16px;
+  place-items: center;
+  border-radius: 50%;
+  background: #f0ebfa;
+  color: #6746a5;
+  font-size: 24px;
+}
+
+.estado-configuracoes h2 {
+  margin: 0;
+  color: #45366e;
+  font-size: 20px;
+}
+
+.estado-configuracoes p {
+  max-width: 460px;
+  margin: 12px 0 20px;
+  color: #716580;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.botao-editar-configuracoes {
+  padding: 10px 14px;
+  border: 0;
+  border-radius: 9px;
+  background: #eeeaf4;
+  color: #62576f;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
+@media (max-width: 1050px) {
+  .layout-perfil {
+    grid-template-columns: 225px minmax(0, 1fr);
+    gap: 18px;
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+
+  .barra-perfil {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+
+  .avatar-area {
+    width: 120px;
+    height: 120px;
+  }
+
+  .secao-eventos {
+    padding: 18px;
+  }
+
+  .grade-eventos,
+  .historico-grade,
+  .grade-completa {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .capa-perfil {
+    height: 165px;
+  }
+
+  .editar-capa {
+    right: 14px;
+    bottom: 12px;
+    padding: 9px 11px;
+    font-size: 12px;
+  }
+
+  .layout-perfil {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 0 12px 24px;
+  }
+
+  .barra-perfil {
+    display: grid;
+    grid-template-columns: 96px minmax(0, 1fr);
+    align-items: center;
+    column-gap: 15px;
+    width: 100%;
+    margin-top: 0;
+    padding: 0 14px 14px;
+    border-radius: 0 0 14px 14px;
+  }
+
+  .avatar-area {
+    grid-column: 1;
+    grid-row: 1;
+    width: 94px;
+    height: 94px;
+    margin: -28px 0 0;
+  }
+
+  .avatar-usuario {
+    border-width: 4px;
+  }
+
+  .editar-avatar {
+    right: 0;
+    bottom: 4px;
+    width: 30px;
+    height: 30px;
+  }
+
+  .identificacao {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+    padding-top: 8px;
+    text-align: left;
+  }
+
+  .identificacao h1 {
+    font-size: 19px;
+  }
+
+  .arroba {
+    margin-top: 6px;
+  }
+
+  .descricao-usuario,
+  .informacao-perfil,
+  .membro-desde {
+    grid-column: 1 / -1;
+  }
+
+  .descricao-usuario {
+    margin: 14px 0 10px;
+    text-align: left;
+  }
+
+  .informacao-perfil {
+    justify-content: flex-start;
+  }
+
+  .membro-desde {
+    margin-top: 12px;
+  }
+
+  .botao-editar-perfil,
+  .sair-perfil {
+    display: none;
+  }
+
+  .menu-perfil {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 8px;
+    width: 100%;
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid #eeeaf4;
+  }
+
+  .menu-perfil button {
+    justify-content: center;
+    width: 48px;
+    min-width: 0;
+    min-height: 44px;
+    padding: 10px;
+  }
+
+  .menu-perfil button i {
+    width: auto;
+    font-size: 20px;
+  }
+
+  .menu-perfil button span {
+    display: none;
+  }
+
+  .conteudo-perfil-usuario {
+    width: 100%;
+    padding: 0 4px 20px;
+  }
+
+  .secao-eventos {
+    margin-bottom: 16px;
+    padding: 16px 12px;
+    border-radius: 14px;
+  }
+
+  .cabecalho-secao {
+    margin-bottom: 14px;
+  }
+
+  .cabecalho-secao h2 {
+    font-size: 17px;
+  }
+
+  .grade-eventos,
+  .historico-grade,
+  .grade-completa {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 11px;
+  }
+
+  .detalhes-card {
+    padding: 9px;
+  }
+
+  .detalhes-card h3 {
+    font-size: 13px;
+  }
+
+  .detalhes-card p,
+  .organizador-evento {
+    font-size: 11px;
+  }
+
+  .estado-configuracoes {
+    padding: 30px 16px;
+  }
+}
+
+@media (max-width: 360px) {
+  .layout-perfil {
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+
+  .barra-perfil {
+    grid-template-columns: 82px minmax(0, 1fr);
+    column-gap: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  .avatar-area {
+    width: 80px;
+    height: 80px;
+  }
+
+  .identificacao h1 {
+    font-size: 17px;
+  }
+
+  .secao-eventos {
+    padding-right: 9px;
+    padding-left: 9px;
+  }
+
+  .grade-eventos,
+  .historico-grade,
+  .grade-completa {
+    gap: 8px;
+  }
+}

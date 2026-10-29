@@ -10,19 +10,31 @@
   </div>
 
   <!-- MENU DESKTOP -->
-  <nav class="header-section center desktop-only" aria-label="Navegação principal">
-    @if (!pesquisaAtiva) {
+  <nav
+    class="header-section center desktop-only"
+    aria-label="Navegação principal">
 
-      <a class="btn_nav_bar" routerLink="/" routerLinkActive="ativo" [routerLinkActiveOptions]="{ exact: true }">
+    @if (!pesquisaAtiva) {
+      <a
+        class="btn_nav_bar"
+        routerLink="/"
+        routerLinkActive="ativo"
+        [routerLinkActiveOptions]="{ exact: true }">
         Início
       </a>
 
-      <a class="btn_nav_bar" routerLink="/eventos" routerLinkActive="ativo">
+      <a
+        class="btn_nav_bar"
+        routerLink="/eventos"
+        routerLinkActive="ativo">
         Eventos
       </a>
 
-      @if (usuarioAutenticado) {
-        <a class="btn_nav_bar" routerLink="/criar-evento" routerLinkActive="ativo">
+      @if (usuarioAutenticado && tipoConta === 'organizador') {
+        <a
+          class="btn_nav_bar"
+          routerLink="/criar-evento"
+          routerLinkActive="ativo">
           Organize seu evento
         </a>
       }
@@ -30,104 +42,184 @@
   </nav>
 
   <!-- DIREITA -->
-  <section class="header-section right" [class.expandida]="pesquisaAtiva">
+  <section
+    class="header-section right"
+    [class.expandida]="pesquisaAtiva">
 
     <!-- PESQUISA -->
     <div class="btn-search" [class.active]="pesquisaAtiva">
 
-      <button type="button" class="search-trigger" (click)="togglePesquisa()" [attr.aria-expanded]="pesquisaAtiva ? 'true' : 'false'" aria-label="Abrir campo de pesquisa">
-        <img src="search.png" class="search" alt="" aria-hidden="true">
+      <button
+        type="button"
+        class="search-trigger"
+        (click)="togglePesquisa()"
+        [attr.aria-expanded]="pesquisaAtiva ? 'true' : 'false'"
+        aria-label="Abrir campo de pesquisa">
+
+        <img
+          src="search.png"
+          class="search"
+          alt=""
+          aria-hidden="true">
       </button>
-      <input type="text" placeholder="Pesquisar..." id="campo-busca" aria-label="Pesquisar eventos" [(ngModel)]="termoPesquisa" (keyup.enter)="fazerPesquisa()" autocomplete="off">
+
+      <input
+        type="text"
+        placeholder="Pesquisar..."
+        id="campo-busca"
+        aria-label="Pesquisar eventos"
+        [(ngModel)]="termoPesquisa"
+        (keyup.enter)="fazerPesquisa()"
+        autocomplete="off">
 
       @if (pesquisaAtiva && termoPesquisa.trim()) {
-        <button type="button" class="btn-limpar-pesquisa" (click)="limparPesquisa()" aria-label="Limpar pesquisa">
+        <button
+          type="button"
+          class="btn-limpar-pesquisa"
+          (click)="limparPesquisa()"
+          aria-label="Limpar pesquisa">
           ×
         </button>
       }
 
       @if (pesquisaAtiva && !termoPesquisa.trim()) {
-        <button type="button" class="btn-fechar" (click)="togglePesquisa()" aria-label="Fechar busca">
+        <button
+          type="button"
+          class="btn-fechar"
+          (click)="togglePesquisa()"
+          aria-label="Fechar busca">
           ×
         </button>
       }
 
       @if (!pesquisaAtiva && termoPesquisa.trim()) {
-        <button type="button" class="btn-limpar-pesquisa" (click)="limparPesquisa()" aria-label="Limpar pesquisa">
+        <button
+          type="button"
+          class="btn-limpar-pesquisa"
+          (click)="limparPesquisa()"
+          aria-label="Limpar pesquisa">
           ×
         </button>
       }
     </div>
 
     @if (!pesquisaAtiva) {
-      <!-- DESKTOP -->
+
+      <!-- BOTÃO DE LOGIN OU PERFIL -->
       @if (!usuarioAutenticado) {
         <a routerLink="/login" class="desktop-only login-link">
-          <button class="btn-login">
+          <button class="btn-login" type="button">
             Entrar
           </button>
         </a>
-
       } @else {
-        <a routerLink="/perfil-organizador" class="perfil desktop-only" aria-label="Meu Perfil" title="Meu Perfil">
-          {{ nomeUsuario.charAt(0).toUpperCase() }}
+        <a
+          [routerLink]="rotaPerfil"
+          class="perfil desktop-only"
+          aria-label="Meu perfil"
+          title="Meu perfil">
+
+          @if (fotoUsuario) {
+            <img
+              [src]="fotoUsuario"
+              [alt]="'Foto de ' + nomeUsuario">
+          } @else {
+            <span>{{ nomeUsuario.charAt(0).toUpperCase() }}</span>
+          }
         </a>
       }
 
-      <button class="menu-mobile-btn" type="button" (click)="toggleMenu()" [attr.aria-expanded]="menuAberto ? 'true' : 'false'" aria-label="Menu principal">
+      <!-- BOTÃO DO MENU MOBILE -->
+      <button
+        class="menu-mobile-btn"
+        type="button"
+        (click)="toggleMenu()"
+        [attr.aria-expanded]="menuAberto"
+        aria-label="Menu principal">
 
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
+        <span></span>
+        <span></span>
+        <span></span>
       </button>
     }
   </section>
 
-
   <!-- MENU MOBILE -->
-  <aside class="menu-overlay" [class.aberto]="menuAberto" [attr.aria-hidden]="!menuAberto ? 'true' : 'false'" role="dialog" aria-label="Menu móvel">  
+  <aside
+    class="menu-overlay"
+    [class.aberto]="menuAberto"
+    [attr.aria-hidden]="!menuAberto ? 'true' : 'false'"
+    role="dialog"
+    aria-label="Menu móvel">
 
     <div class="menu-header">
-      <button type="button" class="btn_fechar_menu" (click)="toggleMenu()" aria-label="Fechar menu principal">
+      <button
+        type="button"
+        class="btn_fechar_menu"
+        (click)="toggleMenu()"
+        aria-label="Fechar menu principal">
         ×
       </button>
-    </div>  
+    </div>
 
-    <nav class="mobile-nav" aria-label="Navegação móvel"> 
-      <div class="menu-navegacao">  
-        <a routerLink="/" routerLinkActive="ativo" [routerLinkActiveOptions]="{ exact: true }" (click)="fecharMenu()">
+    <nav class="mobile-nav" aria-label="Navegação móvel">
+
+      <div class="menu-navegacao">
+        <a
+          routerLink="/"
+          routerLinkActive="ativo"
+          [routerLinkActiveOptions]="{ exact: true }"
+          (click)="fecharMenu()">
           Início
-        </a>  
+        </a>
 
-        <a routerLink="/eventos" routerLinkActive="ativo" (click)="fecharMenu()">
+        <a
+          routerLink="/eventos"
+          routerLinkActive="ativo"
+          (click)="fecharMenu()">
           Eventos
-        </a>  
+        </a>
 
-        @if (usuarioAutenticado) {  
-          <a routerLink="/criar-evento" routerLinkActive="ativo" (click)="fecharMenu()">
-            Organize seu evento
-          </a>  
+        @if (usuarioAutenticado) {
 
-          <a routerLink="/perfil-organizador" routerLinkActive="ativo" (click)="fecharMenu()">
+          @if (tipoConta === 'organizador') {
+            <a
+              routerLink="/criar-evento"
+              (click)="fecharMenu()">
+              Organize seu evento
+            </a>
+          }
+
+          <a
+            [routerLink]="rotaPerfil"
+            (click)="fecharMenu()">
             Meu Perfil
-          </a>  
-        } 
-      </div>  
+          </a>
+        }
+      </div>
 
-      <div class="menu-conta">  
-        <div class="divisor-menu"></div>  
-        @if (!usuarioAutenticado) { 
-          <a routerLink="/login" routerLinkActive="ativo" (click)="fecharMenu()">
+      <div class="menu-conta">
+        <div class="divisor-menu"></div>
+
+        @if (!usuarioAutenticado) {
+          <a
+            routerLink="/login"
+            routerLinkActive="ativo"
+            (click)="fecharMenu()">
             Entrar / Cadastrar
-          </a>  
+          </a>
+        } @else {
+          <button
+            type="button"
+            class="btn-sair"
+            (click)="sair()">
 
-        } @else { 
-          <button type="button" class="btn-sair" (click)="sair()"> 
-            <span class="icone-sair" aria-hidden="true">⇥</span>  
-            <span>Sair da conta</span>  
-          </button> 
-        } 
-      </div>  
-    </nav>  
+            <span class="icone-sair" aria-hidden="true">⇥</span>
+            <span>Sair da conta</span>
+          </button>
+        }
+      </div>
+
+    </nav>
   </aside>
 </header>
