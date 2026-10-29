@@ -1,0 +1,49 @@
+
+<section class="secao-eventos">
+  <div class="cabecalho-secao">
+    <h2>Histórico de eventos</h2>
+
+    @if (compacto) {
+      <button class="ver-todos" type="button" (click)="verTodos.emit()">
+        Ver todos <span>&gt;</span>
+      </button>
+    } @else {
+      <span class="contador">{{ historico.length }} eventos</span>
+    }
+  </div>
+
+  @if (historico.length === 0) {
+    <div class="estado-vazio estado-vazio-historico">
+      <div class="icone-estado-vazio">
+        <i class="bi bi-clock-history" aria-hidden="true"></i>
+      </div>
+
+      @if (compacto) {
+        <h3>Sua jornada começa aqui</h3>
+        <p>Os eventos registrados no seu histórico aparecerão nesta área.</p>
+      } @else {
+        <h3>Nenhum evento no histórico</h3>
+        <p>
+          Quando o registro de participação estiver disponível,
+          seus eventos aparecerão aqui.
+        </p>
+      }
+    </div>
+  } @else {
+    <div class="lista-historico">
+      @for (evento of historico; track evento.id) {
+        <article class="item-historico">
+          <div class="icone-evento">
+            <i class="bi bi-calendar-event" aria-hidden="true"></i>
+          </div>
+
+          <div class="dados-historico">
+            <h3>{{ evento.titulo }}</h3>
+            <p>{{ evento.data }}</p>
+            <span>{{ evento.local }}</span>
+          </div>
+        </article>
+      }
+    </div>
+  }
+</section>

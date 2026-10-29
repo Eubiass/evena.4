@@ -1,3 +1,4 @@
+
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -11,28 +12,24 @@ import {
 } from '../../services/favoritos.service';
 import { Footer } from '../../shared/components/footer/footer';
 import { Header } from '../../shared/components/header/header';
-
-type AbaPerfil =
-  | 'visao-geral'
-  | 'favoritos'
-  | 'historico'
-  | 'configuracoes';
-
-interface EventoPerfil {
-  id: number;
-  titulo: string;
-  categoria: string;
-  local: string;
-  horario?: string;
-  data: string;
-  imagem: string;
-  organizador?: string;
-}
-
+import {
+  AbaPerfil,
+  EventoPerfil
+} from './models/evento-perfil.model';
+import { HeaderPerfilUsuario } from './components/header-perfil-usuario/header-perfil-usuario';
+import { EventosFavoritos } from './components/eventos-favoritados/eventos-favoritos';
+import { HistoricoEventos } from './components/historico-eventos/historico-eventos';
+ 
 @Component({
   selector: 'app-perfil-usuario',
   standalone: true,
-  imports: [Header, Footer],
+  imports: [
+    Header,
+    Footer,
+    HeaderPerfilUsuario,
+    EventosFavoritos,
+    HistoricoEventos
+  ],
   templateUrl: './perfil-usuario.html',
   styleUrl: './perfil-usuario.css'
 })
@@ -88,7 +85,7 @@ export class PerfilUsuario implements OnInit {
   get fotoUsuario(): string {
     return this.usuario?.foto?.trim() || '';
   }
-  
+
   get inicialUsuario(): string {
     return this.nomeUsuario.trim().charAt(0).toLocaleUpperCase('pt-BR') || 'U';
   }
@@ -224,7 +221,15 @@ export class PerfilUsuario implements OnInit {
           this.favoritos = (eventos ?? []).map(evento =>
             this.converterEvento(evento)
           );
-
+        
+          console.log(
+            'Imagens dos favoritos:',
+            this.favoritos.map(evento => ({
+              titulo: evento.titulo,
+              imagem: evento.imagem
+            }))
+          );
+        
           this.cdr.markForCheck();
         },
         error: erro => {
@@ -256,39 +261,29 @@ export class PerfilUsuario implements OnInit {
       organizador: evento.empresaNome || 'Organizador'
     };
   }
-
+  
   private normalizarImagem(imagem?: string | null): string {
     const valor = imagem?.trim();
-
-    if (!valor) {
-      return '';
-    }
-
+    
+    if (!valor) return '';
+    
+    // URLs completas ou imagens em formato de dados
     if (/^(https?:\/\/|data:|blob:)/i.test(valor)) {
       return valor;
     }
-
-    if (/^\/?assets\/images\//.test(valor)) {
+  
+    // Mockups armazenados diretamente em public/
+    if (/^\/?assets\/images\//i.test(valor)) {
       const nomeArquivo = valor.split('/').pop();
       return nomeArquivo ? `/${nomeArquivo}` : '';
     }
-
-    if (valor.startsWith('/assets/')) {
-      return valor;
+  
+    // Caminhos de imagens hospedadas pela API
+    if (/^\/?(uploads|images|imagens)\//i.test(valor)) {
+      const caminho = valor.startsWith('/') ? valor : `/${valor}`;
+      return `${this.apiBaseUrl}${caminho}`;
     }
-
-    if (valor.startsWith('assets/')) {
-      return `/${valor}`;
-    }
-
-    if (/^\/(uploads|images|imagens)\//.test(valor)) {
-      return `${this.apiBaseUrl}${valor}`;
-    }
-
-    if (/^(uploads|images|imagens)\//.test(valor)) {
-      return `${this.apiBaseUrl}/${valor}`;
-    }
-
+  
     return valor.startsWith('/') ? valor : `/${valor}`;
   }
 

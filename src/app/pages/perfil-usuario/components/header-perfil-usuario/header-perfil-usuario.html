@@ -1,0 +1,84 @@
+
+<aside class="barra-perfil">
+  <div class="avatar-area">
+    @if (fotoUsuario) {
+      <img
+        class="avatar-usuario"
+        [src]="fotoUsuario"
+        [alt]="'Foto de ' + nomeUsuario">
+    } @else {
+      <div class="avatar-inicial" aria-label="Avatar do usuário">
+        {{ inicialUsuario }}
+      </div>
+    }
+
+    <button class="editar-avatar" type="button" disabled
+      aria-label="Editar foto do perfil">
+      <i class="bi bi-camera" aria-hidden="true"></i>
+    </button>
+  </div>
+
+  <div class="identificacao">
+    <h1>{{ nomeUsuario }}</h1>
+    <p class="arroba">&#64;{{ arrobaUsuario }}</p>
+  </div>
+
+  <p class="descricao-usuario">{{ descricaoUsuario }}</p>
+
+  <div class="membro-desde">
+    <strong>Membro desde</strong>
+    <span>{{ membroDesde }}</span>
+  </div>
+
+  <button class="botao-editar-perfil" type="button" disabled>
+    <i class="bi bi-pencil" aria-hidden="true"></i>
+    Editar perfil
+  </button>
+
+  <nav class="menu-perfil" aria-label="Menu do perfil">
+    <button
+      type="button"
+      title="Visão geral"
+      [class.ativo]="abaAtiva === 'visao-geral'"
+      [attr.aria-current]="abaAtiva === 'visao-geral' ? 'page' : null"
+      (click)="selecionarAba('visao-geral')">
+      <i class="bi bi-house" aria-hidden="true"></i>
+      <span>Visão geral</span>
+    </button>
+
+    <button
+      type="button"
+      title="Favoritos"
+      [class.ativo]="abaAtiva === 'favoritos'"
+      [attr.aria-current]="abaAtiva === 'favoritos' ? 'page' : null"
+      (click)="selecionarAba('favoritos')">
+      <i class="bi bi-heart" aria-hidden="true"></i>
+      <span>Favoritos</span>
+    </button>
+
+    <button
+      type="button"
+      title="Histórico"
+      [class.ativo]="abaAtiva === 'historico'"
+      [attr.aria-current]="abaAtiva === 'historico' ? 'page' : null"
+      (click)="selecionarAba('historico')">
+      <i class="bi bi-clock-history" aria-hidden="true"></i>
+      <span>Histórico</span>
+    </button>
+
+    <button
+      type="button"
+      title="Configurações"
+      [class.ativo]="abaAtiva === 'configuracoes'"
+      [attr.aria-current]="abaAtiva === 'configuracoes' ? 'page' : null"
+      (click)="selecionarAba('configuracoes')">
+      <i class="bi bi-gear" aria-hidden="true"></i>
+      <span>Configurações</span>
+    </button>
+  </nav>
+
+  <a class="sair-perfil" href="/login" (click)="sair($event)">
+    <i class="bi bi-box-arrow-right" aria-hidden="true"></i>
+    <span>Sair</span>
+  </a>
+</aside>

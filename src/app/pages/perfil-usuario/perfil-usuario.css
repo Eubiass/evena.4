@@ -1,3 +1,4 @@
+
 :host {
   display: block;
   color: #302747;
@@ -21,8 +22,6 @@
   background: var(--cor-fundo);
 }
 
-/* Capa */
-
 .capa-perfil {
   position: relative;
   height: 250px;
@@ -40,8 +39,6 @@
   color: var(--cor-primaria-escura);
 }
 
-/* Layout principal */
-
 .layout-perfil {
   display: grid;
   grid-template-columns: 260px minmax(0, 1fr);
@@ -51,185 +48,25 @@
   padding: 0 32px 36px;
 }
 
-.barra-perfil {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  align-self: start;
-  min-width: 0;
-  margin-top: -70px;
-  padding: 0 20px 22px;
-  border-radius: var(--raio-painel);
-  background: var(--cor-branco);
-}
-
 .conteudo-perfil-usuario {
   min-width: 0;
   padding-top: 26px;
 }
 
-/* Avatar e identificação */
-
-.avatar-area {
-  position: relative;
-  width: 140px;
-  height: 140px;
-  margin: 16px;
-}
-
-.avatar-usuario {
-  width: 100%;
-  height: 100%;
-  border: 5px solid var(--cor-branco);
-  border-radius: 50%;
-  background: #eee8fa;
-  object-fit: cover;
-}
-
-.avatar-inicial {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  border: 5px solid #fff;
-  border-radius: 50%;
-  background: #6746a5;
-  color: #fff;
-  font-size: 48px;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-.editar-avatar {
-  position: absolute;
-  right: 2px;
-  bottom: 6px;
-  width: 34px;
-  height: 34px;
-  border: 2px solid var(--cor-branco);
-  border-radius: 50%;
-  background: var(--cor-primaria);
-  color: var(--cor-branco);
-}
-
-.identificacao {
-  width: 100%;
-  overflow-wrap: anywhere;
-  text-align: center;
-}
-
-.identificacao h1 {
-  margin: 0;
-  color: var(--cor-titulo);
-  font-size: 21px;
-  line-height: 1.4;
-}
-
-.arroba {
-  margin: 6px 0 0;
-  color: #81758f;
-  font-size: 13px;
-}
-
-.descricao-usuario {
-  width: 100%;
-  margin: 16px 0 12px;
-  color: #62576f;
-  font-size: 13px;
-  line-height: 1.6;
-  overflow-wrap: anywhere;
-  text-align: center;
-}
-
-.membro-desde {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  width: 100%;
-  margin-top: 16px;
-  padding: 13px 0;
-  border-block: 1px solid var(--cor-borda);
-  font-size: 13px;
-}
-
-.membro-desde strong {
-  color: var(--cor-primaria-escura);
-}
-
-.membro-desde span {
-  color: #81758f;
-}
-
-.botao-editar-perfil {
-  width: 100%;
-  margin-top: 14px;
-  padding: 11px;
-  border: 0;
-  border-radius: 9px;
-  background: var(--cor-primaria);
-  color: var(--cor-branco);
-  font-weight: 600;
-}
-
-/* Navegação do perfil */
-
-.menu-perfil {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  width: 100%;
-  margin-top: 20px;
-}
-
-.menu-perfil button,
-.sair-perfil {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  width: 100%;
-  min-height: 42px;
-  padding: 10px 12px;
-  border: 0;
-  border-radius: 9px;
-  background: transparent;
-  color: #62576f;
+.aviso-carregamento,
+.aviso-erro {
+  padding: 12px 0;
   font-size: 14px;
-  text-align: left;
-  text-decoration: none;
-  cursor: pointer;
+  line-height: 1.5;
 }
 
-.menu-perfil button i,
-.sair-perfil i {
-  flex-shrink: 0;
-  width: 20px;
-  color: #76619c;
-  font-size: 17px;
-  text-align: center;
+.aviso-carregamento {
+  color: var(--cor-texto-suave);
 }
 
-.menu-perfil button:hover,
-.menu-perfil button.ativo {
-  background: var(--cor-lilas);
-  color: var(--cor-primaria-escura);
+.aviso-erro {
+  color: #a12c45;
 }
-
-.menu-perfil button.ativo {
-  font-weight: 600;
-}
-
-.sair-perfil {
-  margin-top: 8px;
-  color: #a94760;
-}
-
-.sair-perfil i {
-  color: #a94760;
-}
-
-/* Seções */
 
 .secao-eventos {
   min-width: 0;
@@ -238,208 +75,6 @@
   border-radius: var(--raio-painel);
   background: var(--cor-branco);
 }
-
-.cabecalho-secao {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 18px;
-}
-
-.cabecalho-secao h2 {
-  margin: 0;
-  color: var(--cor-titulo);
-  font-size: 19px;
-}
-
-.ver-todos {
-  flex-shrink: 0;
-  padding: 6px 0;
-  border: 0;
-  background: transparent;
-  color: var(--cor-primaria);
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.contador {
-  color: #81758f;
-  font-size: 13px;
-}
-
-/* Cards de eventos */
-
-.grade-eventos {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.card-evento {
-  min-width: 0;
-  overflow: hidden;
-  border: 1px solid var(--cor-borda);
-  border-radius: var(--raio-card);
-  background: var(--cor-branco);
-  color: var(--cor-texto);
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.card-evento:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgb(49 34 77 / 9%);
-}
-
-.imagem-card {
-  aspect-ratio: 16 / 10;
-  overflow: hidden;
-  background: #eee8fa;
-}
-
-.imagem-card img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.imagem-vazia {
-  display: grid;
-  width: 100%;
-  height: 100%;
-  place-items: center;
-  color: var(--cor-primaria);
-  font-size: 28px;
-}
-
-.detalhes-card {
-  min-width: 0;
-  padding: 12px;
-}
-
-.categoria-evento {
-  display: inline-block;
-  margin-bottom: 7px;
-  color: var(--cor-primaria);
-  font-size: 11px;
-  font-weight: 600;
-}
-
-.titulo-com-favorito {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 7px;
-}
-
-.detalhes-card h3 {
-  min-width: 0;
-  margin: 0;
-  color: var(--cor-titulo);
-  font-size: 14px;
-  line-height: 1.45;
-  overflow-wrap: anywhere;
-}
-
-.botao-favorito-card {
-  display: inline-flex;
-  flex: 0 0 auto;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
-  margin: -5px -5px 0 0;
-  border: 0;
-  border-radius: 50%;
-  background: transparent;
-  color: #b45a8c;
-  font-size: 19px;
-  cursor: pointer;
-}
-
-.botao-favorito-card:hover {
-  background: #f8edf3;
-  color: #b94f87;
-}
-
-.detalhes-card p {
-  margin: 8px 0 0;
-  color: var(--cor-texto-suave);
-  font-size: 12px;
-  line-height: 1.5;
-  overflow-wrap: anywhere;
-}
-
-.data-evento {
-  color: var(--cor-titulo) !important;
-  font-weight: 600;
-}
-
-.local-evento i,
-.organizador-evento i {
-  margin-right: 4px;
-  color: var(--cor-primaria);
-}
-
-.organizador-evento {
-  display: block;
-  margin-top: 9px;
-  color: #81758f;
-  font-size: 12px;
-  overflow-wrap: anywhere;
-}
-
-/* Estados vazios */
-
-.estado-vazio {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  min-height: 210px;
-  padding: 28px 20px;
-  border: 1px dashed #d8d8df;
-  border-radius: var(--raio-painel);
-  background: #faf9fc;
-  text-align: center;
-}
-
-.icone-estado-vazio {
-  display: grid;
-  width: 52px;
-  height: 52px;
-  place-items: center;
-  border-radius: 50%;
-  background: #eee8f8;
-  color: #7350a5;
-  font-size: 23px;
-}
-
-.estado-vazio h3 {
-  margin: 4px 0 0;
-  color: var(--cor-titulo);
-  font-size: 17px;
-  font-weight: 600;
-}
-
-.estado-vazio p {
-  max-width: 380px;
-  margin: 0;
-  color: #777481;
-  font-size: 14px;
-  line-height: 1.6;
-}
-
-.estado-vazio-historico .icone-estado-vazio {
-  background: #e9f3ed;
-  color: #397454;
-}
-
-/* Configurações */
 
 .estado-configuracoes {
   display: flex;
@@ -488,8 +123,6 @@ button:disabled {
   opacity: 0.75;
 }
 
-/* Tablet */
-
 @media (max-width: 1050px) {
   .layout-perfil {
     grid-template-columns: 225px minmax(0, 1fr);
@@ -497,30 +130,10 @@ button:disabled {
     padding-inline: 20px;
   }
 
-  .barra-perfil {
-    padding-inline: 14px;
-  }
-
-  .avatar-area {
-    width: 120px;
-    height: 120px;
-  }
-
-  .avatar-inicial {
-    border-width: 4px;
-    font-size: 34px;
-  }
-
-  .secao-eventos {
-    padding: 18px;
-  }
-
-  .grade-eventos {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .conteudo-perfil-usuario {
+    padding-top: 26px;
   }
 }
-
-/* Celular */
 
 @media (max-width: 680px) {
   .capa-perfil {
@@ -541,127 +154,9 @@ button:disabled {
     padding: 0 12px 24px;
   }
 
-  .barra-perfil {
-    display: grid;
-    grid-template-columns: 96px minmax(0, 1fr);
-    align-items: center;
-    column-gap: 15px;
-    width: 100%;
-    margin-top: 0;
-    padding: 0 14px 14px;
-    border-radius: 0 0 14px 14px;
-  }
-
-  .avatar-area {
-    grid-column: 1;
-    grid-row: 1;
-    width: 94px;
-    height: 94px;
-    margin: -28px 0 0;
-  }
-
-  .avatar-usuario {
-    border-width: 4px;
-  }
-
-  .editar-avatar {
-    right: 0;
-    bottom: 4px;
-    width: 30px;
-    height: 30px;
-  }
-
-  .identificacao {
-    grid-column: 2;
-    grid-row: 1;
-    min-width: 0;
-    padding-top: 8px;
-    text-align: left;
-  }
-
-  .identificacao h1 {
-    font-size: 19px;
-  }
-
-  .descricao-usuario,
-  .membro-desde {
-    grid-column: 1 / -1;
-  }
-
-  .descricao-usuario {
-    margin: 14px 0 10px;
-    text-align: left;
-  }
-
-  .membro-desde {
-    margin-top: 12px;
-  }
-
-  .botao-editar-perfil,
-  .sair-perfil {
-    display: none;
-  }
-
-  .menu-perfil {
-    grid-column: 1 / -1;
-    flex-direction: row;
-    justify-content: space-around;
-    gap: 8px;
-    margin-top: 16px;
-    padding-top: 12px;
-    border-top: 1px solid var(--cor-borda);
-  }
-
-  .menu-perfil button {
-    justify-content: center;
-    width: 48px;
-    min-width: 0;
-    padding: 10px;
-  }
-
-  .menu-perfil button span {
-    display: none;
-  }
-
-  .menu-perfil button i {
-    width: auto;
-    font-size: 20px;
-  }
-
   .conteudo-perfil-usuario {
     width: 100%;
     padding: 0 4px 20px;
-  }
-
-  .secao-eventos {
-    margin-bottom: 16px;
-    padding: 16px 12px;
-    border-radius: 14px;
-  }
-
-  .cabecalho-secao {
-    margin-bottom: 14px;
-  }
-
-  .cabecalho-secao h2 {
-    font-size: 17px;
-  }
-
-  .grade-eventos {
-    gap: 11px;
-  }
-
-  .detalhes-card {
-    padding: 9px;
-  }
-
-  .detalhes-card h3 {
-    font-size: 13px;
-  }
-
-  .detalhes-card p,
-  .organizador-evento {
-    font-size: 11px;
   }
 
   .estado-configuracoes {
@@ -669,33 +164,8 @@ button:disabled {
   }
 }
 
-/* Celulares pequenos */
-
 @media (max-width: 360px) {
   .layout-perfil {
     padding-inline: 8px;
-  }
-
-  .barra-perfil {
-    grid-template-columns: 82px minmax(0, 1fr);
-    column-gap: 10px;
-    padding-inline: 10px;
-  }
-
-  .avatar-area {
-    width: 80px;
-    height: 80px;
-  }
-
-  .identificacao h1 {
-    font-size: 17px;
-  }
-
-  .secao-eventos {
-    padding-inline: 9px;
-  }
-
-  .grade-eventos {
-    gap: 8px;
   }
 }

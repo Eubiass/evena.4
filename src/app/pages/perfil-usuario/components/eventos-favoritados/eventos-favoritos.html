@@ -1,0 +1,88 @@
+
+<section class="secao-eventos">
+  <div class="cabecalho-secao">
+    <h2>
+      {{ abaAtiva === 'favoritos' ? 'Meus favoritos' : 'Eventos favoritados' }}
+    </h2>
+
+    @if (abaAtiva === 'visao-geral') {
+      <button class="ver-todos" type="button" (click)="verTodos.emit()">
+        Ver todos <span>&gt;</span>
+      </button>
+    } @else {
+      <span class="contador">{{ favoritos.length }} eventos</span>
+    }
+  </div>
+
+  @if (carregandoFavoritos) {
+    <p class="aviso-carregamento" aria-live="polite">
+      Carregando favoritos...
+    </p>
+  } @else if (erroFavoritos) {
+    <p class="aviso-erro" role="alert">{{ erroFavoritos }}</p>
+  } @else if (favoritos.length === 0) {
+    <div class="estado-vazio">
+      <div class="icone-estado-vazio">
+        <i class="bi bi-heart" aria-hidden="true"></i>
+      </div>
+
+      <h3>Nenhum favorito por enquanto</h3>
+      <p>Os eventos que você salvar com o coração aparecerão aqui.</p>
+    </div>
+  } @else {
+    <div class="grade-eventos">
+      @for (evento of eventosExibidos; track evento.id) {
+        <article
+          class="card-evento"
+          tabindex="0"
+          role="link"
+          [attr.aria-label]="'Abrir evento ' + evento.titulo"
+          (click)="abrir.emit(evento)"
+          (keydown.enter)="abrir.emit(evento)">
+
+          <div class="imagem-card">
+            @if (evento.imagem) {
+              <img
+                [src]="evento.imagem"
+                [alt]="'Capa do evento ' + evento.titulo"
+                (error)="erroImagem.emit(evento)">
+            } @else {
+              <div class="imagem-vazia">
+                <i class="bi bi-calendar-event" aria-hidden="true"></i>
+              </div>
+            }
+          </div>
+
+          <div class="detalhes-card">
+            <span class="categoria-evento">{{ evento.categoria }}</span>
+
+            <div class="titulo-com-favorito">
+              <h3>{{ evento.titulo }}</h3>
+
+              <button
+                type="button"
+                class="botao-favorito-card"
+                aria-label="Remover dos favoritos"
+                title="Remover dos favoritos"
+                (click)="solicitarRemocao(evento, $event)">
+                <i class="bi bi-heart-fill" aria-hidden="true"></i>
+              </button>
+            </div>
+
+            <p class="data-evento">{{ evento.data }}</p>
+
+            <p class="local-evento">
+              <i class="bi bi-geo-alt" aria-hidden="true"></i>
+              {{ evento.local }}
+            </p>
+
+            <span class="organizador-evento">
+              <i class="bi bi-building" aria-hidden="true"></i>
+              {{ evento.organizador || 'Organizador' }}
+            </span>
+          </div>
+        </article>
+      }
+    </div>
+  }
+</section>

@@ -4,95 +4,24 @@
   <section
     class="capa-perfil"
     [style.background-image]="bannerUsuario ? 'url(' + bannerUsuario + ')' : null">
+
     <button class="editar-capa" type="button" disabled>
-      <i class="bi bi-camera"></i>
+      <i class="bi bi-camera" aria-hidden="true"></i>
       Editar banner
     </button>
   </section>
 
   <div class="layout-perfil">
-    <aside class="barra-perfil">
-      <div class="avatar-area">
-        @if (fotoUsuario) {
-          <img
-            class="avatar-usuario"
-            [src]="fotoUsuario"
-            [alt]="'Foto de ' + nomeUsuario">
-        } @else {
-          <div class="avatar-inicial" aria-label="Avatar do usuário">
-            {{ inicialUsuario }}
-          </div>
-        }
-      
-        <button class="editar-avatar" type="button" disabled>
-          <i class="bi bi-camera"></i>
-        </button>
-      </div>
-
-      <div class="identificacao">
-        <h1>{{ nomeUsuario }}</h1>
-        <p class="arroba">&#64;{{ arrobaUsuario }}</p>
-      </div>
-
-      <p class="descricao-usuario">{{ descricaoUsuario }}</p>
-
-      <div class="membro-desde">
-        <strong>Membro desde</strong>
-        <span>{{ membroDesde }}</span>
-      </div>
-
-      <button class="botao-editar-perfil" type="button" disabled>
-        <i class="bi bi-pencil"></i>
-        Editar perfil
-      </button>
-
-      <nav class="menu-perfil" aria-label="Menu do perfil">
-        <button
-          type="button"
-          title="Visão geral"
-          [class.ativo]="abaAtiva === 'visao-geral'"
-          [attr.aria-current]="abaAtiva === 'visao-geral' ? 'page' : null"
-          (click)="selecionarAba('visao-geral')">
-          <i class="bi bi-house"></i>
-          <span>Visão geral</span>
-        </button>
-
-        <button
-          type="button"
-          title="Favoritos"
-          [class.ativo]="abaAtiva === 'favoritos'"
-          [attr.aria-current]="abaAtiva === 'favoritos' ? 'page' : null"
-          (click)="selecionarAba('favoritos')">
-          <i class="bi bi-heart"></i>
-          <span>Favoritos</span>
-        </button>
-
-        <button
-          type="button"
-          title="Histórico"
-          [class.ativo]="abaAtiva === 'historico'"
-          [attr.aria-current]="abaAtiva === 'historico' ? 'page' : null"
-          (click)="selecionarAba('historico')">
-          <i class="bi bi-clock-history"></i>
-          <span>Histórico</span>
-        </button>
-
-        <button
-          type="button"
-          title="Configurações"
-          [class.ativo]="abaAtiva === 'configuracoes'"
-          [attr.aria-current]="abaAtiva === 'configuracoes' ? 'page' : null"
-          (click)="selecionarAba('configuracoes')">
-          <i class="bi bi-gear"></i>
-          <span>Configurações</span>
-        </button>
-      </nav>
-
-      <a class="sair-perfil" href="/login" (click)="sair($event)">
-        <i class="bi bi-box-arrow-right"></i>
-        <span>Sair</span>
-      </a>
-    </aside>
+    <app-header-perfil-usuario
+      [nomeUsuario]="nomeUsuario"
+      [arrobaUsuario]="arrobaUsuario"
+      [descricaoUsuario]="descricaoUsuario"
+      [fotoUsuario]="fotoUsuario"
+      [inicialUsuario]="inicialUsuario"
+      [membroDesde]="membroDesde"
+      [abaAtiva]="abaAtiva"
+      (abaSelecionada)="selecionarAba($event)"
+      (solicitouSair)="sair($event)" />
 
     <section class="conteudo-perfil-usuario">
       @if (carregandoPerfil) {
@@ -104,140 +33,25 @@
       }
 
       @if (abaAtiva === 'visao-geral' || abaAtiva === 'favoritos') {
-        <section class="secao-eventos">
-          <div class="cabecalho-secao">
-            <h2>
-              {{ abaAtiva === 'favoritos' ? 'Meus favoritos' : 'Eventos favoritados' }}
-            </h2>
+        <app-eventos-favoritos
+          [abaAtiva]="abaAtiva"
+          [favoritos]="favoritos"
+          [carregandoFavoritos]="carregandoFavoritos"
+          [erroFavoritos]="erroFavoritos"
+          (verTodos)="selecionarAba('favoritos')"
+          (abrir)="abrirEvento($event)"
+          (remover)="removerFavorito($event.evento, $event.clique)"
+          (erroImagem)="tratarErroImagem($event)" />
 
-            @if (abaAtiva === 'visao-geral') {
-              <button
-                class="ver-todos"
-                type="button"
-                (click)="selecionarAba('favoritos')">
-                Ver todos <span>&gt;</span>
-              </button>
-            } @else {
-              <span class="contador">{{ favoritos.length }} eventos</span>
-            }
-          </div>
-
-          @if (carregandoFavoritos) {
-            <p class="aviso-carregamento" aria-live="polite">
-              Carregando favoritos...
-            </p>
-          } @else if (erroFavoritos) {
-            <p class="aviso-erro" role="alert">{{ erroFavoritos }}</p>
-          } @else if (favoritos.length === 0) {
-            <div class="estado-vazio">
-              <div class="icone-estado-vazio">
-                <i class="bi bi-heart" aria-hidden="true"></i>
-              </div>
-
-              <h3>Nenhum favorito por enquanto</h3>
-              <p>Os eventos que você salvar com o coração aparecerão aqui.</p>
-            </div>
-          } @else {
-            <div class="grade-eventos">
-              @for (
-                evento of (abaAtiva === 'visao-geral' ? favoritos.slice(0, 3) : favoritos);
-                track evento.id
-              ) {
-                <article
-                  class="card-evento"
-                  tabindex="0"
-                  (click)="abrirEvento(evento)"
-                  (keydown.enter)="abrirEvento(evento)">
-
-                  <div class="imagem-card">
-                    @if (evento.imagem) {
-                      <img
-                        [src]="evento.imagem"
-                        [alt]="'Capa do evento ' + evento.titulo"
-                        (error)="tratarErroImagem(evento)">
-                    } @else {
-                      <div class="imagem-vazia">
-                        <i class="bi bi-calendar-event" aria-hidden="true"></i>
-                      </div>
-                    }
-                  </div>
-
-                  <div class="detalhes-card">
-                    <span class="categoria-evento">{{ evento.categoria }}</span>
-
-                    <div class="titulo-com-favorito">
-                      <h3>{{ evento.titulo }}</h3>
-
-                      <button
-                        type="button"
-                        class="botao-favorito-card"
-                        aria-label="Remover dos favoritos"
-                        title="Remover dos favoritos"
-                        (click)="removerFavorito(evento, $event)">
-                        <i class="bi bi-heart-fill" aria-hidden="true"></i>
-                      </button>
-                    </div>
-
-                    <p class="data-evento">{{ evento.data }}</p>
-
-                    <p class="local-evento">
-                      <i class="bi bi-geo-alt" aria-hidden="true"></i>
-                      {{ evento.local }}
-                    </p>
-
-                    <span class="organizador-evento">
-                      <i class="bi bi-building" aria-hidden="true"></i>
-                      {{ evento.organizador }}
-                    </span>
-                  </div>
-                </article>
-              }
-            </div>
-          }
-        </section>
 
         @if (abaAtiva === 'visao-geral') {
-          <section class="secao-eventos secao-historico">
-            <div class="cabecalho-secao">
-              <h2>Histórico de eventos</h2>
-
-              <button
-                class="ver-todos"
-                type="button"
-                (click)="selecionarAba('historico')">
-                Ver todos <span>&gt;</span>
-              </button>
-            </div>
-
-            <div class="estado-vazio estado-vazio-historico">
-              <div class="icone-estado-vazio">
-                <i class="bi bi-clock-history" aria-hidden="true"></i>
-              </div>
-
-              <h3>Sua jornada começa aqui</h3>
-              <p>Os eventos registrados no seu histórico aparecerão nesta área.</p>
-            </div>
-          </section>
+          <app-historico-eventos
+            [historico]="historico"
+            [compacto]="true"
+            (verTodos)="selecionarAba('historico')" />
         }
       } @else if (abaAtiva === 'historico') {
-        <section class="secao-eventos">
-          <div class="cabecalho-secao">
-            <h2>Histórico de eventos</h2>
-            <span class="contador">{{ historico.length }} eventos</span>
-          </div>
-
-          <div class="estado-vazio estado-vazio-historico">
-            <div class="icone-estado-vazio">
-              <i class="bi bi-clock-history" aria-hidden="true"></i>
-            </div>
-
-            <h3>Nenhum evento no histórico</h3>
-            <p>
-              Quando o registro de participação estiver disponível,
-              seus eventos aparecerão aqui.
-            </p>
-          </div>
-        </section>
+        <app-historico-eventos [historico]="historico" />
       } @else {
         <section class="secao-eventos estado-configuracoes">
           <div class="icone-configuracoes">
@@ -245,6 +59,7 @@
           </div>
 
           <h2>Configurações da conta</h2>
+
           <p>
             As opções de configuração serão conectadas quando os recursos
             de edição de perfil estiverem disponíveis.
