@@ -16,12 +16,13 @@
   </app-event-brief-info>
 
   <app-event-actions
-    [isSalvo]="isSalvo"
+    [isFavoritado]="isFavoritado"
+    [salvandoFavorito]="salvandoFavorito"
     (comprar)="redirecionarParceiro()"
-    (salvar)="alternarSalvar()"
+    (favoritar)="alternarFavorito()"
     (agenda)="adicionarAoCalendario()"
-    (compartilhar)="compartilharEvento()">
-  </app-event-actions>
+    (compartilhar)="compartilharEvento()"
+  ></app-event-actions>
 
   <div class="card-footer-report">
     <button

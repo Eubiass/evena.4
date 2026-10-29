@@ -1,31 +1,35 @@
 
 <div class="action-container">
-  <!-- Botão Principal -->
   <button
     type="button"
     class="btn-poly btn-main"
     (click)="onComprar()"
-    aria-label="Garantir Ingressos (abre em uma nova aba do parceiro)">
+    aria-label="Garantir ingressos; abre o site do parceiro"
+  >
     <span>Garantir Ingressos</span>
     <i
       class="fa-solid fa-arrow-up-right-from-square"
-      aria-hidden="true">
-    </i>
+      aria-hidden="true"
+    ></i>
   </button>
 
-  <!-- Botão Favoritar / Salvar -->
   <button
     type="button"
     class="btn-poly btn-fav"
-    [class.active]="isSalvo"
-    (click)="onSalvar()"
-    [attr.aria-pressed]="isSalvo ? 'true' : 'false'">
+    [class.active]="isFavoritado"
+    [class.loading]="salvandoFavorito"
+    [disabled]="salvandoFavorito"
+    (click)="onFavoritar()"
+    [attr.aria-busy]="salvandoFavorito"
+    [attr.aria-pressed]="isFavoritado"
+    [attr.aria-label]="salvandoFavorito
+      ? 'Atualizando favoritos'
+      : isFavoritado
+        ? 'Remover dos favoritos'
+        : 'Adicionar aos favoritos'"
+  >
     <div class="heart-wrapper" aria-hidden="true">
-      <i
-        class="fa-heart"
-        [class.fa-solid]="isSalvo"
-        [class.fa-regular]="!isSalvo">
-      </i>
+      <i class="bi" [class.bi-heart-fill]="isFavoritado" [class.bi-heart]="!isFavoritado"></i>
 
       <span class="particle p1"></span>
       <span class="particle p2"></span>
@@ -33,20 +37,23 @@
       <span class="particle p4"></span>
     </div>
 
-    <span>{{ isSalvo ? 'Salvo' : 'Salvar Evento' }}</span>
+    <span>
+      {{ salvandoFavorito
+        ? 'Atualizando...'
+        : isFavoritado
+          ? 'Favoritado'
+          : 'Favoritar Evento' }}
+    </span>
   </button>
 
-  <!-- Botões Secundários -->
   <div class="secondary-actions-row">
     <button
       type="button"
       class="btn-poly btn-dark btn-agenda"
       (click)="onAgenda()"
-      aria-label="Adicionar evento ao calendário ou agenda">
-      <i
-        class="fa-solid fa-calendar-plus"
-        aria-hidden="true">
-      </i>
+      aria-label="Adicionar evento ao calendário"
+    >
+      <i class="fa-solid fa-calendar-plus" aria-hidden="true"></i>
       <span>Agenda</span>
     </button>
 
@@ -54,11 +61,9 @@
       type="button"
       class="btn-poly btn-dark btn-share"
       (click)="onCompartilhar()"
-      aria-label="Compartilhar este evento">
-      <i
-        class="fa-solid fa-share-nodes"
-        aria-hidden="true">
-      </i>
+      aria-label="Compartilhar evento"
+    >
+      <i class="fa-solid fa-share-nodes" aria-hidden="true"></i>
     </button>
   </div>
 </div>

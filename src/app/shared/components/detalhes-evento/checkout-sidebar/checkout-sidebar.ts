@@ -1,37 +1,54 @@
-import { ChangeDetectorRef, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnChanges,
+  OnDestroy,
+  SimpleChanges
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { Subscription } from 'rxjs';
+
 import { Evento } from '../../../../models/evento';
 import { AuthService } from '../../../../services/auth.service';
-import { API_URL } from '../../../../config/api.config';
+import { FavoritosService } from '../../../../services/favoritos.service';
+
 import { OrganizerCard } from './organizer-card/organizer-card';
 import { EventActions } from './event-actions/event-actions';
 import { EventBriefInfo } from './event-brief-info/event-brief-info';
 import { PriceHeader } from './price-header/price-header';
 
-interface EventoFavoritoResponse {
-  id: number;
-}
-
 @Component({
   selector: 'app-checkout-sidebar',
   standalone: true,
-  imports: [ CommonModule, OrganizerCard, EventActions, EventBriefInfo, PriceHeader ],
+  imports: [
+    CommonModule,
+    OrganizerCard,
+    EventActions,
+    EventBriefInfo,
+    PriceHeader
+  ],
   templateUrl: './checkout-sidebar.html',
   styleUrl: './checkout-sidebar.css'
 })
-export class CheckoutSidebar implements OnChanges {
+export class CheckoutSidebar implements OnChanges, OnDestroy {
   @Input() evento?: Evento;
 
-  isSalvo = false;
+  isFavoritado = false;
   isSeguindo = false;
   salvandoFavorito = false;
 
-  private versaoEstadoFavorito = 0;
+  private perfilId: number | null = null;
+  private eventoId: number | null = null;
+
+  private idsSubscription?: Subscription;
+  private carregamentoSubscription?: Subscription;
+  private operacaoSubscription?: Subscription;
 
   constructor(
-    private readonly http: HttpClient,
     private readonly authService: AuthService,
+    private readonly favoritosService: FavoritosService,
     private readonly cdr: ChangeDetectorRef
   ) {}
 
@@ -39,6 +56,12 @@ export class CheckoutSidebar implements OnChanges {
     if (changes['evento']) {
       this.carregarEstadoFavorito();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.idsSubscription?.unsubscribe();
+    this.carregamentoSubscription?.unsubscribe();
+    this.operacaoSubscription?.unsubscribe();
   }
 
   get organizador() {
@@ -52,10 +75,14 @@ export class CheckoutSidebar implements OnChanges {
   }
 
   private carregarEstadoFavorito(): void {
-    const versao = ++this.versaoEstadoFavorito;
-    const eventoId = Number(this.evento?.id);
+    this.idsSubscription?.unsubscribe();
+    this.carregamentoSubscription?.unsubscribe();
+
+    this.isFavoritado = false;
+
     const sessao = this.authService.getSessaoUsuario();
     const perfilId = Number(sessao?.id);
+    const eventoId = Number(this.evento?.id);
 
     if (
       !sessao ||
@@ -64,89 +91,84 @@ export class CheckoutSidebar implements OnChanges {
       !Number.isInteger(eventoId) ||
       eventoId <= 0
     ) {
-      this.isSalvo = false;
-      this.cdr.detectChanges();
+      this.perfilId = null;
+      this.eventoId = null;
+      this.cdr.markForCheck();
       return;
     }
 
-    const url = `${API_URL}/perfis/${perfilId}/favoritos`;
+    this.perfilId = perfilId;
+    this.eventoId = eventoId;
 
-    this.http.get<EventoFavoritoResponse[]>(url).subscribe({
-      next: (favoritos) => {
-        if (versao !== this.versaoEstadoFavorito) {
-          return;
-        }
-
-        if (Number(this.evento?.id) !== eventoId) {
-          return;
-        }
-
-        if (this.salvandoFavorito) {
-          return;
-        }
-
-        this.isSalvo = (favoritos ?? []).some(
-          favorito => Number(favorito.id) === eventoId
-        );
-
-        this.cdr.detectChanges();
-      },
-      error: (erro) => {
-        console.error(
-          'Não foi possível carregar os favoritos:',
-          erro
-        );
+    // O botão acompanha o mesmo estado utilizado pelos cards.
+    this.idsSubscription = this.favoritosService.ids$.subscribe(ids => {
+      if (
+        this.perfilId === perfilId &&
+        this.eventoId === eventoId
+      ) {
+        this.isFavoritado = ids.has(eventoId);
+        this.cdr.markForCheck();
       }
     });
+
+    // O serviço compartilha a consulta com os demais componentes.
+    this.carregamentoSubscription = this.favoritosService
+      .carregarFavoritos(perfilId)
+      .subscribe({
+        error: erro => {
+          console.error(
+            'Não foi possível carregar os favoritos:',
+            erro
+          );
+        }
+      });
   }
 
-  alternarSalvar(): void {
+  alternarFavorito(): void {
     if (this.salvandoFavorito) {
       return;
     }
 
     const sessao = this.authService.getSessaoUsuario();
+    const perfilId = Number(sessao?.id);
+    const eventoId = Number(this.evento?.id);
 
-    if (!sessao?.id || !this.evento?.id) {
-      alert('Entre na sua conta de frequentador para salvar eventos.');
+    if (!sessao || !Number.isInteger(perfilId) || perfilId <= 0) {
+      alert('Entre na sua conta de frequentador para favoritar eventos.');
       return;
     }
 
-    const perfilId = Number(sessao.id);
-    const eventoId = Number(this.evento.id);
-    const estavaSalvo = this.isSalvo;
-
-    const url =
-      `${API_URL}/perfis/${perfilId}/favoritos/${eventoId}`;
+    if (!Number.isInteger(eventoId) || eventoId <= 0) {
+      alert('Não foi possível identificar este evento. Tente novamente.');
+      return;
+    }
 
     this.salvandoFavorito = true;
+    this.cdr.markForCheck();
 
-    // Atualiza a interface imediatamente.
-    this.isSalvo = !estavaSalvo;
-    this.cdr.detectChanges();
+    this.operacaoSubscription?.unsubscribe();
 
-    const requisicao = estavaSalvo
-      ? this.http.delete<unknown>(url)
-      : this.http.post<unknown>(url, {});
+    this.operacaoSubscription = this.favoritosService
+      .definirFavorito(perfilId, eventoId, !this.isFavoritado)
+      .subscribe({
+        next: () => {
+          this.salvandoFavorito = false;
+          this.cdr.markForCheck();
+        },
+        error: erro => {
+          console.error('Erro ao atualizar favorito:', erro);
 
-    requisicao.subscribe({
-      next: () => {
-        this.salvandoFavorito = false;
-        this.cdr.detectChanges();
-      },
-      error: (erro) => {
-        console.error('Erro ao atualizar favorito:', erro);
+          this.salvandoFavorito = false;
+          this.cdr.markForCheck();
 
-        this.salvandoFavorito = false;
-        this.isSalvo = estavaSalvo;
-        this.cdr.detectChanges();
-
-        alert(
-          erro?.error?.mensagem ||
-          'Não foi possível atualizar seus favoritos. Tente novamente.'
-        );
-      }
-    });
+          alert(
+            erro?.name === 'TimeoutError'
+              ? 'A solicitação demorou demais. Verifique sua conexão e tente novamente.'
+              : erro?.error?.mensagem ||
+                'Não foi possível atualizar seus favoritos. Tente novamente.'
+          );
+        }
+      });
   }
 
   alternarSeguir(event: Event): void {
@@ -162,10 +184,7 @@ export class CheckoutSidebar implements OnChanges {
   }
 
   adicionarAoCalendario(): void {
-    if (
-      !this.evento ||
-      !this.evento.datasOcorrencia?.length
-    ) {
+    if (!this.evento?.datasOcorrencia?.length) {
       return;
     }
 

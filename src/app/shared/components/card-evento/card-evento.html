@@ -1,11 +1,54 @@
-<div class="card-evento" [routerLink]="['/detalhes-evento', gerarSlug(dadosEvento.titulo)]">
+<div
+  class="card-evento"
+  [routerLink]="['/detalhes-evento', gerarSlug(dadosEvento.titulo)]"
+  [attr.aria-label]="'Ver detalhes de ' + dadosEvento.titulo"
+>
   <div class="imagem-container">
-    <img [src]="dadosEvento.imagem" [alt]="dadosEvento.titulo">
+    <img
+      [src]="imagemExibida"
+      [alt]="dadosEvento.titulo"
+      (error)="tratarErroImagem()"
+    >
   </div>
 
   <div class="info">
-    <h1>{{ dadosEvento.titulo }}</h1>
+    <span class="categoria-evento">
+      {{ dadosEvento.categoria || 'Evento' }}
+    </span>
+
+    <div class="titulo-com-favorito">
+      <h1>{{ dadosEvento.titulo }}</h1>
+      
+    <button
+      type="button"
+      class="botao-favorito"
+      [class.ativo]="isFavoritado"
+      [disabled]="salvandoFavorito"
+      [attr.aria-busy]="salvandoFavorito"
+      [attr.aria-pressed]="isFavoritado"
+      [attr.aria-label]="salvandoFavorito
+        ? 'Atualizando favoritos'
+        : isFavoritado
+          ? 'Remover dos favoritos'
+          : 'Adicionar aos favoritos'"
+      [title]="isFavoritado
+        ? 'Remover dos favoritos'
+        : 'Adicionar aos favoritos'"
+      (click)="alternarFavorito($event)"
+    >
+      <i
+        [class.bi-heart-fill]="isFavoritado"
+        [class.bi-heart]="!isFavoritado"
+        aria-hidden="true"
+      ></i>
+    </button>
+    </div>
+
     <h2>{{ dadosEvento.dataExibicao }}</h2>
-    <h3>{{ dadosEvento.localNome }} • {{ dadosEvento.cidade }}, {{ dadosEvento.uf }}</h3>
+
+    <h3>
+      {{ dadosEvento.localNome }} •
+      {{ dadosEvento.cidade }}, {{ dadosEvento.uf }}
+    </h3>
   </div>
 </div>

@@ -1,35 +1,22 @@
-
-import { Component, OnInit } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
-import { Header } from '../../shared/components/header/header';
-import { Footer } from '../../shared/components/footer/footer';
-import { AuthService, PerfilResponse } from '../../services/auth.service';
+
 import { API_URL } from '../../config/api.config';
+import { AuthService, PerfilResponse } from '../../services/auth.service';
+import {
+  EventoFavorito,
+  FavoritosService
+} from '../../services/favoritos.service';
+import { Footer } from '../../shared/components/footer/footer';
+import { Header } from '../../shared/components/header/header';
 
 type AbaPerfil =
   | 'visao-geral'
   | 'favoritos'
   | 'historico'
   | 'configuracoes';
-
-interface EventoApi {
-  id: number;
-  titulo: string;
-  status?: boolean;
-  classificacao?: string;
-  banner?: string;
-  capa?: string;
-  descricao?: string;
-  preco?: number;
-  empresaNome?: string;
-  datas?: string[];
-  categoria?: string;
-  local?: string;
-  cidade?: string;
-  uf?: string;
-}
 
 interface EventoPerfil {
   id: number;
@@ -45,7 +32,7 @@ interface EventoPerfil {
 @Component({
   selector: 'app-perfil-usuario',
   standalone: true,
-  imports: [RouterLink, Header, Footer],
+  imports: [Header, Footer],
   templateUrl: './perfil-usuario.html',
   styleUrl: './perfil-usuario.css'
 })
@@ -62,10 +49,14 @@ export class PerfilUsuario implements OnInit {
   favoritos: EventoPerfil[] = [];
   historico: EventoPerfil[] = [];
 
+  private readonly apiBaseUrl = API_URL.replace(/\/api\/?$/, '');
+
   constructor(
-    private authService: AuthService,
-    private http: HttpClient,
-    private router: Router
+    private readonly authService: AuthService,
+    private readonly http: HttpClient,
+    private readonly router: Router,
+    private readonly favoritosService: FavoritosService,
+    private readonly cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -95,7 +86,11 @@ export class PerfilUsuario implements OnInit {
   }
 
   get fotoUsuario(): string {
-    return this.usuario?.foto || '/usuario.jpg';
+    return this.usuario?.foto?.trim() || '';
+  }
+  
+  get inicialUsuario(): string {
+    return this.nomeUsuario.trim().charAt(0).toLocaleUpperCase('pt-BR') || 'U';
   }
 
   get bannerUsuario(): string {
@@ -125,92 +120,176 @@ export class PerfilUsuario implements OnInit {
     this.abaAtiva = aba;
   }
 
-  abrirEvento(evento: EventoPerfil): void {
-    const slug = evento.titulo
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .toLowerCase()
-      .trim()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-|-$/g, '');
+  removerFavorito(evento: EventoPerfil, clique: Event): void {
+    clique.preventDefault();
+    clique.stopPropagation();
 
-    this.router.navigate(['/detalhes-evento', slug]);
+    const sessao = this.authService.getSessaoUsuario();
+    const perfilId = Number(sessao?.id);
+
+    if (!sessao || !Number.isInteger(perfilId) || perfilId <= 0) {
+      this.router.navigate(['/login'], {
+        queryParams: { returnUrl: '/perfil-usuario' }
+      });
+      return;
+    }
+
+    const favoritosAnteriores = [...this.favoritos];
+
+    this.favoritos = this.favoritos.filter(
+      favorito => favorito.id !== evento.id
+    );
+
+    this.favoritosService
+      .definirFavorito(perfilId, evento.id, false)
+      .subscribe({
+        error: erro => {
+          console.error('Erro ao remover evento dos favoritos:', erro);
+
+          this.favoritos = favoritosAnteriores;
+          this.cdr.markForCheck();
+
+          alert(
+            erro?.name === 'TimeoutError'
+              ? 'A solicitação demorou demais. Verifique sua conexão e tente novamente.'
+              : erro?.error?.mensagem ||
+                'Não foi possível remover este evento dos favoritos. Tente novamente.'
+          );
+        }
+      });
+  }
+
+  tratarErroImagem(evento: EventoPerfil): void {
+    evento.imagem = '';
+    this.cdr.markForCheck();
+  }
+
+  abrirEvento(evento: EventoPerfil): void {
+    this.router.navigate([
+      '/detalhes-evento',
+      this.criarSlug(evento.titulo)
+    ]);
   }
 
   sair(event: Event): void {
     event.preventDefault();
+
     this.authService.logoutUsuario();
+    this.favoritosService.limparEstado();
+
     this.router.navigate(['/login']);
   }
 
-  
   private carregarPerfil(id: number): void {
     this.carregandoPerfil = true;
     this.erroPerfil = '';
-  
+
     this.http
       .get<PerfilResponse>(`${API_URL}/perfis/${id}`)
       .pipe(
         finalize(() => {
           this.carregandoPerfil = false;
+          this.cdr.markForCheck();
         })
       )
       .subscribe({
         next: perfil => {
           this.usuario = perfil;
+          this.cdr.markForCheck();
         },
         error: erro => {
           this.erroPerfil =
             erro?.error?.mensagem ||
             'Não foi possível carregar os dados do perfil.';
+
+          this.cdr.markForCheck();
         }
       });
   }
-  
-  private carregarFavoritos(perfilId: number): void {
-  this.carregandoFavoritos = true;
-  this.erroFavoritos = '';
 
-  this.http
-    .get<EventoApi[]>(`${API_URL}/perfis/${perfilId}/favoritos`)
-    .pipe(
-      finalize(() => {
-        this.carregandoFavoritos = false;
-      })
-    )
-    .subscribe({
-      next: eventos => {
-        this.favoritos = (eventos ?? []).map(evento =>
-          this.converterEvento(evento)
-        );
-      },
-      error: erro => {
-        this.favoritos = [];
-        this.erroFavoritos =
-          erro?.error?.mensagem ||
-          'Não foi possível carregar seus favoritos.';
-      }
-    });
+  private carregarFavoritos(perfilId: number): void {
+    this.carregandoFavoritos = true;
+    this.erroFavoritos = '';
+
+    this.favoritosService
+      .carregarFavoritos(perfilId)
+      .pipe(
+        finalize(() => {
+          this.carregandoFavoritos = false;
+          this.cdr.markForCheck();
+        })
+      )
+      .subscribe({
+        next: eventos => {
+          this.favoritos = (eventos ?? []).map(evento =>
+            this.converterEvento(evento)
+          );
+
+          this.cdr.markForCheck();
+        },
+        error: erro => {
+          console.error('Erro ao carregar favoritos:', erro);
+
+          this.favoritos = [];
+          this.erroFavoritos =
+            erro?.error?.mensagem ||
+            'Não foi possível carregar seus favoritos.';
+
+          this.cdr.markForCheck();
+        }
+      });
   }
 
-  private converterEvento(evento: EventoApi): EventoPerfil {
+  private converterEvento(evento: EventoFavorito): EventoPerfil {
     const primeiraData = evento.datas?.[0] || '';
-    const local = [evento.cidade, evento.uf]
-      .filter(Boolean)
-      .join(', ');
+    const local = [evento.cidade, evento.uf].filter(Boolean).join(', ');
+    const imagem = evento.imagem || evento.capa || evento.banner || '';
 
     return {
       id: evento.id,
       titulo: evento.titulo || 'Evento sem título',
       categoria: evento.categoria || 'Evento',
       local: local || evento.local || 'Local não informado',
-      horario: primeiraData
-        ? this.formatarHorario(primeiraData)
-        : '',
+      horario: primeiraData ? this.formatarHorario(primeiraData) : '',
       data: this.formatarData(primeiraData),
-      imagem: evento.capa || evento.banner || '/evento1.jpg',
+      imagem: this.normalizarImagem(imagem),
       organizador: evento.empresaNome || 'Organizador'
     };
+  }
+
+  private normalizarImagem(imagem?: string | null): string {
+    const valor = imagem?.trim();
+
+    if (!valor) {
+      return '';
+    }
+
+    if (/^(https?:\/\/|data:|blob:)/i.test(valor)) {
+      return valor;
+    }
+
+    if (/^\/?assets\/images\//.test(valor)) {
+      const nomeArquivo = valor.split('/').pop();
+      return nomeArquivo ? `/${nomeArquivo}` : '';
+    }
+
+    if (valor.startsWith('/assets/')) {
+      return valor;
+    }
+
+    if (valor.startsWith('assets/')) {
+      return `/${valor}`;
+    }
+
+    if (/^\/(uploads|images|imagens)\//.test(valor)) {
+      return `${this.apiBaseUrl}${valor}`;
+    }
+
+    if (/^(uploads|images|imagens)\//.test(valor)) {
+      return `${this.apiBaseUrl}/${valor}`;
+    }
+
+    return valor.startsWith('/') ? valor : `/${valor}`;
   }
 
   private formatarData(valor: string): string {
@@ -242,5 +321,15 @@ export class PerfilUsuario implements OnInit {
       hour: '2-digit',
       minute: '2-digit'
     });
+  }
+
+  private criarSlug(texto: string): string {
+    return texto
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '');
   }
 }

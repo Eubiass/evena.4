@@ -103,9 +103,14 @@
   transition: transform 0.2s ease, color 0.2s ease; 
 }
 
-.btn-fav.active .heart-wrapper i { 
-  color: #ff4757; 
-  transform: scale(1.25); 
+.btn-fav.active .heart-wrapper i.fa-heart {
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+}
+
+.btn-fav:disabled {
+  cursor: wait;
+  opacity: 0.75;
 }
 
 .particle {

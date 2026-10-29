@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
+
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -6,13 +12,14 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './event-actions.html',
-  styleUrl: './event-actions.css',
+  styleUrl: './event-actions.css'
 })
 export class EventActions {
-  @Input() isSalvo: boolean = false;
+  @Input() isFavoritado = false;
+  @Input() salvandoFavorito = false;
 
   @Output() comprar = new EventEmitter<void>();
-  @Output() salvar = new EventEmitter<void>();
+  @Output() favoritar = new EventEmitter<void>();
   @Output() agenda = new EventEmitter<void>();
   @Output() compartilhar = new EventEmitter<void>();
 
@@ -20,8 +27,12 @@ export class EventActions {
     this.comprar.emit();
   }
 
-  onSalvar(): void {
-    this.salvar.emit();
+  onFavoritar(): void {
+    if (this.salvandoFavorito) {
+      return;
+    }
+
+    this.favoritar.emit();
   }
 
   onAgenda(): void {
