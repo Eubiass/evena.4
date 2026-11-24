@@ -1,0 +1,295 @@
+<app-header></app-header>
+
+<div class="tela-login-background">
+  <div class="wrapper-login">
+
+    <app-brand-side-auth></app-brand-side-auth>
+
+    <section id="container-principal">
+
+      <div class="indicador-etapas">
+        <div
+          class="etapa-indicador"
+          [class.ativa]="etapa >= 1"
+          [class.concluida]="etapa > 1">
+          <span>1</span>
+        </div>
+
+        <div
+          class="linha-etapas"
+          [class.concluida]="etapa > 1">
+        </div>
+
+        <div
+          class="etapa-indicador"
+          [class.ativa]="etapa >= 2"
+          [class.concluida]="etapa > 2">
+          <span>2</span>
+        </div>
+
+        <div
+          class="linha-etapas"
+          [class.concluida]="etapa > 2">
+        </div>
+
+        <div
+          class="etapa-indicador"
+          [class.ativa]="etapa >= 3">
+          <span>3</span>
+        </div>
+      </div>
+
+      @if (etapa === 1) {
+        <form
+          id="form-recuperacao"
+          (ngSubmit)="solicitarRecuperacao()">
+
+          <header class="header-form">
+            <h1 class="titulo-login">Esqueceu sua senha?</h1>
+
+            <p class="subtitulo-login">
+              Não se preocupe! Vamos ajudar você a recuperar
+              o acesso à sua conta.
+            </p>
+          </header>
+
+          <div class="icone-recuperacao">
+            <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+          </div>
+
+          <div class="texto-instrucao">
+            <h2>Informe seu e-mail</h2>
+
+            <p>
+              Digite o endereço de e-mail utilizado no cadastro
+              da sua conta.
+            </p>
+          </div>
+
+          @if (mensagem) {
+            <div
+              class="mensagem"
+              [class.mensagem-erro]="tipoMensagem === 'erro'"
+              [class.mensagem-aviso]="tipoMensagem === 'aviso'"
+              role="status">
+              {{ mensagem }}
+            </div>
+          }
+
+          <div class="area-inputs">
+            <div class="grupo-input">
+              <input
+                type="email"
+                name="email"
+                [(ngModel)]="email"
+                placeholder="Seu e-mail"
+                autocomplete="email"
+                required>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            class="btn-entrar"
+            [disabled]="carregando">
+            Continuar
+          </button>
+
+          <div class="container-voltar-login">
+            <a routerLink="/login" class="link-voltar-login">
+              <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+              Voltar para o login
+            </a>
+          </div>
+
+        </form>
+      }
+
+      @if (etapa === 2) {
+        <form
+          id="form-recuperacao"
+          (ngSubmit)="verificarCodigo()">
+
+          <header class="header-form">
+            <h1 class="titulo-login">Verifique seu e-mail</h1>
+
+            <p class="subtitulo-login">
+              Insira o código de seis dígitos para continuar
+              com a recuperação da sua conta.
+            </p>
+          </header>
+
+          <div class="icone-recuperacao">
+            <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+          </div>
+
+          <div class="texto-instrucao">
+            <h2>Código de verificação</h2>
+
+            <p>
+              Código destinado ao endereço:
+              <strong>{{ email }}</strong>
+            </p>
+          </div>
+
+          @if (mensagem) {
+            <div
+              class="mensagem"
+              [class.mensagem-erro]="tipoMensagem === 'erro'"
+              [class.mensagem-aviso]="tipoMensagem === 'aviso'"
+              role="status">
+              {{ mensagem }}
+            </div>
+          }
+
+          <div class="area-inputs">
+            <div class="grupo-input">
+              <input
+                type="text"
+                name="codigo"
+                [ngModel]="codigo"
+                (ngModelChange)="atualizarCodigo($event)"
+                placeholder="Digite o código"
+                inputmode="numeric"
+                autocomplete="one-time-code"
+                maxlength="6"
+                class="input-codigo"
+                required>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            class="btn-entrar">
+            Continuar
+          </button>
+
+          <button
+            type="button"
+            class="btn-reenviar"
+            (click)="reenviarCodigo()">
+            Não recebeu o código? Tentar novamente
+          </button>
+
+          <div class="container-voltar-login">
+            <button
+              type="button"
+              class="link-voltar-login"
+              (click)="voltarEtapa()">
+              <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+              Voltar
+            </button>
+          </div>
+
+        </form>
+      }
+
+      @if (etapa === 3) {
+        <form
+          id="form-recuperacao"
+          (ngSubmit)="finalizarRecuperacao()">
+
+          <header class="header-form">
+            <h1 class="titulo-login">Crie uma nova senha</h1>
+
+            <p class="subtitulo-login">
+              Escolha uma senha nova para recuperar o acesso
+              à sua conta.
+            </p>
+          </header>
+
+          <div class="icone-recuperacao">
+            <i class="fa-solid fa-lock" aria-hidden="true"></i>
+          </div>
+
+          <div class="texto-instrucao">
+            <h2>Nova senha</h2>
+
+            <p>
+              Utilize pelo menos 8 caracteres para sua senha.
+            </p>
+          </div>
+
+          @if (mensagem) {
+            <div
+              class="mensagem"
+              [class.mensagem-erro]="tipoMensagem === 'erro'"
+              [class.mensagem-aviso]="tipoMensagem === 'aviso'"
+              [class.mensagem-sucesso]="tipoMensagem === 'sucesso'"
+              role="status">
+              {{ mensagem }}
+            </div>
+          }
+
+          <div class="area-inputs">
+
+            <div class="grupo-input campo-senha">
+              <input
+                [type]="mostrarSenha ? 'text' : 'password'"
+                name="senha"
+                [(ngModel)]="senha"
+                placeholder="Nova senha"
+                autocomplete="new-password"
+                minlength="8"
+                required>
+
+              <button
+                type="button"
+                class="btn-olho"
+                (click)="mostrarSenha = !mostrarSenha"
+                [attr.aria-label]="mostrarSenha ? 'Ocultar senha' : 'Mostrar senha'">
+                <i
+                  [class]="mostrarSenha ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"
+                  aria-hidden="true">
+                </i>
+              </button>
+            </div>
+
+            <div class="grupo-input campo-senha">
+              <input
+                [type]="mostrarConfirmarSenha ? 'text' : 'password'"
+                name="confirmarSenha"
+                [(ngModel)]="confirmarSenha"
+                placeholder="Confirme sua nova senha"
+                autocomplete="new-password"
+                minlength="8"
+                required>
+
+              <button
+                type="button"
+                class="btn-olho"
+                (click)="mostrarConfirmarSenha = !mostrarConfirmarSenha"
+                [attr.aria-label]="mostrarConfirmarSenha ? 'Ocultar confirmação de senha' : 'Mostrar confirmação de senha'">
+                <i
+                  [class]="mostrarConfirmarSenha ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"
+                  aria-hidden="true">
+                </i>
+              </button>
+            </div>
+
+          </div>
+
+          <button
+            type="submit"
+            class="btn-entrar">
+            Concluir
+          </button>
+
+          <div class="container-voltar-login">
+            <button
+              type="button"
+              class="link-voltar-login"
+              (click)="voltarEtapa()">
+              <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+              Voltar
+            </button>
+          </div>
+
+        </form>
+      }
+
+    </section>
+  </div>
+</div>
+
+<app-footer></app-footer>

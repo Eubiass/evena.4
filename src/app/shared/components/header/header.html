@@ -1,9 +1,10 @@
+
 <header class="app-header" [class.busca-ativa]="pesquisaAtiva" role="banner">
 
   <!-- LOGO -->
   <div class="header-section left">
     @if (!pesquisaAtiva) {
-      <a routerLink="/" class="logo-link">
+      <a routerLink="/" class="logo-link" aria-label="Página inicial do Evena">
         <img src="nomeEvena.svg" class="logo" alt="Evena">
       </a>
     }
@@ -53,8 +54,9 @@
         type="button"
         class="search-trigger"
         (click)="togglePesquisa()"
-        [attr.aria-expanded]="pesquisaAtiva ? 'true' : 'false'"
-        aria-label="Abrir campo de pesquisa">
+        [attr.aria-expanded]="pesquisaAtiva"
+        [attr.aria-label]="pesquisaAtiva ? 'Fechar pesquisa' : 'Abrir campo de pesquisa'"
+        aria-controls="campo-busca">
 
         <img
           src="search.png"
@@ -64,6 +66,7 @@
       </button>
 
       <input
+        #campoBusca
         type="text"
         placeholder="Pesquisar..."
         id="campo-busca"
@@ -72,27 +75,7 @@
         (keyup.enter)="fazerPesquisa()"
         autocomplete="off">
 
-      @if (pesquisaAtiva && termoPesquisa.trim()) {
-        <button
-          type="button"
-          class="btn-limpar-pesquisa"
-          (click)="limparPesquisa()"
-          aria-label="Limpar pesquisa">
-          ×
-        </button>
-      }
-
       @if (pesquisaAtiva && !termoPesquisa.trim()) {
-        <button
-          type="button"
-          class="btn-fechar"
-          (click)="togglePesquisa()"
-          aria-label="Fechar busca">
-          ×
-        </button>
-      }
-
-      @if (!pesquisaAtiva && termoPesquisa.trim()) {
         <button
           type="button"
           class="btn-limpar-pesquisa"
@@ -107,10 +90,10 @@
 
       <!-- BOTÃO DE LOGIN OU PERFIL -->
       @if (!usuarioAutenticado) {
-        <a routerLink="/login" class="desktop-only login-link">
-          <button class="btn-login" type="button">
-            Entrar
-          </button>
+        <a
+          routerLink="/login"
+          class="btn-login login-link desktop-only">
+          Entrar
         </a>
       } @else {
         <a
@@ -131,11 +114,13 @@
 
       <!-- BOTÃO DO MENU MOBILE -->
       <button
+        #botaoMenu
         class="menu-mobile-btn"
         type="button"
         (click)="toggleMenu()"
         [attr.aria-expanded]="menuAberto"
-        aria-label="Menu principal">
+        aria-controls="menu-mobile"
+        [attr.aria-label]="menuAberto ? 'Fechar menu principal' : 'Abrir menu principal'">
 
         <span></span>
         <span></span>
@@ -144,19 +129,34 @@
     }
   </section>
 
+  <!-- FUNDO DO MENU MOBILE -->
+  @if (menuAberto) {
+    <button
+      type="button"
+      class="menu-backdrop"
+      (click)="fecharMenu()"
+      aria-label="Fechar menu">
+    </button>
+  }
+
   <!-- MENU MOBILE -->
   <aside
+    #painelMenu
+    id="menu-mobile"
     class="menu-overlay"
     [class.aberto]="menuAberto"
-    [attr.aria-hidden]="!menuAberto ? 'true' : 'false'"
+    [attr.aria-hidden]="!menuAberto"
+    [attr.inert]="menuAberto ? null : ''"
     role="dialog"
+    aria-modal="true"
     aria-label="Menu móvel">
 
     <div class="menu-header">
       <button
+        #botaoFecharMenu
         type="button"
         class="btn_fechar_menu"
-        (click)="toggleMenu()"
+        (click)="fecharMenu(true)"
         aria-label="Fechar menu principal">
         ×
       </button>

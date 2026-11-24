@@ -10,6 +10,7 @@ import { EditarPerfilOrganizador } from './pages/editar-perfil-organizador/edita
 import { PerfilUsuario } from './pages/perfil-usuario/perfil-usuario';
 import { usuarioAuthGuard } from './guards/usuario-auth.guard';
 import { organizadorAuthGuard } from './guards/organizador-auth.guards';
+import { EsqueciSenha } from './pages/esqueci-senha/esqueci-senha';
 
 export const routes: Routes = [
   { path: '', 
@@ -23,6 +24,11 @@ export const routes: Routes = [
 
   { path: 'login', 
     component: Login },
+
+  {
+  path: 'esqueci-senha',
+    component: EsqueciSenha
+  },
 
   { path: 'cadastro', 
     component: Cadastro },

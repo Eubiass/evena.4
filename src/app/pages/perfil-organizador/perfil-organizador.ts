@@ -1,30 +1,16 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import {
-  Router,
-  RouterLink
-} from '@angular/router';
-import {
-  finalize
-} from 'rxjs';
-
+import { Router, RouterLink } from '@angular/router';
+import { finalize } from 'rxjs';
 import { Evento } from '../../models/evento';
-import {
-  AuthService,
-  SessaoOrganizador
-} from '../../services/auth.service';
+import { AuthService, SessaoOrganizador } from '../../services/auth.service';
 import { EventoService } from '../../services/evento-service';
-
 import { Footer } from '../../shared/components/footer/footer';
 import { Header } from '../../shared/components/header/header';
 
 @Component({
   selector: 'app-perfil-organizador',
   standalone: true,
-  imports: [
-    RouterLink,
-    Header,
-    Footer
-  ],
+  imports: [ RouterLink, Header, Footer ],
   templateUrl: './perfil-organizador.html',
   styleUrl: './perfil-organizador.css'
 })

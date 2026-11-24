@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map, switchMap, tap } from 'rxjs';
@@ -43,7 +42,6 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   // FREQUENTADOR
-
   cadastrarUsuario(dados: {
     nome: string;
     email: string;
@@ -83,7 +81,6 @@ export class AuthService {
   }
 
   // ORGANIZADOR
-
   cadastrarOrganizador(dados: any): Observable<SessaoOrganizador> {
     const perfilRequest = {
       nome: dados.nomeFantasia || dados.razaoSocial,

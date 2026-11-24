@@ -1,3 +1,4 @@
+
 footer {
   width: 100%;
   display: flex;
@@ -7,7 +8,6 @@ footer {
   font-weight: 500;
   overflow: hidden;
 }
-
 
 /* =========================
    MARQUEE
@@ -57,7 +57,6 @@ footer {
   }
 }
 
-
 /* =========================
    IMAGEM
 ========================= */
@@ -77,7 +76,6 @@ footer {
   object-fit: cover;
   object-position: center;
 }
-
 
 /* =========================
    CONTEÚDO
@@ -99,7 +97,6 @@ footer {
   align-items: flex-start;
   gap: 80px;
 }
-
 
 /* =========================
    REDES SOCIAIS
@@ -129,7 +126,6 @@ footer {
   color: var(--cor-secundaria);
   transform: translateY(-3px);
 }
-
 
 /* =========================
    LINKS
@@ -178,6 +174,22 @@ footer {
   color: var(--cor-secundaria);
 }
 
+/* Links reservados para implementação futura.
+   Permanecem no HTML, mas não aparecem no rodapé. */
+
+.link-group li.link-pendente {
+  display: none;
+}
+
+/* =========================
+   ACESSIBILIDADE
+========================= */
+
+.footer a:focus-visible {
+  outline: 2px solid var(--cor-secundaria);
+  outline-offset: 5px;
+  border-radius: 3px;
+}
 
 /* =========================
    DIREITOS AUTORAIS
@@ -204,7 +216,6 @@ footer {
   margin: 0;
 }
 
-
 /* =========================
    TABLET
 ========================= */
@@ -226,7 +237,6 @@ footer {
   }
 
 }
-
 
 /* =========================
    MOBILE
@@ -253,30 +263,26 @@ footer {
 
   .footer-links {
     width: 100%;
+    order: 1;
+
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 40px 30px;
+
     border-left: none;
+    padding: 40px 0 0;
+
     text-align: center;
   }
 
   .footer-social {
     width: 100%;
     justify-content: center;
+
     border-top: 2px solid rgba(109, 226, 76, 0.2);
     padding-top: 35px;
-    order: 2;
-  }
 
-  .footer-links {
-    width: 100%;
-    order: 1;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 40px 30px;
-    border-left: none;
-    padding: 40px 0 0;
-    text-align: center;
+    order: 2;
   }
 
   .link-group h4 {
@@ -298,7 +304,6 @@ footer {
   }
 
 }
-
 
 /* =========================
    CELULARES PEQUENOS
@@ -336,6 +341,26 @@ footer {
   .direitos-autorais {
     width: calc(100% - 30px);
     font-size: 0.75rem;
+  }
+
+}
+
+/* =========================
+   MOVIMENTO REDUZIDO
+========================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .marquee-content {
+    animation: none;
+  }
+
+  .footer-social a {
+    transition: none;
+  }
+
+  .link-group a {
+    transition: none;
   }
 
 }
