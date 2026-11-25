@@ -11,6 +11,10 @@ import { PerfilUsuario } from './pages/perfil-usuario/perfil-usuario';
 import { usuarioAuthGuard } from './guards/usuario-auth.guard';
 import { organizadorAuthGuard } from './guards/organizador-auth.guards';
 import { EsqueciSenha } from './pages/esqueci-senha/esqueci-senha';
+import { Sobre } from './pages/sobre/sobre';
+import { CentralAjuda } from './pages/central-ajuda/central-ajuda';
+import { PoliticaDePrivacidade } from './pages/politica-de-privacidade/politica-de-privacidade';
+import { TermosDeUso } from './pages/termos-de-uso/termos-de-uso';
 
 export const routes: Routes = [
   { path: '', 
@@ -38,6 +42,13 @@ export const routes: Routes = [
     component: CriarEvento,
     canActivate: [organizadorAuthGuard]
   },
+
+  {
+    path: 'editar-evento/:id',
+    component: CriarEvento,
+    canActivate: [organizadorAuthGuard]
+  },
+
   {
     path: 'perfil-organizador',
     component: PerfilOrganizador,
@@ -52,6 +63,26 @@ export const routes: Routes = [
     path: 'perfil-usuario',
     component: PerfilUsuario,
     canActivate: [usuarioAuthGuard]
+  },
+
+  {
+    path: 'sobre',
+    component: Sobre
+  },
+
+  {
+    path: 'central-ajuda',
+    component: CentralAjuda
+  },
+
+  {
+    path: 'termos-de-uso',
+    component: TermosDeUso
+  },
+
+  {
+    path: 'politica-de-privacidade',
+    component: PoliticaDePrivacidade
   },
 
   { path: '**', redirectTo: '' }

@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-cabecalho-organizador',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './cabecalho-organizador.html',
   styleUrl: './cabecalho-organizador.css'
 })

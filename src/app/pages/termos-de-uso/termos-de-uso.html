@@ -1,0 +1,145 @@
+
+<app-header />
+
+<main class="pagina-termos">
+
+  <!-- APRESENTAÇÃO -->
+  <section class="termos-hero">
+
+    <div class="termos-hero-conteudo">
+
+      <span class="subtitulo">
+        TRANSPARÊNCIA E RESPONSABILIDADE
+      </span>
+
+      <h1>
+        Termos de
+        <span>Uso</span>
+      </h1>
+
+      <p>
+        Conheça as condições para utilizar o Evena,
+        as responsabilidades dos usuários e organizadores
+        e as regras de funcionamento da plataforma.
+      </p>
+
+      <div class="termos-atualizacao">
+        <i class="bi bi-calendar3" aria-hidden="true"></i>
+        <span>Última atualização: {{ ultimaAtualizacao }}</span>
+      </div>
+
+    </div>
+
+    <div class="termos-hero-icone" aria-hidden="true">
+      <i class="bi bi-file-earmark-text"></i>
+    </div>
+
+  </section>
+
+  <!-- CONTEÚDO -->
+  <section class="termos-conteudo">
+
+    <div class="termos-introducao">
+
+      <span class="subtitulo">
+        REGRAS DE UTILIZAÇÃO
+      </span>
+
+      <h2>
+        Um espaço para conectar pessoas e experiências.
+      </h2>
+
+      <p>
+        Este documento apresenta as condições de utilização
+        do Evena e orienta usuários e organizadores sobre
+        seus direitos e responsabilidades dentro da plataforma.
+      </p>
+
+    </div>
+
+    <div class="termos-layout">
+
+      <!-- SUMÁRIO -->
+      <aside class="termos-sumario">
+
+        <div class="sumario-cabecalho">
+          <i class="bi bi-list-ul" aria-hidden="true"></i>
+          <h2>Nesta página</h2>
+        </div>
+
+        <nav aria-label="Sumário dos termos de uso">
+
+          @for (secao of secoes; track secao.id; let i = $index) {
+            <button
+              type="button"
+              class="sumario-link"
+              (click)="irParaSecao(secao.id)"
+            >
+              <span class="sumario-numero">
+                {{ (i + 1).toString().padStart(2, '0') }}
+              </span>
+
+              <span>{{ secao.titulo }}</span>
+
+              <i class="bi bi-chevron-right" aria-hidden="true"></i>
+            </button>
+          }
+
+        </nav>
+
+      </aside>
+
+      <!-- DOCUMENTO -->
+      <div class="termos-documento">
+
+        @for (secao of secoes; track secao.id; let i = $index) {
+
+          <article class="termos-secao" [id]="secao.id">
+
+            <span class="secao-numero">
+              {{ (i + 1).toString().padStart(2, '0') }}
+            </span>
+
+            <div class="secao-conteudo">
+
+              <h2>{{ secao.titulo }}</h2>
+
+              @for (paragrafo of secao.paragrafos; track $index) {
+                <p>{{ paragrafo }}</p>
+              }
+
+              @if (secao.itens) {
+                <ul>
+                  @for (item of secao.itens; track $index) {
+                    <li>{{ item }}</li>
+                  }
+                </ul>
+              }
+
+            </div>
+
+          </article>
+
+        }
+
+        <!-- ENCERRAMENTO -->
+        <div class="termos-final">
+
+          <i class="bi bi-heart" aria-hidden="true"></i>
+
+          <div>
+            <h2>Obrigado por fazer parte do Evena!</h2>
+            <p>Conectando pessoas, experiências e eventos.</p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+<app-footer />

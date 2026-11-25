@@ -1,63 +1,53 @@
-<div class="pagina-criar-evento">
 
+<div class="pagina-criar-evento">
   <app-cabecalho-organizador />
 
   <main class="conteudo-criar-evento">
+    @if (carregandoEvento) {
+      <div class="carregando-evento">
+        <p>Carregando os dados do evento...</p>
+      </div>
+    } @else {
+      <app-barra-etapas [etapaAtual]="etapaAtual" />
 
-    <app-barra-etapas
-      [etapaAtual]="etapaAtual"
-    />
+      <div class="conteudo-etapa">
+        @switch (etapaAtual) {
+          @case (1) {
+            <app-etapa-informacoes
+              [dadosEvento]="dadosEvento"
+              (continuar)="receberDados($event)"
+            />
+          }
 
+          @case (2) {
+            <app-etapa-data-local
+              [dadosEvento]="dadosEvento"
+              [modoEdicao]="modoEdicao"
+              (continuar)="receberDados($event)"
+              (voltar)="voltarEtapa()"
+            />
+          }
 
-    <div class="conteudo-etapa">
+          @case (3) {
+            <app-etapa-detalhes
+              [dadosEvento]="dadosEvento"
+              [modoEdicao]="modoEdicao"
+              (continuar)="receberDados($event)"
+              (voltar)="voltarEtapa()"
+            />
+          }
 
-      @switch (etapaAtual) {
-
-        @case (1) {
-
-          <app-etapa-informacoes
-            [dadosEvento]="dadosEvento"
-            (continuar)="receberDados($event)"
-          />
-
+          @case (4) {
+            <app-etapa-revisao
+              [dadosEvento]="dadosEvento"
+              [publicando]="publicando"
+              (editar)="editarEtapa($event)"
+              (voltar)="voltarEtapa()"
+              (publicar)="publicarEvento()"
+            />
+          }
         }
-
-        @case (2) {
-
-          <app-etapa-data-local
-            [dadosEvento]="dadosEvento"
-            (continuar)="receberDados($event)"
-            (voltar)="voltarEtapa()"
-          />
-
-        }
-
-        @case (3) {
-
-          <app-etapa-detalhes
-            [dadosEvento]="dadosEvento"
-            (continuar)="receberDados($event)"
-            (voltar)="voltarEtapa()"
-          />
-
-        }
-
-        @case (4) {
-
-          <app-etapa-revisao
-            [dadosEvento]="dadosEvento"
-            [publicando]="publicando"
-            (editar)="editarEtapa($event)"
-            (voltar)="voltarEtapa()"
-            (publicar)="publicarEvento()"
-          />
-
-        }
-
-      }
-
-    </div>
-
+      </div>
+    }
   </main>
-
 </div>

@@ -1,0 +1,159 @@
+
+<app-header />
+
+<main class="pagina-central-ajuda">
+
+  <section class="ajuda-topo">
+    <div class="ajuda-topo-conteudo">
+      <span class="subtitulo">CENTRAL DE AJUDA</span>
+      <h1>Estamos aqui para ajudar.</h1>
+      <p>
+        Tire suas dúvidas sobre o Evena e encontre orientações
+        para aproveitar melhor a plataforma.
+      </p>
+    </div>
+
+    <div class="campo-busca">
+      <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+      <input
+        type="search"
+        placeholder="O que você gostaria de saber?"
+        aria-label="Pesquisar perguntas e respostas"
+        [value]="busca"
+        (input)="atualizarBusca($event)"
+      >
+
+      @if (busca) {
+        <button
+          type="button"
+          aria-label="Limpar pesquisa"
+          (click)="busca = ''; perguntaAberta = null"
+        >
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      }
+    </div>
+  </section>
+
+  <section class="ajuda-area">
+    <div class="ajuda-layout">
+
+      <aside class="ajuda-sidebar">
+        <span class="sidebar-titulo">NAVEGUE POR ASSUNTO</span>
+
+        <nav class="categorias-ajuda" aria-label="Categorias de ajuda">
+          @for (categoria of categorias; track categoria) {
+            <button
+              type="button"
+              class="categoria-botao"
+              [class.ativa]="categoriaSelecionada === categoria"
+              [attr.aria-pressed]="categoriaSelecionada === categoria"
+              (click)="selecionarCategoria(categoria)"
+            >
+              <span>{{ categoria }}</span>
+              <i
+                class="fa-solid fa-arrow-right"
+                aria-hidden="true"
+              ></i>
+            </button>
+          }
+        </nav>
+
+        <div class="sidebar-ajuda">
+          <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+          <strong>Precisa de mais ajuda?</strong>
+          <p>Fale com nossa equipe pelo e-mail.</p>
+          <a href="mailto:evena.brasil@gmail.com">
+            Entrar em contato
+            <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+          </a>
+        </div>
+      </aside>
+
+      <div class="ajuda-perguntas">
+
+        <div class="perguntas-cabecalho">
+          <div>
+            <span class="subtitulo">DÚVIDAS FREQUENTES</span>
+            <h2>
+              {{ categoriaSelecionada === 'Todas' ? 'Todas as perguntas' : categoriaSelecionada }}
+            </h2>
+          </div>
+
+          <span class="contador-perguntas">
+            {{ perguntasFiltradas.length }}
+            {{ perguntasFiltradas.length === 1 ? 'resultado' : 'resultados' }}
+          </span>
+        </div>
+
+        <div class="lista-perguntas">
+
+          @for (pergunta of perguntasFiltradas; track pergunta.id) {
+            <article class="pergunta-card">
+
+              <button
+                type="button"
+                class="pergunta-titulo"
+                [attr.aria-expanded]="perguntaAberta === pergunta.id"
+                [attr.aria-controls]="'resposta-' + pergunta.id"
+                (click)="alternarPergunta(pergunta.id)"
+              >
+                <span class="pergunta-texto">
+                  {{ pergunta.pergunta }}
+                </span>
+
+                <span class="pergunta-icone">
+                  <i
+                    class="fa-solid fa-plus"
+                    [class.aberto]="perguntaAberta === pergunta.id"
+                    aria-hidden="true"
+                  ></i>
+                </span>
+              </button>
+
+              @if (perguntaAberta === pergunta.id) {
+                <div
+                  class="pergunta-resposta"
+                  [id]="'resposta-' + pergunta.id"
+                >
+                  <p>{{ pergunta.resposta }}</p>
+                </div>
+              }
+
+            </article>
+          } @empty {
+            <div class="nenhum-resultado">
+              <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+              <h3>Não encontramos essa resposta</h3>
+              <p>
+                Tente pesquisar com outros termos ou escolha
+                uma categoria diferente.
+              </p>
+
+              <button
+                type="button"
+                (click)="selecionarCategoria('Todas'); busca = ''"
+              >
+                Limpar pesquisa
+              </button>
+            </div>
+          }
+
+        </div>
+
+        <div class="perguntas-rodape">
+          <span>Não encontrou o que procurava?</span>
+          <a href="mailto:evena.brasil@gmail.com">
+            Entre em contato com o Evena
+            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<app-footer />

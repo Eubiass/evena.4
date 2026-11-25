@@ -1,8 +1,11 @@
+
 import {
   Component,
   EventEmitter,
   Input,
   OnInit,
+  OnChanges,
+  SimpleChanges,
   Output
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -16,7 +19,7 @@ import { DadosEvento } from '../../../../../models/dados-evento';
   templateUrl: './etapa-informacoes.html',
   styleUrl: './etapa-informacoes.css'
 })
-export class EtapaInformacoes implements OnInit {
+export class EtapaInformacoes implements OnInit, OnChanges {
   @Input() dadosEvento!: DadosEvento;
 
   @Output()
@@ -82,28 +85,26 @@ export class EtapaInformacoes implements OnInit {
     this.carregarDados();
   }
 
-  selecionarCategoria(
-    categoria: string
-  ): void {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['dadosEvento']) {
+      this.carregarDados();
+    }
+  }
+
+  selecionarCategoria(categoria: string): void {
     this.categoria = categoria;
     this.erro = '';
   }
 
-  selecionarClassificacao(
-    classificacao: string
-  ): void {
+  selecionarClassificacao(classificacao: string): void {
     this.classificacao = classificacao;
     this.erro = '';
   }
 
-  selecionarImagem(
-    event: Event
-  ): void {
-    const input =
-      event.target as HTMLInputElement;
+  selecionarImagem(event: Event): void {
+    const input = event.target as HTMLInputElement;
 
-    const arquivo =
-      input.files?.[0];
+    const arquivo = input.files?.[0];
 
     if (!arquivo) {
       return;
@@ -115,11 +116,7 @@ export class EtapaInformacoes implements OnInit {
       'image/webp'
     ];
 
-    if (
-      !tiposPermitidos.includes(
-        arquivo.type
-      )
-    ) {
+    if (!tiposPermitidos.includes(arquivo.type)) {
       this.erro =
         'Selecione uma imagem JPG, PNG ou WebP.';
 
@@ -127,12 +124,9 @@ export class EtapaInformacoes implements OnInit {
       return;
     }
 
-    const limite =
-      5 * 1024 * 1024;
+    const limite = 5 * 1024 * 1024;
 
-    if (
-      arquivo.size > limite
-    ) {
+    if (arquivo.size > limite) {
       this.erro =
         'A imagem deve ter no máximo 5 MB.';
 
@@ -140,40 +134,23 @@ export class EtapaInformacoes implements OnInit {
       return;
     }
 
-    if (
-      this.imagemPreview?.startsWith(
-        'blob:'
-      )
-    ) {
-      URL.revokeObjectURL(
-        this.imagemPreview
-      );
+    if (this.imagemPreview?.startsWith('blob:')) {
+      URL.revokeObjectURL(this.imagemPreview);
     }
 
-    this.arquivoImagem =
-      arquivo;
+    this.arquivoImagem = arquivo;
 
-    this.nomeImagem =
-      arquivo.name;
+    this.nomeImagem = arquivo.name;
 
-    this.imagemPreview =
-      URL.createObjectURL(
-        arquivo
-      );
+    this.imagemPreview = URL.createObjectURL(arquivo);
 
     this.imagemSelecionada = true;
     this.erro = '';
   }
 
   removerImagem(): void {
-    if (
-      this.imagemPreview?.startsWith(
-        'blob:'
-      )
-    ) {
-      URL.revokeObjectURL(
-        this.imagemPreview
-      );
+    if (this.imagemPreview?.startsWith('blob:')) {
+      URL.revokeObjectURL(this.imagemPreview);
     }
 
     this.imagemSelecionada = false;
@@ -188,29 +165,21 @@ export class EtapaInformacoes implements OnInit {
     }
 
     this.continuar.emit({
-      nome:
-        this.nome.trim(),
+      nome: this.nome.trim(),
 
-      categoria:
-        this.categoria,
+      categoria: this.categoria,
 
-      classificacao:
-        this.classificacao,
+      classificacao: this.classificacao,
 
-      descricao:
-        this.descricao.trim(),
+      descricao: this.descricao.trim(),
 
-      imagemSelecionada:
-        this.imagemSelecionada,
+      imagemSelecionada: this.imagemSelecionada,
 
-      imagemPreview:
-        this.imagemPreview ?? '',
+      imagemPreview: this.imagemPreview ?? '',
 
-      nomeImagem:
-        this.nomeImagem,
+      nomeImagem: this.nomeImagem,
 
-      arquivoImagem:
-        this.arquivoImagem
+      arquivoImagem: this.arquivoImagem
     });
   }
 
@@ -219,60 +188,44 @@ export class EtapaInformacoes implements OnInit {
       return;
     }
 
-    this.nome =
-      this.dadosEvento.nome;
+    this.nome = this.dadosEvento.nome;
 
-    this.categoria =
-      this.dadosEvento.categoria;
+    this.categoria = this.dadosEvento.categoria;
 
-    this.classificacao =
-      this.dadosEvento.classificacao;
+    this.classificacao = this.dadosEvento.classificacao;
 
-    this.descricao =
-      this.dadosEvento.descricao;
+    this.descricao = this.dadosEvento.descricao;
 
-    this.imagemSelecionada =
-      this.dadosEvento.imagemSelecionada;
+    this.imagemSelecionada = this.dadosEvento.imagemSelecionada;
 
     this.imagemPreview =
-      this.dadosEvento.imagemPreview ||
-      null;
+      this.dadosEvento.imagemPreview || null;
 
-    this.nomeImagem =
-      this.dadosEvento.nomeImagem;
+    this.nomeImagem = this.dadosEvento.nomeImagem;
 
-    this.arquivoImagem =
-      this.dadosEvento.arquivoImagem;
+    this.arquivoImagem = this.dadosEvento.arquivoImagem;
   }
 
   private validar(): boolean {
     this.erro = '';
 
     if (!this.nome.trim()) {
-      this.erro =
-        'Informe o nome do evento.';
-
+      this.erro = 'Informe o nome do evento.';
       return false;
     }
 
     if (!this.categoria) {
-      this.erro =
-        'Selecione uma categoria.';
-
+      this.erro = 'Selecione uma categoria.';
       return false;
     }
 
     if (!this.classificacao) {
-      this.erro =
-        'Selecione a classificação etária.';
-
+      this.erro = 'Selecione a classificação etária.';
       return false;
     }
 
     if (!this.descricao.trim()) {
-      this.erro =
-        'Informe a descrição do evento.';
-
+      this.erro = 'Informe a descrição do evento.';
       return false;
     }
 

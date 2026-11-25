@@ -4,8 +4,6 @@ import { map, Observable } from 'rxjs';
 import { EventoService } from '../../services/evento-service';
 import { FiltroEventosService, Filtros } from '../../services/filtros/filtro-eventos-service';
 import { ActivatedRoute, Router } from '@angular/router';
-
-// Componentes Reutilizáveis
 import { HeaderEvents } from '../../shared/components/all-events/header-events/header-events';
 import { GridEvents } from '../../shared/components/all-events/grid-events/grid-events';
 import { CategoriasNav } from '../../shared/components/all-events/categorias-nav/categorias-nav';
@@ -17,22 +15,13 @@ import { Footer } from '../../shared/components/footer/footer';
 @Component({
   selector: 'app-all-events',
   standalone: true,
-  imports: [
-    CommonModule, 
-    HeaderEvents, 
-    GridEvents,
-    CategoriasNav,
-    ModalFiltros,
-    Header,
-    Footer
-  ],
+  imports: [ CommonModule, HeaderEvents, GridEvents, CategoriasNav, ModalFiltros, Header, Footer ],
   templateUrl: './all-events.html',
   styleUrl: './all-events.css'
 })
 export class AllEvents implements OnInit {
   eventosFiltrados$!: Observable<Evento[]>;
   temFiltroAtivo$!: Observable<boolean>;
-  
   modalFiltroAberto = false;
   filtrosAtuais!: Filtros;
 

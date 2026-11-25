@@ -1,14 +1,6 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
 
-import {
-  DataEvento,
-  DadosEvento
-} from '../../../../../models/dados-evento';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { DataEvento, DadosEvento } from '../../../../../models/dados-evento';
 
 @Component({
   selector: 'app-etapa-revisao',
@@ -25,35 +17,24 @@ export class EtapaRevisao {
   publicando = false;
 
   @Output()
-  voltar =
-    new EventEmitter<void>();
+  voltar = new EventEmitter<void>();
 
   @Output()
-  editar =
-    new EventEmitter<number>();
+  editar = new EventEmitter<number>();
 
   @Output()
-  publicar =
-    new EventEmitter<void>();
+  publicar = new EventEmitter<void>();
 
-  editarEtapa(
-    etapa: number
-  ): void {
-    if (
-      this.publicando
-    ) {
+  editarEtapa(etapa: number): void {
+    if (this.publicando) {
       return;
     }
 
-    this.editar.emit(
-      etapa
-    );
+    this.editar.emit(etapa);
   }
 
   voltarEtapa(): void {
-    if (
-      this.publicando
-    ) {
+    if (this.publicando) {
       return;
     }
 
@@ -61,92 +42,61 @@ export class EtapaRevisao {
   }
 
   publicarEvento(): void {
-    if (
-      this.publicando
-    ) {
+    if (this.publicando) {
       return;
     }
 
     this.publicar.emit();
   }
 
-  formatarData(
-    data: string
-  ): string {
+  formatarData(data: string): string {
     if (!data) {
       return 'Não informado';
     }
 
-    const [
-      ano,
-      mes,
-      dia
-    ] = data.split('-');
+    const [ano, mes, dia] = data.split('-');
 
-    if (
-      !ano ||
-      !mes ||
-      !dia
-    ) {
+    if (!ano || !mes || !dia) {
       return data;
     }
 
     return `${dia}/${mes}/${ano}`;
   }
 
-  formatarHorario(
-    item: DataEvento
-  ): string {
-    if (
-      !item.inicio
-    ) {
+  formatarHorario(item: DataEvento): string {
+    if (!item?.inicio) {
       return 'Não informado';
     }
 
-    if (
-      !item.fim
-    ) {
+    if (!item.fim) {
       return item.inicio;
     }
 
-    const diaSeguinte =
-      item.terminaNoDiaSeguinte
-        ? ' (+1 dia)'
-        : '';
+    const diaSeguinte = item.terminaNoDiaSeguinte
+      ? ' (+1 dia)'
+      : '';
 
     return `${item.inicio} - ${item.fim}${diaSeguinte}`;
   }
 
-  formatarTipoLocal(
-    tipo: string
-  ): string {
-    if (
-      tipo === 'presencial'
-    ) {
+  formatarTipoLocal(tipo: string): string {
+    if (tipo === 'presencial') {
       return 'Presencial';
     }
 
-    if (
-      tipo === 'online'
-    ) {
+    if (tipo === 'online') {
       return 'Online';
     }
 
     return 'Não informado';
   }
 
-  formatarTipoIngresso(
-    tipo: string
-  ): string {
-    if (
-      tipo === 'gratuito'
-    ) {
+  formatarTipoIngresso(tipo: string): string {
+    if (tipo === 'gratuito') {
       return 'Gratuito';
     }
 
-    if (
-      tipo === 'pago'
-    ) {
+    if (tipo === 'pago') {
       return 'Pago';
     }
 
@@ -154,16 +104,11 @@ export class EtapaRevisao {
   }
 
   formatarPreco(): string {
-    if (
-      this.dadosEvento.tipoIngresso !==
-      'pago'
-    ) {
+    if (this.dadosEvento.tipoIngresso !== 'pago') {
       return 'Gratuito';
     }
 
-    if (
-      !this.dadosEvento.preco
-    ) {
+    if (!this.dadosEvento.preco) {
       return 'Não informado';
     }
 
@@ -176,10 +121,7 @@ export class EtapaRevisao {
       this.dadosEvento.numero,
       this.dadosEvento.complemento
     ]
-      .map(
-        valor =>
-          valor.trim()
-      )
+      .map(valor => (valor || '').trim())
       .filter(Boolean)
       .join(', ');
 
@@ -187,10 +129,7 @@ export class EtapaRevisao {
       this.dadosEvento.cidade,
       this.dadosEvento.estado
     ]
-      .map(
-        valor =>
-          valor.trim()
-      )
+      .map(valor => (valor || '').trim())
       .filter(Boolean)
       .join(' - ');
 
@@ -199,7 +138,6 @@ export class EtapaRevisao {
       cidadeEstado
     ]
       .filter(Boolean)
-      .join(' · ') ||
-      'Não informado';
+      .join(' · ') || 'Não informado';
   }
 }

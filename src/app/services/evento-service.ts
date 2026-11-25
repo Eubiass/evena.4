@@ -1,3 +1,4 @@
+
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
@@ -23,6 +24,14 @@ export interface DataEventoRequest {
 export interface DataEventoResponse {
   id: number;
   dataHora: string;
+  evento?: {
+    id: number;
+  };
+}
+
+export interface DataEventoDetalhadaResponse {
+  dataHora: string;
+  dataHoraFim: string | null;
 }
 
 export interface EventoResponse {
@@ -35,23 +44,31 @@ export interface EventoResponse {
   descricao: string;
   preco: number;
   link?: string;
-
   empresaId: number;
   empresaNome: string;
-
   datas?: Array<string | DataEventoResponse>;
-
   categoria?: string | null;
-
   local?: string | null;
   endereco?: string | null;
   cidade?: string | null;
   uf?: string | null;
-
   latitude?: number | null;
   longitude?: number | null;
-
   artistas?: string[];
+}
+
+/**
+ * Resposta utilizada especificamente
+ * no carregamento do formulário de edição.
+ *
+ * Alguns campos existem na resposta da API
+ * online, mas não estão presentes no DTO
+ * do backend enviado no ZIP.
+ */
+export interface EventoEdicaoResponse extends EventoResponse {
+  datasDetalhadas?: DataEventoDetalhadaResponse[];
+  linkTransmissao?: string | null;
+  comodidades?: string[];
 }
 
 export interface LocalizacaoRequest {
@@ -63,6 +80,20 @@ export interface LocalizacaoRequest {
   cep: string;
   cidade: string;
   nomeEstabelecimento: string;
+}
+
+export interface LocalizacaoResponse {
+  id: number;
+  latitude: number | null;
+  longitude: number | null;
+  endereco: string | null;
+  uf: string | null;
+  cep: string | null;
+  cidade: string | null;
+  nomeEstabelecimento: string | null;
+  evento?: {
+    id: number;
+  };
 }
 
 export interface ArtistaRequest {
@@ -82,17 +113,26 @@ export interface UploadImagemResponse {
   url: string;
 }
 
-/*
- * TEMPORÁRIO:
- * artistaId continua obrigatório enquanto
- * a API atual ainda exigir essa relação.
- */
 export interface CategoriaRequest {
   eventoId: number;
   artistaId: number;
   tipo: string;
   estilo: string;
   foto: string;
+}
+
+export interface CategoriaResponse {
+  id: number;
+  tipo: string;
+  estilo?: string | null;
+  foto?: string | null;
+  evento?: {
+    id: number;
+  };
+  artista?: {
+    id: number;
+    nome?: string;
+  };
 }
 
 @Injectable({
@@ -144,23 +184,40 @@ export class EventoService {
     );
   }
 
+  atualizarEvento(
+    eventoId: number,
+    request: EventoRequest
+  ): Observable<EventoResponse> {
+    return this.http.put<EventoResponse>(
+      `${this.url}/empresas/eventos/${eventoId}`,
+      request
+    );
+  }
+
+  obterEventoCompletoPorId(
+    id: number
+  ): Observable<EventoEdicaoResponse> {
+    return this.http.get<EventoEdicaoResponse>(
+      `${this.url}/eventos/${id}`
+    );
+  }
+
   uploadImagem(
-  arquivo: File
-): Observable<UploadImagemResponse> {
-  const formData =
-    new FormData();
+    arquivo: File
+  ): Observable<UploadImagemResponse> {
+    const formData = new FormData();
 
-  formData.append(
-    'arquivo',
-    arquivo,
-    arquivo.name
-  );
+    formData.append(
+      'arquivo',
+      arquivo,
+      arquivo.name
+    );
 
-  return this.http.post<UploadImagemResponse>(
-    `${this.url}/arquivos/imagens`,
-    formData
-  );
-}
+    return this.http.post<UploadImagemResponse>(
+      `${this.url}/arquivos/imagens`,
+      formData
+    );
+  }
 
   adicionarData(
     eventoId: number,
@@ -172,12 +229,63 @@ export class EventoService {
     );
   }
 
+  listarDatasEvento(
+    eventoId: number
+  ): Observable<DataEventoResponse[]> {
+    return this.http.get<DataEventoResponse[]>(
+      `${this.url}/eventos/${eventoId}/datas`
+    );
+  }
+
+  atualizarData(
+    dataId: number,
+    request: DataEventoRequest
+  ): Observable<DataEventoResponse> {
+    return this.http.put<DataEventoResponse>(
+      `${this.url}/datas-evento/${dataId}`,
+      request
+    );
+  }
+
+  removerData(
+    dataId: number
+  ): Observable<unknown> {
+    return this.http.delete(
+      `${this.url}/datas-evento/${dataId}`
+    );
+  }
+
   adicionarLocalizacao(
     request: LocalizacaoRequest
   ): Observable<unknown> {
     return this.http.post(
       `${this.url}/localizacoes`,
       request
+    );
+  }
+
+  listarLocalizacoes():
+    Observable<LocalizacaoResponse[]> {
+    return this.http.get<LocalizacaoResponse[]>(
+      `${this.url}/localizacoes`
+    );
+  }
+
+  atualizarLocalizacao(
+    id: number,
+    request: LocalizacaoRequest
+  ): Observable<LocalizacaoResponse> {
+    return this.http.put<LocalizacaoResponse>(
+      `${this.url}/localizacoes/${id}`,
+      request
+    );
+  }
+
+  removerLocalizacao(
+    id: number
+  ): Observable<unknown> {
+    return this.http.delete(
+      `${this.url}/localizacoes/${id}`
     );
   }
 
@@ -207,12 +315,46 @@ export class EventoService {
     );
   }
 
+  desvincularArtista(
+    eventoId: number,
+    artistaId: number
+  ): Observable<unknown> {
+    return this.http.delete(
+      `${this.url}/eventos/${eventoId}/artistas/${artistaId}`
+    );
+  }
+
   adicionarCategoria(
     request: CategoriaRequest
   ): Observable<unknown> {
     return this.http.post(
       `${this.url}/categorias`,
       request
+    );
+  }
+
+  listarCategorias():
+    Observable<CategoriaResponse[]> {
+    return this.http.get<CategoriaResponse[]>(
+      `${this.url}/categorias`
+    );
+  }
+
+  atualizarCategoria(
+    id: number,
+    request: CategoriaRequest
+  ): Observable<CategoriaResponse> {
+    return this.http.put<CategoriaResponse>(
+      `${this.url}/categorias/${id}`,
+      request
+    );
+  }
+
+  removerCategoria(
+    id: number
+  ): Observable<unknown> {
+    return this.http.delete(
+      `${this.url}/categorias/${id}`
     );
   }
 
@@ -227,15 +369,13 @@ export class EventoService {
   obterEventoPorId(
     id: number
   ): Observable<Evento> {
-    return this.http
-      .get<EventoResponse>(
-        `${this.url}/eventos/${id}`
+    return this.http.get<EventoResponse>(
+      `${this.url}/eventos/${id}`
+    ).pipe(
+      map(evento =>
+        this.mapearEvento(evento)
       )
-      .pipe(
-        map(evento =>
-          this.mapearEvento(evento)
-        )
-      );
+    );
   }
 
   obterEventoPorSlug(
@@ -285,46 +425,33 @@ export class EventoService {
       id: evento.id,
 
       titulo:
-        this.limparTexto(
-          evento.titulo
-        ),
+        this.limparTexto(evento.titulo),
 
       preco:
         evento.preco ?? 0,
 
       imagem:
         this.normalizarImagem(
-          evento.capa ||
-          evento.banner
+          evento.capa || evento.banner
         ),
 
       descricao:
-        this.limparTexto(
-          evento.descricao
-        ),
+        this.limparTexto(evento.descricao),
 
       horario:
-        this.extrairHorario(
-          primeiraData
-        ),
+        this.extrairHorario(primeiraData),
 
       dataExibicao:
-        this.formatarDataExibicao(
-          primeiraData
-        ),
+        this.formatarDataExibicao(primeiraData),
 
       datasOcorrencia:
         datas,
 
       diasDetalhados:
-        this.criarDiasDetalhados(
-          datas
-        ),
+        this.criarDiasDetalhados(datas),
 
       intervalo:
-        this.criarIntervalo(
-          datas
-        ),
+        this.criarIntervalo(datas),
 
       localNome:
         evento.local ?? '',
@@ -440,9 +567,7 @@ export class EventoService {
               month: 'long',
               year: 'numeric'
             }
-          ).format(
-            dataLocal
-          );
+          ).format(dataLocal);
 
         return {
           nomeSemana,
@@ -468,8 +593,7 @@ export class EventoService {
 
     return {
       inicio:
-        datasOrdenadas[0]
-          .split('T')[0],
+        datasOrdenadas[0].split('T')[0],
 
       fim:
         datasOrdenadas[
@@ -492,10 +616,7 @@ export class EventoService {
       return '';
     }
 
-    return horario.substring(
-      0,
-      5
-    );
+    return horario.substring(0, 5);
   }
 
   private formatarDataExibicao(
@@ -549,12 +670,8 @@ export class EventoService {
     }
 
     if (
-      valor.startsWith(
-        'assets/images/'
-      ) ||
-      valor.startsWith(
-        '/assets/images/'
-      )
+      valor.startsWith('assets/images/') ||
+      valor.startsWith('/assets/images/')
     ) {
       const nomeArquivo =
         valor.split('/').pop();
@@ -616,9 +733,6 @@ export class EventoService {
         /[^a-z0-9]+/g,
         '-'
       )
-      .replace(
-        /^-+|-+$/g,
-        ''
-      );
+      .replace(/^-+|-+$/g, '');
   }
 }

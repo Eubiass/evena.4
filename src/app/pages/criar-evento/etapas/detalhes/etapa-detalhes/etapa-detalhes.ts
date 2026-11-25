@@ -1,40 +1,37 @@
+
 import {
   Component,
   EventEmitter,
   Input,
   OnInit,
+  OnChanges,
+  SimpleChanges,
   Output
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
-import {
-  Atracao,
-  DadosEvento
-} from '../../../../../models/dados-evento';
+import { Atracao, DadosEvento } from '../../../../../models/dados-evento';
 
 @Component({
   selector: 'app-etapa-detalhes',
   standalone: true,
-  imports: [
-    FormsModule
-  ],
+  imports: [FormsModule],
   templateUrl: './etapa-detalhes.html',
   styleUrl: './etapa-detalhes.css'
 })
-export class EtapaDetalhes implements OnInit {
+export class EtapaDetalhes implements OnInit, OnChanges {
   @Input()
   dadosEvento!: DadosEvento;
 
-  @Output()
-  continuar =
-    new EventEmitter<Partial<DadosEvento>>();
+  @Input()
+  modoEdicao = false;
 
   @Output()
-  voltar =
-    new EventEmitter<void>();
+  continuar = new EventEmitter<Partial<DadosEvento>>();
+
+  @Output()
+  voltar = new EventEmitter<void>();
 
   tipoIngresso = '';
-
   preco = '';
   linkIngresso = '';
 
@@ -45,10 +42,8 @@ export class EtapaDetalhes implements OnInit {
   recursos: string[] = [];
 
   informacoes = '';
-
   pergunta = '';
   resposta = '';
-
   erro = '';
 
   readonly opcoesRecursos = [
@@ -68,17 +63,17 @@ export class EtapaDetalhes implements OnInit {
     this.carregarDados();
   }
 
-  selecionarTipoIngresso(
-    tipo: string
-  ): void {
-    this.tipoIngresso =
-      tipo;
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['dadosEvento']) {
+      this.carregarDados();
+    }
+  }
 
+  selecionarTipoIngresso(tipo: string): void {
+    this.tipoIngresso = tipo;
     this.erro = '';
 
-    if (
-      tipo === 'gratuito'
-    ) {
+    if (tipo === 'gratuito') {
       this.preco = '';
       this.linkIngresso = '';
     }
@@ -90,37 +85,20 @@ export class EtapaDetalhes implements OnInit {
     );
   }
 
-  removerAtracao(
-    index: number
-  ): void {
-    if (
-      this.atracoes.length === 1
-    ) {
-      this.atracoes[0] =
-        this.criarAtracaoVazia();
-
+  removerAtracao(index: number): void {
+    if (this.atracoes.length === 1) {
+      this.atracoes[0] = this.criarAtracaoVazia();
       return;
     }
 
-    this.atracoes.splice(
-      index,
-      1
-    );
+    this.atracoes.splice(index, 1);
   }
 
-  alternarRecurso(
-    recurso: string
-  ): void {
-    if (
-      this.recursoSelecionado(
-        recurso
-      )
-    ) {
-      this.recursos =
-        this.recursos.filter(
-          item =>
-            item !== recurso
-        );
+  alternarRecurso(recurso: string): void {
+    if (this.recursoSelecionado(recurso)) {
+      this.recursos = this.recursos.filter(
+        item => item !== recurso
+      );
 
       return;
     }
@@ -131,12 +109,8 @@ export class EtapaDetalhes implements OnInit {
     ];
   }
 
-  recursoSelecionado(
-    recurso: string
-  ): boolean {
-    return this.recursos.includes(
-      recurso
-    );
+  recursoSelecionado(recurso: string): boolean {
+    return this.recursos.includes(recurso);
   }
 
   continuarEtapa(): void {
@@ -145,46 +119,37 @@ export class EtapaDetalhes implements OnInit {
     }
 
     this.continuar.emit({
-      tipoIngresso:
-        this.tipoIngresso,
+      tipoIngresso: this.tipoIngresso,
 
       preco:
-        this.tipoIngresso ===
-        'pago'
+        this.tipoIngresso === 'pago'
           ? this.preco.trim()
           : '',
 
       linkIngresso:
-        this.tipoIngresso ===
-        'pago'
+        this.tipoIngresso === 'pago'
           ? this.linkIngresso.trim()
           : '',
 
-      atracoes:
-        this.atracoes
-          .filter(
-            atracao =>
-              atracao.nome.trim()
-          )
-          .map(
-            atracao => ({
-              nome:
-                atracao.nome.trim()
-            })
-          ),
+      atracoes: this.atracoes
+        .filter(
+          atracao => atracao.nome.trim()
+        )
+        .map(
+          atracao => ({
+            nome: atracao.nome.trim()
+          })
+        ),
 
       recursos: [
         ...this.recursos
       ],
 
-      informacoes:
-        this.informacoes.trim(),
+      informacoes: this.informacoes.trim(),
 
-      pergunta:
-        this.pergunta.trim(),
+      pergunta: this.pergunta.trim(),
 
-      resposta:
-        this.resposta.trim()
+      resposta: this.resposta.trim()
     });
   }
 
@@ -192,8 +157,7 @@ export class EtapaDetalhes implements OnInit {
     this.voltar.emit();
   }
 
-  private criarAtracaoVazia():
-    Atracao {
+  private criarAtracaoVazia(): Atracao {
     return {
       nome: ''
     };
@@ -205,39 +169,36 @@ export class EtapaDetalhes implements OnInit {
     }
 
     this.tipoIngresso =
-      this.dadosEvento.tipoIngresso;
+      this.dadosEvento.tipoIngresso || '';
 
     this.preco =
-      this.dadosEvento.preco;
+      this.dadosEvento.preco || '';
 
     this.linkIngresso =
-      this.dadosEvento.linkIngresso;
+      this.dadosEvento.linkIngresso || '';
 
-    this.atracoes =
-      this.dadosEvento.atracoes.length
-        ? this.dadosEvento
-            .atracoes
-            .map(
-              atracao => ({
-                ...atracao
-              })
-            )
-        : [
-            this.criarAtracaoVazia()
-          ];
+    this.atracoes = this.dadosEvento.atracoes?.length
+      ? this.dadosEvento.atracoes.map(
+          atracao => ({
+            ...atracao
+          })
+        )
+      : [
+          this.criarAtracaoVazia()
+        ];
 
     this.recursos = [
-      ...this.dadosEvento.recursos
+      ...(this.dadosEvento.recursos ?? [])
     ];
 
     this.informacoes =
-      this.dadosEvento.informacoes;
+      this.dadosEvento.informacoes || '';
 
     this.pergunta =
-      this.dadosEvento.pergunta;
+      this.dadosEvento.pergunta || '';
 
     this.resposta =
-      this.dadosEvento.resposta;
+      this.dadosEvento.resposta || '';
   }
 
   private validar(): boolean {
@@ -250,37 +211,24 @@ export class EtapaDetalhes implements OnInit {
       return false;
     }
 
-    if (
-      this.tipoIngresso ===
-      'pago'
-    ) {
-      if (
-        !this.preco.trim()
-      ) {
+    if (this.tipoIngresso === 'pago') {
+      if (!this.preco.trim()) {
         this.erro =
           'Informe o preço do ingresso.';
 
         return false;
       }
 
-      const preco =
-        this.converterPreco(
-          this.preco
-        );
+      const preco = this.converterPreco(this.preco);
 
-      if (
-        preco === null ||
-        preco <= 0
-      ) {
+      if (preco === null || preco <= 0) {
         this.erro =
           'Informe um preço válido.';
 
         return false;
       }
 
-      if (
-        !this.linkIngresso.trim()
-      ) {
+      if (!this.linkIngresso.trim()) {
         this.erro =
           'Informe o link para compra do ingresso.';
 
@@ -288,20 +236,16 @@ export class EtapaDetalhes implements OnInit {
       }
     }
 
-    const atracoesValidas =
-      this.atracoes.filter(
-        atracao =>
-          atracao.nome.trim()
-      );
+    const atracoesValidas = this.atracoes.filter(
+      atracao => atracao.nome.trim()
+    );
 
     /*
      * TEMPORÁRIO:
-     * a API ainda exige artistaId
+     * A API ainda exige artistaId
      * para cadastrar categoria.
      */
-    if (
-      !atracoesValidas.length
-    ) {
+    if (!atracoesValidas.length) {
       this.erro =
         'Informe pelo menos uma atração para o evento.';
 
@@ -311,22 +255,16 @@ export class EtapaDetalhes implements OnInit {
     return true;
   }
 
-  private converterPreco(
-    valor: string
-  ): number | null {
-    const normalizado =
-      valor
-        .replace('R$', '')
-        .replace(/\s/g, '')
-        .replace(/\./g, '')
-        .replace(',', '.');
+  private converterPreco(valor: string): number | null {
+    const normalizado = valor
+      .replace('R$', '')
+      .replace(/\s/g, '')
+      .replace(/\./g, '')
+      .replace(',', '.');
 
-    const preco =
-      Number(normalizado);
+    const preco = Number(normalizado);
 
-    return Number.isFinite(
-      preco
-    )
+    return Number.isFinite(preco)
       ? preco
       : null;
   }

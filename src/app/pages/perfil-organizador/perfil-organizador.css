@@ -24,8 +24,7 @@
   background: var(--cor-fundo);
 }
 
-.perfil,
-.secao {
+.perfil, .secao {
   width: min(1240px, calc(100% - 80px));
   margin-inline: auto;
 }
@@ -447,6 +446,65 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.acoes-evento {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.editar-evento,
+.excluir-evento {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.editar-evento {
+  background: rgba(68, 128, 52, 0.12);
+  color: #448034;
+}
+
+.editar-evento:hover {
+  background: #448034;
+  color: #fff;
+}
+
+.excluir-evento {
+  background: rgba(220, 53, 69, 0.10);
+  color: #dc3545;
+}
+
+.excluir-evento:hover:not(:disabled) {
+  background: #dc3545;
+  color: #fff;
+}
+
+.editar-evento:active,
+.excluir-evento:active {
+  transform: scale(0.96);
+}
+
+.editar-evento:focus-visible,
+.excluir-evento:focus-visible {
+  outline: 2px solid var(--cor-secundaria);
+  outline-offset: 3px;
+}
+
+.excluir-evento:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 @media (max-width: 950px) {

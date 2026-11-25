@@ -1,0 +1,139 @@
+
+<app-header />
+
+<main class="pagina-politica">
+
+  <!-- APRESENTAÇÃO -->
+  <section class="politica-hero">
+
+    <div class="politica-hero-conteudo">
+
+      <span class="subtitulo">TRANSPARÊNCIA E CONFIANÇA</span>
+
+      <h1>
+        Política de
+        <span>Privacidade</span>
+      </h1>
+
+      <p>
+        Conheça como o Evena utiliza suas informações,
+        quais cuidados são adotados e quais são os seus
+        direitos durante a utilização da plataforma.
+      </p>
+
+      <div class="politica-atualizacao">
+        <i class="bi bi-calendar3" aria-hidden="true"></i>
+        <span>Última atualização: {{ ultimaAtualizacao }}</span>
+      </div>
+
+    </div>
+
+    <div class="politica-hero-icone" aria-hidden="true">
+      <i class="bi bi-shield-lock"></i>
+    </div>
+
+  </section>
+
+  <!-- CONTEÚDO -->
+  <section class="politica-conteudo">
+
+    <div class="politica-introducao">
+
+      <span class="subtitulo">SUA PRIVACIDADE NO EVENA</span>
+
+      <h2>Informação e transparência em cada detalhe.</h2>
+
+      <p>
+        Este documento apresenta as informações sobre o tratamento
+        de dados pessoais realizado pelo Evena e explica os direitos
+        dos usuários de maneira clara e acessível.
+      </p>
+
+    </div>
+
+    <div class="politica-layout">
+
+      <!-- SUMÁRIO -->
+      <aside class="politica-sumario">
+
+        <div class="sumario-cabecalho">
+          <i class="bi bi-list-ul" aria-hidden="true"></i>
+          <h2>Nesta página</h2>
+        </div>
+
+        <nav aria-label="Sumário da política de privacidade">
+
+          @for (secao of secoes; track secao.id; let i = $index) {
+            <button
+              type="button"
+              class="sumario-link"
+              (click)="irParaSecao(secao.id)"
+            >
+              <span class="sumario-numero">
+                {{ (i + 1).toString().padStart(2, '0') }}
+              </span>
+
+              <span>{{ secao.titulo }}</span>
+
+              <i class="bi bi-chevron-right" aria-hidden="true"></i>
+            </button>
+          }
+
+        </nav>
+
+      </aside>
+
+      <!-- DOCUMENTO -->
+      <div class="politica-documento">
+
+        @for (secao of secoes; track secao.id; let i = $index) {
+
+          <article class="politica-secao" [id]="secao.id">
+
+            <span class="secao-numero">
+              {{ (i + 1).toString().padStart(2, '0') }}
+            </span>
+
+            <div class="secao-conteudo">
+
+              <h2>{{ secao.titulo }}</h2>
+
+              @for (paragrafo of secao.paragrafos; track $index) {
+                <p>{{ paragrafo }}</p>
+              }
+
+              @if (secao.itens) {
+                <ul>
+                  @for (item of secao.itens; track $index) {
+                    <li>{{ item }}</li>
+                  }
+                </ul>
+              }
+
+            </div>
+
+          </article>
+
+        }
+
+        <!-- ENCERRAMENTO -->
+        <div class="politica-final">
+
+          <i class="bi bi-heart" aria-hidden="true"></i>
+
+          <div>
+            <h2>Obrigado por fazer parte do Evena!</h2>
+            <p>Conectando pessoas, experiências e eventos.</p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+<app-footer />

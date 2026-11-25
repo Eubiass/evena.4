@@ -46,6 +46,15 @@ app-barra-etapas {
     0 3px 14px rgba(47, 26, 103, 0.025);
 }
 
+.carregando-evento {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  font-size: 16px;
+  color: #555;
+}
+
 @media (max-width: 900px) {
   .conteudo-criar-evento {
     width: calc(100% - 40px);

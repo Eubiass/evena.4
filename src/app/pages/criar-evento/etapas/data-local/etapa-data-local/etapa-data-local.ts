@@ -1,17 +1,7 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, OnChanges, SimpleChanges, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-
-import {
-  DataEvento,
-  DadosEvento
-} from '../../../../../models/dados-evento';
+import { DataEvento, DadosEvento } from '../../../../../models/dados-evento';
 
 interface Estado {
   sigla: string;
@@ -26,31 +16,28 @@ interface MunicipioIbge {
 @Component({
   selector: 'app-etapa-data-local',
   standalone: true,
-  imports: [
-    FormsModule
-  ],
+  imports: [FormsModule],
   templateUrl: './etapa-data-local.html',
   styleUrl: './etapa-data-local.css'
 })
-export class EtapaDataLocal implements OnInit {
+export class EtapaDataLocal implements OnInit, OnChanges {
   @Input()
   dadosEvento!: DadosEvento;
 
-  @Output()
-  continuar =
-    new EventEmitter<Partial<DadosEvento>>();
+  @Input()
+  modoEdicao = false;
 
   @Output()
-  voltar =
-    new EventEmitter<void>();
+  continuar = new EventEmitter<Partial<DadosEvento>>();
+
+  @Output()
+  voltar = new EventEmitter<void>();
 
   datas: DataEvento[] = [
     this.criarData()
   ];
 
-  tipoLocal:
-    'presencial' |
-    'online' = 'presencial';
+  tipoLocal: 'presencial' | 'online' = 'presencial';
 
   estado = '';
   cidade = '';
@@ -62,9 +49,10 @@ export class EtapaDataLocal implements OnInit {
   cidades: string[] = [];
 
   carregandoCidades = false;
-
   dataMinima = '';
   erro = '';
+
+  private requisicaoCidades = 0;
 
   readonly estados: Estado[] = [
     { sigla: 'AC', nome: 'Acre' },
@@ -101,21 +89,24 @@ export class EtapaDataLocal implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.definirDataMinima();
-    this.carregarDados();
+    if (!this.modoEdicao) {
+      this.definirDataMinima();
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['dadosEvento'] && this.dadosEvento) {
+      this.carregarDados();
+    }
   }
 
   selecionarTipoLocal(
-    tipo:
-      'presencial' |
-      'online'
+    tipo: 'presencial' | 'online'
   ): void {
     this.tipoLocal = tipo;
     this.erro = '';
 
-    if (
-      tipo === 'online'
-    ) {
+    if (tipo === 'online') {
       this.estado = '';
       this.cidade = '';
       this.endereco = '';
@@ -138,30 +129,19 @@ export class EtapaDataLocal implements OnInit {
       return;
     }
 
-    this.carregarCidades(
-      this.estado
-    );
+    this.carregarCidades(this.estado);
   }
 
   adicionarData(): void {
-    this.datas.push(
-      this.criarData()
-    );
+    this.datas.push(this.criarData());
   }
 
-  removerData(
-    index: number
-  ): void {
-    if (
-      this.datas.length <= 1
-    ) {
+  removerData(index: number): void {
+    if (this.datas.length <= 1) {
       return;
     }
 
-    this.datas.splice(
-      index,
-      1
-    );
+    this.datas.splice(index, 1);
   }
 
   continuarEtapa(): void {
@@ -170,49 +150,39 @@ export class EtapaDataLocal implements OnInit {
     }
 
     this.continuar.emit({
-      datas:
-        this.datas.map(
-          data => ({
-            ...data
-          })
-        ),
+      datas: this.datas.map(data => ({
+        ...data
+      })),
 
-      tipoLocal:
-        this.tipoLocal,
+      tipoLocal: this.tipoLocal,
 
       endereco:
-        this.tipoLocal ===
-        'presencial'
+        this.tipoLocal === 'presencial'
           ? this.endereco.trim()
           : '',
 
       numero:
-        this.tipoLocal ===
-        'presencial'
+        this.tipoLocal === 'presencial'
           ? this.numero.trim()
           : '',
 
       complemento:
-        this.tipoLocal ===
-        'presencial'
+        this.tipoLocal === 'presencial'
           ? this.complemento.trim()
           : '',
 
       cidade:
-        this.tipoLocal ===
-        'presencial'
+        this.tipoLocal === 'presencial'
           ? this.cidade.trim()
           : '',
 
       estado:
-        this.tipoLocal ===
-        'presencial'
+        this.tipoLocal === 'presencial'
           ? this.estado.trim()
           : '',
 
       link:
-        this.tipoLocal ===
-        'online'
+        this.tipoLocal === 'online'
           ? this.link.trim()
           : ''
     });
@@ -227,62 +197,88 @@ export class EtapaDataLocal implements OnInit {
       return;
     }
 
-    const dados =
-      this.dadosEvento;
+    const dados = this.dadosEvento;
 
-    this.tipoLocal =
-      dados.tipoLocal ===
-      'online'
-        ? 'online'
-        : 'presencial';
+    this.tipoLocal = dados.tipoLocal === 'online'
+      ? 'online'
+      : 'presencial';
 
-    this.datas =
-      dados.datas.length
-        ? dados.datas.map(
-            data => ({
-              ...data
-            })
-          )
-        : [
-            this.criarData()
-          ];
+    this.datas = dados.datas?.length
+      ? dados.datas.map(data => ({
+          ...data
+        }))
+      : [this.criarData()];
 
-    this.estado =
-      dados.estado;
+    this.estado = dados.estado ?? '';
+    this.cidade = dados.cidade ?? '';
 
-    this.cidade =
-      dados.cidade;
+    this.endereco = dados.endereco ?? '';
+    this.numero = dados.numero ?? '';
+    this.complemento = dados.complemento ?? '';
 
-    this.endereco =
-      dados.endereco;
-
-    this.numero =
-      dados.numero;
-
-    this.complemento =
-      dados.complemento;
-
-    this.link =
-      dados.link;
+    this.link = dados.link ?? '';
 
     if (
-      this.tipoLocal ===
-        'presencial' &&
+      this.tipoLocal === 'presencial' &&
       this.estado
     ) {
+      this.separarEnderecoCombinado();
+
       this.carregarCidades(
         this.estado,
         this.cidade
       );
+    } else {
+      this.cidades = [];
     }
+  }
+
+  private separarEnderecoCombinado(): void {
+    // Não altera os campos se a API já os enviou separados.
+    if (this.numero || this.complemento) {
+      return;
+    }
+
+    const partes = this.endereco
+      .split(',')
+      .map(parte => parte.trim())
+      .filter(Boolean);
+
+    if (partes.length < 2) {
+      return;
+    }
+
+    const parteNumero = partes[1];
+
+    const resultado = parteNumero.match(
+      /^(?:n[º°.]?\s*)?(\d+[a-zA-Z]?)(?:\s*[-/]\s*(.*))?$/i
+    );
+
+    if (!resultado) {
+      return;
+    }
+
+    this.endereco = partes[0];
+    this.numero = resultado[1];
+
+    const complementoNumero = resultado[2]?.trim() ?? '';
+    const complementoRestante = partes.slice(2).join(', ');
+
+    this.complemento = [
+      complementoNumero,
+      complementoRestante
+    ]
+      .filter(Boolean)
+      .join(', ');
   }
 
   private carregarCidades(
     uf: string,
     cidadeSelecionada = ''
   ): void {
-    this.carregandoCidades =
-      true;
+    const numeroRequisicao = ++this.requisicaoCidades;
+
+    this.carregandoCidades = true;
 
     this.http
       .get<MunicipioIbge[]>(
@@ -290,45 +286,42 @@ export class EtapaDataLocal implements OnInit {
       )
       .subscribe({
         next: municipios => {
-          this.cidades =
-            municipios
-              .map(
-                municipio =>
-                  municipio.nome
-              )
-              .sort(
-                (a, b) =>
-                  a.localeCompare(
-                    b,
-                    'pt-BR'
-                  )
-              );
-
-          if (
-            cidadeSelecionada &&
-            this.cidades.includes(
-              cidadeSelecionada
-            )
-          ) {
-            this.cidade =
-              cidadeSelecionada;
+          // Ignora respostas antigas caso o estado tenha sido alterado.
+          if (numeroRequisicao !== this.requisicaoCidades) {
+            return;
           }
 
-          this.carregandoCidades =
-            false;
+          this.cidades = municipios
+            .map(municipio => municipio.nome)
+            .sort((a, b) =>
+              a.localeCompare(b, 'pt-BR')
+            );
+
+          if (cidadeSelecionada) {
+            const cidadeEncontrada = this.cidades.find(
+              cidade =>
+                this.normalizarTexto(cidade) ===
+                this.normalizarTexto(cidadeSelecionada)
+            );
+
+            this.cidade = cidadeEncontrada ?? cidadeSelecionada;
+          }
+
+          this.carregandoCidades = false;
         },
 
         error: erro => {
+          if (numeroRequisicao !== this.requisicaoCidades) {
+            return;
+          }
+
           console.error(
             'Erro ao carregar cidades:',
             erro
           );
 
           this.cidades = [];
-          this.cidade = '';
-
-          this.carregandoCidades =
-            false;
+          this.carregandoCidades = false;
 
           this.erro =
             'Não foi possível carregar as cidades. Tente novamente.';
@@ -336,23 +329,24 @@ export class EtapaDataLocal implements OnInit {
       });
   }
 
+  private normalizarTexto(valor: string): string {
+    return valor
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .trim()
+      .toLowerCase();
+  }
+
   private validar(): boolean {
     this.erro = '';
 
     if (!this.datas.length) {
-      this.erro =
-        'Informe pelo menos uma data.';
-
+      this.erro = 'Informe pelo menos uma data.';
       return false;
     }
 
-    for (
-      let i = 0;
-      i < this.datas.length;
-      i++
-    ) {
-      const data =
-        this.datas[i];
+    for (let i = 0; i < this.datas.length; i++) {
+      const data = this.datas[i];
 
       if (!data.data) {
         this.erro =
@@ -368,7 +362,7 @@ export class EtapaDataLocal implements OnInit {
         return false;
       }
 
-      if (!data.fim) {
+      if (!data.fim && !this.modoEdicao) {
         this.erro =
           `Informe o horário de término na opção ${i + 1}.`;
 
@@ -376,6 +370,7 @@ export class EtapaDataLocal implements OnInit {
       }
 
       if (
+        data.fim &&
         !data.terminaNoDiaSeguinte &&
         data.fim <= data.inicio
       ) {
@@ -386,42 +381,30 @@ export class EtapaDataLocal implements OnInit {
       }
     }
 
-    if (
-      this.tipoLocal ===
-      'presencial'
-    ) {
+    if (this.tipoLocal === 'presencial') {
       if (!this.estado) {
-        this.erro =
-          'Selecione o estado do evento.';
-
+        this.erro = 'Selecione o estado do evento.';
         return false;
       }
 
       if (!this.cidade) {
-        this.erro =
-          'Selecione a cidade do evento.';
-
+        this.erro = 'Selecione a cidade do evento.';
         return false;
       }
 
       if (!this.endereco.trim()) {
-        this.erro =
-          'Informe o endereço do evento.';
-
+        this.erro = 'Informe o endereço do evento.';
         return false;
       }
 
-      if (!this.numero.trim()) {
-        this.erro =
-          'Informe o número do endereço.';
-
+      if (!this.numero.trim() && !this.modoEdicao) {
+        this.erro = 'Informe o número do endereço.';
         return false;
       }
     }
 
     if (
-      this.tipoLocal ===
-        'online' &&
+      this.tipoLocal === 'online' &&
       !this.link.trim()
     ) {
       this.erro =
@@ -433,8 +416,7 @@ export class EtapaDataLocal implements OnInit {
     return true;
   }
 
-  private criarData():
-    DataEvento {
+  private criarData(): DataEvento {
     return {
       data: '',
       inicio: '',
@@ -444,29 +426,18 @@ export class EtapaDataLocal implements OnInit {
   }
 
   private definirDataMinima(): void {
-    const hoje =
-      new Date();
+    const hoje = new Date();
 
-    const ano =
-      hoje.getFullYear();
+    const ano = hoje.getFullYear();
 
-    const mes =
-      String(
-        hoje.getMonth() + 1
-      ).padStart(
-        2,
-        '0'
-      );
+    const mes = String(
+      hoje.getMonth() + 1
+    ).padStart(2, '0');
 
-    const dia =
-      String(
-        hoje.getDate()
-      ).padStart(
-        2,
-        '0'
-      );
+    const dia = String(
+      hoje.getDate()
+    ).padStart(2, '0');
 
-    this.dataMinima =
-      `${ano}-${mes}-${dia}`;
+    this.dataMinima = `${ano}-${mes}-${dia}`;
   }
 }

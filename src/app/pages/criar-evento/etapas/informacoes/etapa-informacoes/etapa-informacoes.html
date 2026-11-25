@@ -5,19 +5,11 @@
 
     <div class="campo">
       <label for="nome">
-        Nome do evento
-        <span>*</span>
+         Nome do evento <span>*</span>
       </label>
 
-      <input
-        id="nome"
-        type="text"
-        name="nome"
-        [(ngModel)]="nome"
-        placeholder="Digite o nome do evento"
-      >
+      <input id="nome" type="text" name="nome" [(ngModel)]="nome" placeholder="Digite o nome do evento">
     </div>
-
 
     <div class="campo">
 
@@ -32,19 +24,7 @@
           item of categorias;
           track item.valor
         ) {
-
-          <button
-            type="button"
-            class="categoria"
-            [class.ativa]="
-              categoria === item.valor
-            "
-            (click)="
-              selecionarCategoria(
-                item.valor
-              )
-            "
-          >
+          <button type="button" class="categoria" [class.ativa]="categoria === item.valor" (click)=" selecionarCategoria(item.valor)">
             {{ item.nome }}
           </button>
 

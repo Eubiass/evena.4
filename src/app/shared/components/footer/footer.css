@@ -1,4 +1,8 @@
 
+/* =========================
+   ESTRUTURA GERAL
+========================= */
+
 footer {
   width: 100%;
   display: flex;
@@ -8,6 +12,7 @@ footer {
   font-weight: 500;
   overflow: hidden;
 }
+
 
 /* =========================
    MARQUEE
@@ -24,12 +29,14 @@ footer {
 .marquee-wrapper {
   display: flex;
   width: max-content;
+  animation: deslizar 35s linear infinite;
+  will-change: transform;
 }
 
 .marquee-content {
   display: flex;
   flex-shrink: 0;
-  animation: deslizar 30s linear infinite;
+  align-items: center;
 }
 
 .marquee-content span {
@@ -53,9 +60,10 @@ footer {
   }
 
   to {
-    transform: translateX(-100%);
+    transform: translateX(-50%);
   }
 }
+
 
 /* =========================
    IMAGEM
@@ -77,8 +85,9 @@ footer {
   object-position: center;
 }
 
+
 /* =========================
-   CONTEÚDO
+   CONTEÚDO PRINCIPAL
 ========================= */
 
 .footer-container {
@@ -97,6 +106,7 @@ footer {
   align-items: flex-start;
   gap: 80px;
 }
+
 
 /* =========================
    REDES SOCIAIS
@@ -127,15 +137,17 @@ footer {
   transform: translateY(-3px);
 }
 
+
 /* =========================
    LINKS
 ========================= */
 
 .footer-links {
   flex: 1;
+  min-width: 0;
 
   display: grid;
-  grid-template-columns: repeat(4, minmax(120px, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 40px;
 
   border-left: 2px solid rgba(109, 226, 76, 0.2);
@@ -174,22 +186,26 @@ footer {
   color: var(--cor-secundaria);
 }
 
-/* Links reservados para implementação futura.
-   Permanecem no HTML, mas não aparecem no rodapé. */
+
+/* =========================
+   LINKS PENDENTES
+========================= */
 
 .link-group li.link-pendente {
   display: none;
 }
 
+
 /* =========================
    ACESSIBILIDADE
 ========================= */
 
-.footer a:focus-visible {
+footer a:focus-visible {
   outline: 2px solid var(--cor-secundaria);
   outline-offset: 5px;
   border-radius: 3px;
 }
+
 
 /* =========================
    DIREITOS AUTORAIS
@@ -216,6 +232,7 @@ footer {
   margin: 0;
 }
 
+
 /* =========================
    TABLET
 ========================= */
@@ -223,13 +240,12 @@ footer {
 @media (max-width: 1000px) {
 
   .footer-main {
-    width: calc(100% - 60px);
-    gap: 50px;
+    gap: 40px;
   }
 
   .footer-links {
-    padding-left: 40px;
-    gap: 30px;
+    padding-left: 30px;
+    gap: 25px;
   }
 
   .link-group a {
@@ -237,6 +253,7 @@ footer {
   }
 
 }
+
 
 /* =========================
    MOBILE
@@ -253,11 +270,9 @@ footer {
 
     display: flex;
     flex-direction: column;
-
     align-items: center;
 
     gap: 40px;
-
     padding: 50px 0 40px;
   }
 
@@ -266,11 +281,11 @@ footer {
     order: 1;
 
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 40px 30px;
 
     border-left: none;
-    padding: 40px 0 0;
+    padding: 0;
 
     text-align: center;
   }
@@ -304,6 +319,7 @@ footer {
   }
 
 }
+
 
 /* =========================
    CELULARES PEQUENOS
@@ -348,17 +364,13 @@ footer {
 /* =========================
    MOVIMENTO REDUZIDO
 ========================= */
-
 @media (prefers-reduced-motion: reduce) {
 
-  .marquee-content {
+  .marquee-wrapper {
     animation: none;
   }
 
-  .footer-social a {
-    transition: none;
-  }
-
+  .footer-social a,
   .link-group a {
     transition: none;
   }

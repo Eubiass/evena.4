@@ -1,23 +1,51 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
-import { finalize } from 'rxjs';
+
+import {
+  ChangeDetectorRef,
+  Component,
+  OnInit
+} from '@angular/core';
+
+import {
+  Router,
+  RouterLink
+} from '@angular/router';
+
 import { Evento } from '../../models/evento';
-import { AuthService, SessaoOrganizador } from '../../services/auth.service';
-import { EventoService } from '../../services/evento-service';
-import { Footer } from '../../shared/components/footer/footer';
-import { Header } from '../../shared/components/header/header';
+
+import {
+  AuthService,
+  SessaoOrganizador
+} from '../../services/auth.service';
+
+import {
+  EventoService
+} from '../../services/evento-service';
+
+import {
+  Footer
+} from '../../shared/components/footer/footer';
+
+import {
+  Header
+} from '../../shared/components/header/header';
 
 @Component({
   selector: 'app-perfil-organizador',
   standalone: true,
-  imports: [ RouterLink, Header, Footer ],
+  imports: [
+    RouterLink,
+    Header,
+    Footer
+  ],
   templateUrl: './perfil-organizador.html',
   styleUrl: './perfil-organizador.css'
 })
 export class PerfilOrganizador implements OnInit {
+
   sessao: SessaoOrganizador | null;
 
   eventos: Evento[] = [];
+
   carregandoEventos = false;
   erroEventos = '';
 
@@ -45,51 +73,50 @@ export class PerfilOrganizador implements OnInit {
   }
 
   get usuario(): string {
-    const nome =
-      this.empresa?.nome ?? '';
+    const nome = this.empresa?.nome ?? '';
 
     return nome
       .normalize('NFD')
-      .replace(
-        /[\u0300-\u036f]/g,
-        ''
-      )
+      .replace(/[\u0300-\u036f]/g, '')
       .toLowerCase()
-      .replace(
-        /[^a-z0-9]/g,
-        ''
-      );
+      .replace(/[^a-z0-9]/g, '');
   }
 
   get localizacao(): string {
-    const endereco = this.empresa?.endereco;  
+    const endereco = this.empresa?.endereco;
 
     if (!endereco) {
       return '';
-    } 
+    }
 
     const partes = endereco
       .split(',')
       .map(parte => parte.trim())
-      .filter(Boolean); 
+      .filter(Boolean);
 
     if (partes.length >= 3) {
       const cidade = partes[partes.length - 3];
-      const estado = partes[partes.length - 2]; 
+      const estado = partes[partes.length - 2];
 
       return `${cidade}, ${estado}`;
-    } 
+    }
 
     return endereco;
   }
 
-  abrirEvento(
-    evento: Evento
-  ): void {
-    const slug =
-      this.criarSlug(
-        evento.titulo
-      );
+  editarEvento(evento: Evento): void {
+    if (!evento.id) {
+      return;
+    }
+
+    this.router.navigate([
+      '/editar-evento',
+      evento.id
+    ]);
+  }
+
+  abrirEvento(evento: Evento): void {
+    const slug = this.criarSlug(evento.titulo);
 
     this.router.navigate([
       '/detalhes-evento',
@@ -97,62 +124,60 @@ export class PerfilOrganizador implements OnInit {
     ]);
   }
 
-  removerEvento(
-    evento: Evento
-  ): void {
-    if (
-      this.eventoRemovendoId !== null
-    ) {
+  removerEvento(evento: Evento): void {
+    if (this.eventoRemovendoId !== null) {
       return;
     }
 
-    const confirmar =
-      window.confirm(
-        `Deseja excluir o evento "${evento.titulo}"?`
-      );
+    const confirmar = window.confirm(
+      `Deseja excluir o evento "${evento.titulo}"?`
+    );
 
     if (!confirmar) {
       return;
     }
 
-    this.eventoRemovendoId =
-      evento.id;
+    this.eventoRemovendoId = evento.id;
 
     this.eventoService
       .removerEvento(evento.id)
       .subscribe({
-        next: () => {
-          this.eventos =
-            this.eventos.filter(
-              item =>
-                item.id !== evento.id
-            );
 
-          this.eventoRemovendoId =
-            null;
+        next: () => {
+
+          this.eventos = this.eventos.filter(
+            item => item.id !== evento.id
+          );
+
+          this.eventoRemovendoId = null;
+
+          this.cdr.detectChanges();
+
         },
 
         error: erro => {
-          this.eventoRemovendoId =
-            null;
+
+          this.eventoRemovendoId = null;
 
           console.error(
             'Erro ao excluir evento:',
             erro
           );
 
-          alert(
+          window.alert(
             erro.error?.erro ??
             erro.error?.mensagem ??
             'Não foi possível excluir o evento.'
           );
+
+          this.cdr.detectChanges();
+
         }
+
       });
   }
 
-  formatarPreco(
-    evento: Evento
-  ): string {
+  formatarPreco(evento: Evento): string {
     if (!evento.preco) {
       return 'Gratuito';
     }
@@ -175,65 +200,66 @@ export class PerfilOrganizador implements OnInit {
   }
 
   private carregarEventos(): void {
-    const empresaId =
-      this.authService.getEmpresaId();  
+    const empresaId = this.authService.getEmpresaId();
 
     this.eventos = [];
-    this.erroEventos = '';  
+    this.erroEventos = '';
 
     if (!empresaId) {
+
       this.erroEventos =
-        'Não foi possível identificar a empresa do organizador.'; 
+        'Não foi possível identificar a empresa do organizador.';
 
       this.carregandoEventos = false;
-      this.cdr.detectChanges();
-      return;
-    } 
 
-    this.carregandoEventos = true;  
+      this.cdr.detectChanges();
+
+      return;
+    }
+
+    this.carregandoEventos = true;
 
     this.eventoService
       .getEventosDaEmpresa(empresaId)
       .subscribe({
+
         next: eventos => {
+
           this.eventos = eventos;
+
           this.carregandoEventos = false;
+
           this.cdr.detectChanges();
-        },  
+
+        },
 
         error: erro => {
+
           console.error(
             'Erro ao carregar eventos da empresa:',
             erro
-          );  
+          );
 
           this.erroEventos =
-            'Não foi possível carregar os eventos.';  
+            'Não foi possível carregar os eventos.';
 
           this.carregandoEventos = false;
+
           this.cdr.detectChanges();
+
         }
+
       });
   }
 
-  private criarSlug(
-    texto: string
-  ): string {
+  private criarSlug(texto: string): string {
     return texto
       .normalize('NFD')
-      .replace(
-        /[\u0300-\u036f]/g,
-        ''
-      )
+      .replace(/[\u0300-\u036f]/g, '')
       .toLowerCase()
       .trim()
-      .replace(
-        /[^a-z0-9]+/g,
-        '-'
-      )
-      .replace(
-        /^-+|-+$/g,
-        ''
-      );
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
   }
+
 }

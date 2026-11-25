@@ -1,3 +1,4 @@
+
 <app-header />
 
 <main class="perfil-organizador">
@@ -97,10 +98,9 @@
           type="button"
           class="botao-sair"
           (click)="sair()"
-          aria-label="Sair da conta"
         >
           <i class="bi bi-box-arrow-right"></i>
-          Sair da conta
+          Sair
         </button>
 
       </div>
@@ -120,7 +120,8 @@
             routerLink="/criar-evento"
             class="criar-evento"
           >
-            + Criar evento
+            <i class="bi bi-plus-lg"></i>
+            Criar evento
           </a>
         }
 
@@ -205,30 +206,49 @@
 
                   </div>
 
-                  <button
-                    type="button"
-                    class="excluir-evento"
-                    [disabled]="eventoRemovendoId !== null"
-                    aria-label="Excluir evento"
-                    (click)="
-                      $event.stopPropagation();
-                      removerEvento(evento)
-                    "
-                  >
+                  <div class="acoes-evento">
 
-                    @if (
-                      eventoRemovendoId === evento.id
-                    ) {
+                    <button
+                      type="button"
+                      class="editar-evento"
+                      aria-label="Editar evento"
+                      title="Editar evento"
+                      (click)="
+                        $event.stopPropagation();
+                        editarEvento(evento)
+                      "
+                      
+                    >
+                      <i class="bi bi-pencil"></i>
+                    </button>
 
-                      <span class="spinner"></span>
+                    <button
+                      type="button"
+                      class="excluir-evento"
+                      [disabled]="eventoRemovendoId !== null"
+                      aria-label="Excluir evento"
+                      title="Excluir evento"
+                      (click)="
+                        $event.stopPropagation();
+                        removerEvento(evento)
+                      "
+                    >
 
-                    } @else {
+                      @if (
+                        eventoRemovendoId === evento.id
+                      ) {
 
-                      <i class="bi bi-trash"></i>
+                        <span class="spinner"></span>
 
-                    }
+                      } @else {
 
-                  </button>
+                        <i class="bi bi-trash"></i>
+
+                      }
+
+                    </button>
+
+                  </div>
 
                 </div>
 
@@ -251,9 +271,7 @@
 
                   }
 
-                  @if (
-                    evento.cidade || evento.uf
-                  ) {
+                  @if (evento.cidade || evento.uf) {
 
                     <span>
 
@@ -261,10 +279,7 @@
 
                       {{ evento.cidade }}
 
-                      @if (
-                        evento.cidade &&
-                        evento.uf
-                      ) {
+                      @if (evento.cidade && evento.uf) {
                         ,
                       }
 

@@ -68,6 +68,8 @@
   border: 0;
   background: transparent;
   cursor: pointer;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .avatar {
